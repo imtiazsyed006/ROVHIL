@@ -244,7 +244,7 @@ module main (
     end
 
     //==================================================================
-    // 5. TAU ALLOC — B*u → Mx, My, Mz  (3-cycle pipeline)
+    // 5. TAU ALLOC — u → f_N → B*f → Mx, My, Mz in N·m (3-cycle pipeline)
     //==================================================================
     wire signed [31:0] tau_mx, tau_my, tau_mz;
 
@@ -257,20 +257,23 @@ module main (
         .tau_mz(tau_mz)
     );
 
+    // No extra sign flips here: the Python input signs [1,-1,-1] are applied
+    // to the COMMANDS before allocation inside the STM32, so they are already
+    // encoded in the measured PWM. B*f reconstructs the net wrench directly.
     wire [31:0] tau_roll  = tau_mx;
-    wire [31:0] tau_pitch = -tau_my;    // sign flipped
-    wire [31:0] tau_yaw   = -tau_mz;    // sign flipped
+    wire [31:0] tau_pitch = tau_my;
+    wire [31:0] tau_yaw   = tau_mz;
 
     //==================================================================
     // 6. ROV MODEL — RK4 6-DOF rotational dynamics (~1125+ cycles)
     //==================================================================
-    // Delay fl_done by 3 to match tau_alloc's pipeline
-    reg [1:0] tau_delay_sr;
+    // Delay fl_done by 5 to cover u_flat latch + tau_alloc's 3 stages
+    reg [3:0] tau_delay_sr;
     always @(posedge clk_100m) begin
         if (rst)
-            tau_delay_sr <= 2'd0;
+            tau_delay_sr <= 4'd0;
         else
-            tau_delay_sr <= {tau_delay_sr[0], fl_done};
+            tau_delay_sr <= {tau_delay_sr[2:0], fl_done};
     end
 
     reg model_start_r;
@@ -278,20 +281,45 @@ module main (
         if (rst)
             model_start_r <= 1'b0;
         else
-            model_start_r <= tau_delay_sr[1];
+            model_start_r <= tau_delay_sr[3];
     end
 
     wire        model_start = model_start_r;
     wire        model_done;
     wire [31:0] st_roll, st_pitch, st_yaw, st_p, st_q, st_r;
 
+    // Python RK4 integrates each step from tau[k-1] to tau[k]
+    // (attitude_pqr_step(y, tau_arr[i-1], tau_arr[i], ...)), so keep the
+    // previous sample's torque and feed (tau0, tau1) = (prev, curr).
+    reg signed [31:0] tau_prev_roll, tau_prev_pitch, tau_prev_yaw;
+    reg signed [31:0] tau0_roll_h, tau0_pitch_h, tau0_yaw_h;
+    reg signed [31:0] tau1_roll_h, tau1_pitch_h, tau1_yaw_h;
+
+    always @(posedge clk_100m) begin
+        if (rst) begin
+            tau_prev_roll <= 0; tau_prev_pitch <= 0; tau_prev_yaw <= 0;
+            tau0_roll_h   <= 0; tau0_pitch_h   <= 0; tau0_yaw_h   <= 0;
+            tau1_roll_h   <= 0; tau1_pitch_h   <= 0; tau1_yaw_h   <= 0;
+        end else if (model_start) begin
+            tau0_roll_h    <= tau_prev_roll;
+            tau0_pitch_h   <= tau_prev_pitch;
+            tau0_yaw_h     <= tau_prev_yaw;
+            tau1_roll_h    <= tau_roll;
+            tau1_pitch_h   <= tau_pitch;
+            tau1_yaw_h     <= tau_yaw;
+            tau_prev_roll  <= tau_roll;
+            tau_prev_pitch <= tau_pitch;
+            tau_prev_yaw   <= tau_yaw;
+        end
+    end
+
     rov_model u_model (
         .clk       (clk_100m),
         .rst       (rst),
         .start     (model_start),
         .done      (model_done),
-        .tau0_roll (tau_roll),  .tau0_pitch(tau_pitch),  .tau0_yaw(tau_yaw),
-        .tau1_roll (tau_roll),  .tau1_pitch(tau_pitch),  .tau1_yaw(tau_yaw),
+        .tau0_roll (tau0_roll_h), .tau0_pitch(tau0_pitch_h), .tau0_yaw(tau0_yaw_h),
+        .tau1_roll (tau1_roll_h), .tau1_pitch(tau1_pitch_h), .tau1_yaw(tau1_yaw_h),
         .state_roll(st_roll),   .state_pitch(st_pitch),   .state_yaw(st_yaw),
         .state_p   (st_p),      .state_q   (st_q),        .state_r  (st_r),
         // debug taps (unused but must be connected)
@@ -419,7 +447,7 @@ module main (
             dbg_cap_valid <= 1'b0;
         end else begin
             dbg_cap_valid <= 1'b0;
-            if (tau_delay_sr[1]) begin
+            if (model_start) begin            // tau_alloc output valid here
                 dbg_duty_flat <= duty_flat;   // captured at same pipeline stage
                 dbg_mx        <= tau_mx;
                 dbg_my        <= tau_my;

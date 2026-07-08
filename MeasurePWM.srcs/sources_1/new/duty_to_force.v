@@ -1,20 +1,24 @@
 //----------------------------------------------------------------------
-// duty_to_force.v — Convert 8 CCR-scaled duty values → 8 normalized forces
+// duty_to_force.v -- Convert 8 CCR-scaled duty values -> 8 normalized forces
 //
-// Implements the exact MATLAB map_pwm_to_moments per-channel algorithm:
-//   1. pwm_us = duty >> 2, clamp [1100, 1900]
-//   2. Forward  (pwm_us > 1500):  u_sat = +force / max_fwd_force
-//      Reverse  (pwm_us < 1500):  u_sat = -force_mag / max_rev_force
-//      Deadzone (pwm_us = 1500):  u_sat = 0
+// Implements the exact Python/MATLAB per-channel algorithm:
+//   1. duty counts (= pwm_ctrl 4400..7600, 4 counts per us) clamped
+//   2. Forward  (pwm > 1501 us): u_sat = +force / max_fwd_force
+//      Reverse  (pwm < 1499 us): u_sat = -force_mag / max_rev_force
+//      Deadzone (pwm ~ 1500 us): u_sat = 0
 //   3. Clamp u_sat magnitude to [0, 65536]  (= 1.0 in Q16.16)
 //   4. Per-channel negation undo: if chi != 5, u_sat = -u_sat
-//      (MATLAB: ch6 stays, all others get negated)
+//      (STM32 negates every channel except ch6)
 //
-// Uses dual thrust-curve LUTs matching MATLAB thruster_tables():
-//   fwd_lut.mem — 92 entries, PWM 1536:4:1900, FWD_FORCE_KGF
-//   rev_lut.mem — 92 entries, PWM 1100:4:1464, REV_FORCE_MAG_KGF
+// LUT interpolation runs on the raw duty-count grid (quarter-us steps,
+// 16 counts per 4-us LUT entry), matching np.interp to full precision:
+//   force = f0 + frac16 * (f1 - f0) / 16
 //
-// Output: 8 × 32-bit signed Q16.16 normalized forces, packed [255:0].
+// Uses dual thrust-curve LUTs identical to the Python (xlsx) LUT:
+//   fwd_lut.mem -- 92 entries, PWM 1536:4:1900, force kgf Q16.16
+//   rev_lut.mem -- 92 entries, PWM 1100:4:1464, force magnitude kgf Q16.16
+//
+// Output: 8 x 32-bit signed Q16.16 normalized forces, packed [255:0].
 //----------------------------------------------------------------------
 `include "rov_params.vh"
 
@@ -41,9 +45,11 @@ module duty_to_force (
     end
 
     //==================================================================
-    // Shared divider — 48-cycle shift-subtract
+    // Shared divider -- 48-cycle shift-subtract
     //   quotient = (dividend_q16 << 16) / divisor_q16
     //==================================================================
+    reg [31:0] dvdividend;    // force for divider
+    reg [31:0] dvdivisor;     // max_force for divider
     reg        dvs;           // 1-cycle pulse to launch
     reg        dvb;           // divider busy
     reg [5:0]  dvc;           // iteration count 0..48
@@ -51,7 +57,7 @@ module duty_to_force (
     reg [47:0] dv_rem;        // running remainder
     reg [47:0] dvqr;          // running quotient
     reg [31:0] dvden;         // divisor (max_force)
-    wire       dv_done = dvb && (dvc == 6'd48);
+    wire       dv_done = dvb && (dvc == 6'd49);
     wire       dv_bit  = dv_div[47];
 
     always @(posedge clk) begin
@@ -77,6 +83,11 @@ module duty_to_force (
                         dv_rem <= {dv_rem[46:0], dv_bit};
                         dvqr   <= {dvqr[46:0], 1'b0};
                     end
+                end else if (dvc == 6'd48) begin
+                    // round-to-nearest: bump quotient if 2*rem >= divisor
+                    if ({dv_rem[46:0], 1'b0} >= {16'd0, dvden})
+                        dvqr <= dvqr + 48'd1;
+                    dvc <= 6'd49;
                 end else begin
                     dvb <= 1'b0;
                 end
@@ -89,10 +100,10 @@ module duty_to_force (
     //==================================================================
     localparam [2:0]
         ST_IDLE   = 3'd0,
-        ST_DIR    = 3'd1,   // compute pwm_us, direction, idx, frac
+        ST_DIR    = 3'd1,   // direction, LUT idx, frac from duty counts
         ST_READ0  = 3'd2,   // read LUT[idx]
         ST_READ1  = 3'd3,   // read LUT[idx+1]
-        ST_INTERP = 3'd4,   // force = f0 + frac*(f1-f0)/4
+        ST_INTERP = 3'd4,   // force = f0 + frac16*(f1-f0)/16
         ST_DIV    = 3'd5,   // launch divider
         ST_WDIV   = 3'd6,   // wait for divider
         ST_SIGN   = 3'd7;   // apply sign + per-channel negation, then next/done
@@ -103,43 +114,41 @@ module duty_to_force (
     // Per-channel registers
     reg        fwd_r;         // 1=forward, 0=reverse
     reg        dead_r;        // 1=deadzone or inactive
-    reg        rev_r;         // 1=reverse → negative u_sat
+    reg        rev_r;         // 1=reverse -> negative u_sat
     reg [31:0] maxf_r;        // FP_MAX_FWD_FORCE or FP_MAX_REV_FORCE
     reg [7:0]  idx_r;         // LUT base index
-    reg [7:0]  idx1_r;        // idx+1, clamped
-    reg [1:0]  frac_r;        // interpolation fraction (0..3)
+    reg [7:0]  idx1_r;        // idx+1, clamped to last entry
+    reg [3:0]  frac_r;        // interpolation fraction (0..15 = quarter-us)
     reg signed [31:0] f0_r, f1_r;  // LUT read values
-    reg [31:0] dvdividend;     // force for divider
-    reg [31:0] dvdivisor;      // max_force for divider
 
     //==================================================================
-    // Combinational: pwm_us from duty input
+    // Combinational: LUT index math on the duty-count grid
+    //   duty counts: 4 per us -> 1100us = 4400, 1500us = 6000, 1900us = 7600
+    //   LUT step = 4us = 16 counts; frac = counts within a LUT step (0..15)
     //==================================================================
-    wire [11:0] pwm_us_w = duty_flat[chi*16+2 +: 12];  // duty >> 2
+    wire [15:0] duty_w = duty_flat[chi*16 +: 16];
 
-    // Clamped pwm_us
-    wire [11:0] pwm_clamp =
-        (pwm_us_w < 12'd1100) ? 12'd1100 :
-        (pwm_us_w > 12'd1900) ? 12'd1900 :
-                                 pwm_us_w;
+    wire [15:0] duty_clamp =
+        (duty_w < 16'd4400) ? 16'd4400 :
+        (duty_w > 16'd7600) ? 16'd7600 :
+                              duty_w;
 
-    // Forward offset: pwm_us - 1536, clamped to 0..364
-    wire [11:0] fwd_off = (pwm_clamp < `FWD_PWM_START) ? 12'd0 :
-                           (pwm_clamp - `FWD_PWM_START);
-    // Reverse offset: pwm_us - 1100, clamped to 0..364
-    wire [11:0] rev_off = (pwm_clamp > `REV_PWM_END) ?
-                           (`REV_PWM_END - `REV_PWM_START) :
-                           (pwm_clamp - `REV_PWM_START);
+    // Forward offset: counts past 1536us (=6144), clamped to 0..1456
+    wire [15:0] fwd_off = (duty_clamp < 16'd6144) ? 16'd0 :
+                          (duty_clamp - 16'd6144);
+    // Reverse offset: counts past 1100us (=4400), clamped to 0..1456 (1464us)
+    wire [15:0] rev_off = (duty_clamp > 16'd5856) ? 16'd1456 :
+                          (duty_clamp - 16'd4400);
 
-    // Forward indices (0..91, idx+1 capped at 90)
-    wire [7:0] fwd_idx_w  = fwd_off >> 2;
-    wire [7:0] fwd_idx1_w = ((fwd_off >> 2) >= 8'd90) ? 8'd90 : ((fwd_off >> 2) + 8'd1);
-    wire [1:0] fwd_frac_w = fwd_off[1:0];
+    // Forward indices (0..91, idx+1 capped at the last entry 91)
+    wire [7:0] fwd_idx_w  = fwd_off[11:4];
+    wire [7:0] fwd_idx1_w = (fwd_off[11:4] >= 8'd91) ? 8'd91 : (fwd_off[11:4] + 8'd1);
+    wire [3:0] fwd_frac_w = fwd_off[3:0];
 
-    // Reverse indices (0..91, idx+1 capped at 90)
-    wire [7:0] rev_idx_w  = rev_off >> 2;
-    wire [7:0] rev_idx1_w = ((rev_off >> 2) >= 8'd90) ? 8'd90 : ((rev_off >> 2) + 8'd1);
-    wire [1:0] rev_frac_w = rev_off[1:0];
+    // Reverse indices (0..91, idx+1 capped at the last entry 91)
+    wire [7:0] rev_idx_w  = rev_off[11:4];
+    wire [7:0] rev_idx1_w = (rev_off[11:4] >= 8'd91) ? 8'd91 : (rev_off[11:4] + 8'd1);
+    wire [3:0] rev_frac_w = rev_off[3:0];
 
     //==================================================================
     // Main FSM
@@ -166,18 +175,18 @@ module duty_to_force (
 
                 //----------------------------------------------------------
                 // ST_DIR: determine direction & compute LUT indices
-                //   Uses pwm_clamp (combinational) so everything is valid
-                //   this cycle and registered for use in ST_READ0.
                 //----------------------------------------------------------
                 ST_DIR: begin
-                    // Dead band: ±1 μs around 1500 handles integer truncation
-                    // of duty>>2 (e.g. 59.99%→1499, 60.00%→1500, 60.01%→1501)
-                    if (!ch_active[chi] || (pwm_clamp >= 12'd1499 && pwm_clamp <= 12'd1501)) begin
-                        // Dead zone or inactive → u_sat = 0
+                    // Dead band: +/-1 us (4 counts) around 1500us. The STM32
+                    // only ever emits 1500us (u=0) inside 1465..1535us, so
+                    // this exactly reproduces Python's zero output there.
+                    if (!ch_active[chi] ||
+                        (duty_clamp >= 16'd5996 && duty_clamp <= 16'd6004)) begin
+                        // Dead zone or inactive -> u_sat = 0
                         dead_r <= 1'b1;
                         fwd_r  <= 1'b0;
                         rev_r  <= 1'b0;
-                    end else if (pwm_clamp > 12'd1501) begin
+                    end else if (duty_clamp > 16'd6004) begin
                         // ---- FORWARD ----
                         dead_r   <= 1'b0;
                         fwd_r    <= 1'b1;
@@ -213,14 +222,14 @@ module duty_to_force (
                 end
 
                 //----------------------------------------------------------
-                // ST_INTERP: force = f0 + frac*(f1-f0)/4
+                // ST_INTERP: force = f0 + frac16*(f1-f0)/16
                 //----------------------------------------------------------
                 ST_INTERP: begin
                     if (dead_r) begin
                         dvdividend <= 32'd0;
                     end else begin
                         dvdividend <= f0_r + (($signed({1'b0, frac_r}) *
-                                            (f1_r - f0_r)) >>> 2);
+                                            (f1_r - f0_r)) >>> 4);
                     end
                     dvdivisor <= maxf_r;
                     st <= ST_DIV;
@@ -234,7 +243,7 @@ module duty_to_force (
                         u_flat[chi*32 +: 32] <= 32'sd0;
                         st <= ST_SIGN;  // ST_SIGN handles next/done
                     end else if (dvdividend == 32'd0) begin
-                        // force=0 → u_sat=0
+                        // force=0 -> u_sat=0
                         u_flat[chi*32 +: 32] <= 32'sd0;
                         st <= ST_SIGN;
                     end else begin
@@ -245,13 +254,14 @@ module duty_to_force (
 
                 //----------------------------------------------------------
                 // ST_WDIV: wait for divider, then apply sign
+                //   Quotient can legitimately reach 65536 (= 1.0 exactly at
+                //   full-scale PWM), so the magnitude must be evaluated on
+                //   17 bits -- a [15:0] slice silently wraps 65536 -> 0.
                 //----------------------------------------------------------
                 ST_WDIV: begin
                     if (dv_done) begin
-                        // dvqr[15:0] = u_sat magnitude (Q16.16, 0..65536)
-                        // Clamp to [0, 65536]
-                        if (dvqr[15:0] > 16'd65535) begin
-                            // overflow → saturate to 1.0
+                        if (dvqr[16:0] > 17'd65536) begin
+                            // out of range -> saturate to 1.0
                             if (rev_r ^ (chi != 3'd5))
                                 u_flat[chi*32 +: 32] <= -32'sd65536;
                             else
@@ -260,11 +270,11 @@ module duty_to_force (
                             // Apply sign: rev XOR (chi != 5)
                             //   rev_r   = 1 for reverse (should be negative)
                             //   chi!=5  = 1 to negate (undo STM32 negation)
-                            //   XOR: true → negate the magnitude
+                            //   XOR: true -> negate the magnitude
                             if (rev_r ^ (chi != 3'd5))
-                                u_flat[chi*32 +: 32] <= -$signed({16'd0, dvqr[15:0]});
+                                u_flat[chi*32 +: 32] <= -$signed({15'd0, dvqr[16:0]});
                             else
-                                u_flat[chi*32 +: 32] <= $signed({16'd0, dvqr[15:0]});
+                                u_flat[chi*32 +: 32] <= $signed({15'd0, dvqr[16:0]});
                         end
                         st <= ST_SIGN;
                     end

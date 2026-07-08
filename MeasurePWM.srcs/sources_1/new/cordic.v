@@ -31,9 +31,9 @@ module cordic (
     output wire [31:0]  atan2_out
 );
 
-    // CORDIC gain for 16 iterations: ~1.64676
-    // Pre-scaled: multiply by 1/1.64676 = 0.607253
-    localparam [31:0] CORDIC_SCALE = 32'sd39801;  // 0.607253 in Q16.16
+    // CORDIC gain for 16 iterations: K16 = 1.6467602581
+    // Pre-scaled: multiply by 1/K16 = 0.6072529350 (round(0.6072529350*65536))
+    localparam [31:0] CORDIC_SCALE = 32'sd39797;  // 0.60725294 in Q16.16
 
     // pi/2 in Q16.16 = 1.5707963 -> 102944
     // pi  in Q16.16 = 3.14159265 -> 205887

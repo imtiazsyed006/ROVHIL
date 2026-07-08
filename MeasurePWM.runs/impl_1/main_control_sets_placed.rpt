@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2026.1 (win64) Build 6511674 Tue Jun 16 11:02:23 MDT 2026
-| Date         : Wed Jul  8 18:17:11 2026
+| Date         : Wed Jul  8 22:40:08 2026
 | Host         : WIN-GAVN6IIRGIQ running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file main_control_sets_placed.rpt
 | Design       : main
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |   274 |
-|    Minimum number of control sets                        |    83 |
+| Total control sets                                       |   283 |
+|    Minimum number of control sets                        |    78 |
 |    Addition due to synthesis replication                 |     0 |
-|    Addition due to physical synthesis replication        |   191 |
-| Unused register locations in slices containing registers |  1046 |
+|    Addition due to physical synthesis replication        |   205 |
+| Unused register locations in slices containing registers |  1152 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |   274 |
-| >= 0 to < 4        |    61 |
-| >= 4 to < 6        |    38 |
+| Total control sets |   283 |
+| >= 0 to < 4        |    82 |
+| >= 4 to < 6        |    33 |
 | >= 6 to < 8        |    18 |
-| >= 8 to < 10       |    14 |
-| >= 10 to < 12      |    14 |
-| >= 12 to < 14      |     8 |
-| >= 14 to < 16      |    12 |
-| >= 16              |   109 |
+| >= 8 to < 10       |     9 |
+| >= 10 to < 12      |     8 |
+| >= 12 to < 14      |     2 |
+| >= 14 to < 16      |     7 |
+| >= 16              |   124 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,12 +58,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              34 |           32 |
+| No           | No                    | No                     |              38 |           34 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |            1056 |          321 |
-| Yes          | No                    | No                     |            6105 |         1972 |
+| No           | Yes                   | No                     |            1650 |          511 |
+| Yes          | No                    | No                     |            6119 |         2084 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |            3111 |         1184 |
+| Yes          | Yes                   | No                     |            2969 |         1116 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -73,280 +73,289 @@ Table of Contents
 +---------------------+-------------------------------------------+------------------------------------------+------------------+----------------+--------------+
 |     Clock Signal    |               Enable Signal               |             Set/Reset Signal             | Slice Load Count | Bel Load Count | Bels / Slice |
 +---------------------+-------------------------------------------+------------------------------------------+------------------+----------------+--------------+
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_18                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/FSM_onehot_st_reg[19][0] | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[4][13]_i_1_n_0                   | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[6][13]_i_1_n_0                   | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[6][13]_i_1_n_0                   | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[5][13]_i_1_n_0                   | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_ready                                | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[191]_i_1_n_0                 | rst_reg_n_0_repN_12                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_ready                                | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_dbg_uart/tx_par_bit1_out                | rst_reg_n_0_repN_17                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[0][13]_i_1_n_0                   | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_model/E[0]                              | rst_reg_n_0_repN_6                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_11                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[223]_i_1_n_0                 | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[3][13]_i_1_n_0                   | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[3][13]_i_1_n_0                   | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[2][13]_i_1_n_0                   | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_uart/tx_clk_en_reg_n_0                  | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[2][13]_i_1_n_0                   | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[1][13]_i_1_n_0                   | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_9                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[31]_i_1_n_0                  | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | dbg_hex_start                             | rst_reg_n_0_repN_18                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[1][13]_i_1_n_0                   | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[95]_i_1_n_0                  | rst_reg_n_0_repN_3                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_byteif/tx_data[7]_i_1_n_0               | rst_reg_n_0_repN_6                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | dbg_byte_send_r                           | rst_reg_n_0_repN_7                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_um7/send_byte_i_1_n_0                   | rst_reg_n_0                              |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_um7/send_byte_i_1_n_0                   | rst_reg_n_0_repN_6                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0                              |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_model/l_Qd[0]                           | rst_reg_n_0_repN_1                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_dbg_uart/tx_clk_en_reg_n_0              | rst_reg_n_0_repN_16                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/FSM_onehot_st_reg[19][0] | rst_reg_n_0_repN_17                      |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[191]_i_1_n_0                 | rst_reg_n_0_repN_3                       |                1 |              1 |         1.00 |
-|  clk_100m_IBUF_BUFG | duty_val[4][13]_i_1_n_0                   | rst_reg_n_0_repN_14                      |                1 |              2 |         2.00 |
-|  clk_100m_IBUF_BUFG | duty_val[0][13]_i_1_n_0                   | rst_reg_n_0_repN_14                      |                1 |              2 |         2.00 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_20                      |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[191]_i_1_n_0                 | rst_reg_n_0_repN_8                       |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_model/l_Qd[0]                           | rst_reg_n_0_repN_15                      |                1 |              2 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_10                      |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_3                       |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[127]_i_1_n_0                 | rst_reg_n_0_repN_3                       |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/FSM_onehot_st_reg[19][0] | rst_reg_n_0_repN_1                       |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_5                       |                1 |              2 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[127]_i_1_n_0                 | rst_reg_n_0_repN_8                       |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[31]_i_1_n_0                  | rst_reg_n_0_repN_14                      |                1 |              2 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_9                       |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[127]_i_1_n_0                 | rst_reg_n_0_repN_14                      |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[159]_i_1_n_0                 | rst_reg_n_0_repN_3                       |                2 |              2 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_dbg_uart/tx_par_bit1_out                | rst_reg_n_0_repN_16                      |                1 |              3 |         3.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_5                       |                1 |              3 |         3.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[255]_i_1_n_0                 | rst_reg_n_0_repN_8                       |                1 |              3 |         3.00 |
-|  clk_100m_IBUF_BUFG | u_model/l_Rd[0]                           | rst_reg_n_0_repN_10                      |                3 |              3 |         1.00 |
-|  clk_100m_IBUF_BUFG | dbg_hex_start                             | rst_reg_n_0_repN_6                       |                2 |              3 |         1.50 |
-|  clk_100m_IBUF_BUFG | dbg_byte_send_r                           | rst_reg_n_0_repN_16                      |                2 |              3 |         1.50 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[255]_i_1_n_0                 | rst_reg_n_0_repN_3                       |                2 |              3 |         1.50 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[63]_i_1_n_0                  | rst_reg_n_0_repN_3                       |                2 |              3 |         1.50 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[17]_i_1_n_0  | rst_reg_n_0_repN_7                       |                1 |              3 |         3.00 |
-|  clk_100m_IBUF_BUFG | u_dbg_hex/nibble[2]_i_1_n_0               | rst_reg_n_0_repN_7                       |                1 |              3 |         3.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0                              |                3 |              3 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_byteif/tx_data[7]_i_1_n_0               | rst_reg_n_0_repN_20                      |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_2                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[3]                                | rst_reg_n_0_repN                         |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[2]                                | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_18                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[5]                                | rst_reg_n_0_repN_2                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[4][13]_i_1_n_0                   | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN                         |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[3][13]_i_1_n_0                   | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[6][13]_i_1_n_0                   | rst_reg_n_0_repN_15                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[6][13]_i_1_n_0                   | rst_reg_n_0_repN_11                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[5][13]_i_1_n_0                   | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[1][13]_i_1_n_0                   | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_2                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[2][13]_i_1_n_0                   | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_5                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_7                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_20                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[0][13]_i_1_n_0                   | rst_reg_n_0_repN_13                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_22                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_ready                                | rst_reg_n_0_repN_15                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_ready                                | rst_reg_n_0_repN_11                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_2                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     | rst_reg_n_0_repN_25                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     | rst_reg_n_0_repN_6                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     | rst_reg_n_0_repN_12                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_18                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0                              |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | c_remainder[30]_i_1_n_0                   | rst_reg_n_0_repN                         |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_2                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_1                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_dbg_uart/tx_clk_en_reg_n_0              | rst_reg_n_0_repN_15                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_6                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[0]                                | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_uart/tx_clk_en_reg_n_0                  | rst_reg_n_0_repN_8                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[4]                                | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/dv_div[47]_i_1__0_n_0             | rst_reg_n_0_repN_14                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[6]                                | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_4                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[7]                                | rst_reg_n_0_repN_2                       |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/E[1]                                | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[107]_i_1_n_0 | rst_reg_n_0_repN_10                      |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN                         |                1 |              1 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     | rst_reg_n_0_repN_9                       |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[6][13]_i_1_n_0                   | rst_reg_n_0_repN_16                      |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[4][13]_i_1_n_0                   | rst_reg_n_0_repN_16                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     | rst_reg_n_0_repN_5                       |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[35]_i_1_n_0  | rst_reg_n_0_repN_2                       |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_15                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | duty_val[1][13]_i_1_n_0                   | rst_reg_n_0_repN_16                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_18                      |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_23                      |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[2][13]_i_1_n_0                   | rst_reg_n_0_repN_16                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | duty_val[0][13]_i_1_n_0                   | rst_reg_n_0_repN_16                      |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[5][13]_i_1_n_0                   | rst_reg_n_0_repN_16                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | duty_val[3][13]_i_1_n_0                   | rst_reg_n_0_repN_16                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | duty_ready                                | rst_reg_n_0_repN_16                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[17]_i_1_n_0  | rst_reg_n_0_repN_4                       |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[17]_i_1_n_0  | rst_reg_n_0_repN_3                       |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_10                      |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_2                       |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | dbg_hex_start                             | rst_reg_n_0_repN_15                      |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_1                       |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_model/l_Pd[0]                           | rst_reg_n_0_repN_9                       |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_2                       |                2 |              2 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_dbg_byteif/E[0]                         | rst_reg_n_0_repN_19                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_dbg_byteif/E[0]                         | rst_reg_n_0_repN_15                      |                1 |              2 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[35]_i_1_n_0  | rst_reg_n_0_repN_3                       |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[107]_i_1_n_0 | rst_reg_n_0_repN_1                       |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_dbg_hex/nibble[2]_i_1_n_0               | rst_reg_n_0_repN_15                      |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | duty_val[5][13]_i_1_n_0                   | rst_reg_n_0_repN_15                      |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_uart/tx_data_tmp[7]_i_1_n_0             | rst_reg_n_0_repN_8                       |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | duty_val[1][13]_i_1_n_0                   | rst_reg_n_0_repN_15                      |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_6                       |                3 |              3 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_1                       |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | duty_val[0][13]_i_1_n_0                   | rst_reg_n_0_repN_15                      |                3 |              3 |         1.00 |
+|  clk_100m_IBUF_BUFG | duty_val[2][13]_i_1_n_0                   | rst_reg_n_0_repN_15                      |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_23                      |                2 |              3 |         1.50 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_1                       |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[107]_i_1_n_0 | rst_reg_n_0_repN_4                       |                3 |              3 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_10                      |                1 |              3 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_4                       |                2 |              4 |         2.00 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_8                       |                2 |              4 |         2.00 |
+|  clk_100m_IBUF_BUFG | duty_val[4][13]_i_1_n_0                   | rst_reg_n_0_repN_15                      |                2 |              4 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[17]_i_1_n_0  | rst_reg_n_0_repN_1                       |                2 |              4 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_um7/u_cord/E[0]                         | rst_reg_n_0_repN_9                       |                3 |              4 |         1.33 |
+|  clk_100m_IBUF_BUFG | u_model/l_Pd[0]                           | rst_reg_n_0_repN_12                      |                2 |              4 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_4                       |                1 |              4 |         4.00 |
 |  clk_100m_IBUF_BUFG | u_um7/g_payload[0][7]_i_1_n_0             | u_um7/g_payload[8][6]_i_1_n_0            |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_um7/g_payload[0][7]_i_1_n_0             | u_um7/g_payload[4][6]_i_1_n_0            |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_17                      |                3 |              4 |         1.33 |
-|  clk_100m_IBUF_BUFG | u_model/l_Pd[0]                           | rst_reg_n_0_repN_11                      |                3 |              4 |         1.33 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[223]_i_1_n_0                 | rst_reg_n_0_repN_20                      |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/st_reg[0]_0                         |                                          |                3 |              4 |         1.33 |
-|  clk_100m_IBUF_BUFG | u_model/l_Rd[0]                           | rst_reg_n_0_repN_15                      |                4 |              4 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_dbg_byteif/E[0]                         | rst_reg_n_0_repN_16                      |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_uart/tx_par_bit1_out                    | rst_reg_n_0_repN_13                      |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[31]_i_1_n_0                  | rst_reg_n_0_repN_3                       |                4 |              4 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_byteif/tx_data[7]_i_1_n_0               | rst_reg_n_0_repN_13                      |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_4                       |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_um7/u_cord/E[0]                         | rst_reg_n_0_repN_13                      |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[17]_i_1_n_0  | rst_reg_n_0_repN_4                       |                1 |              4 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[223]_i_1_n_0                 | rst_reg_n_0_repN_8                       |                3 |              4 |         1.33 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[255]_i_1_n_0                 | rst_reg_n_0_repN_14                      |                2 |              4 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[95]_i_1_n_0                  | rst_reg_n_0_repN_13                      |                2 |              4 |         2.00 |
 |  clk_100m_IBUF_BUFG | u_um7/g_payload[0][7]_i_1_n_0             | u_um7/g_payload[0][6]_i_1_n_0            |                3 |              4 |         1.33 |
+|  clk_100m_IBUF_BUFG | u_um7/g_payload[0][7]_i_1_n_0             | u_um7/g_payload[4][6]_i_1_n_0            |                1 |              4 |         4.00 |
 |  clk_100m_IBUF_BUFG | u_um7/q_payload[0][7]_i_1_n_0             |                                          |                4 |              4 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_7                       |                1 |              4 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_5                       |                1 |              4 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[63]_i_1_n_0                  | rst_reg_n_0_repN_13                      |                3 |              4 |         1.33 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_2                       |                1 |              5 |         5.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_4                       |                4 |              5 |         1.25 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_6                       |                4 |              5 |         1.25 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[127]_i_1_n_0                 | rst_reg_n_0_repN_13                      |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[35]_i_1_n_0  | rst_reg_n_0_repN_4                       |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[191]_i_1_n_0                 | rst_reg_n_0_repN_13                      |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[159]_i_1_n_0                 | rst_reg_n_0_repN_8                       |                3 |              5 |         1.67 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[31]_i_1_n_0                  | rst_reg_n_0_repN_8                       |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[31]_i_1_n_0                  | rst_reg_n_0_repN_20                      |                3 |              5 |         1.67 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/iter[0]                  | u_model/u_cordic/iter[4]_i_1_n_0         |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_um7/tx_idx[4]_i_1_n_0                   | rst_reg_n_0_repN_6                       |                2 |              5 |         2.50 |
+|  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN_3                       |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_6                       |                2 |              4 |         2.00 |
+|  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN_4                       |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | duty_val[3][13]_i_1_n_0                   | rst_reg_n_0_repN_15                      |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_6                       |                4 |              4 |         1.00 |
+|  clk_100m_IBUF_BUFG | u_uart/tx_par_bit1_out                    | rst_reg_n_0_repN_8                       |                2 |              4 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_model/l_thd[0]                          | rst_reg_n_0_repN_9                       |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_4                       |                3 |              4 |         1.33 |
+|  clk_100m_IBUF_BUFG | u_dbg_hex/nibble[2]_i_1_n_0               | rst_reg_n_0_repN_21                      |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_dbg_uart/tx_par_bit1_out                | rst_reg_n_0_repN_15                      |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_8                       |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | dbg_st__0[2]                              | rst_reg_n_0_repN_15                      |                1 |              4 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_6                       |                4 |              5 |         1.25 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/iter[0]                  | u_model/u_cordic/iter[4]_i_1_n_0         |                1 |              5 |         5.00 |
 |  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN_2                       |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN                         |                4 |              5 |         1.25 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[35]_i_1_n_0  | rst_reg_n_0_repN_2                       |                2 |              5 |         2.50 |
+|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_10                      |                4 |              5 |         1.25 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_24                      |                4 |              5 |         1.25 |
 |  clk_100m_IBUF_BUFG | u_um7/u_cord/iter[0]                      | u_um7/u_cord/iter[4]_i_1__0_n_0          |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG | c_divisor[0]                              | rst_reg_n_0_repN_7                       |                2 |              5 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_5                       |                3 |              6 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_dbg_hex/send_byte_i_1__0_n_0            | rst_reg_n_0_repN_16                      |                1 |              6 |         6.00 |
-|  clk_100m_IBUF_BUFG | c_bit[5]_i_1_n_0                          | rst_reg_n_0_repN_5                       |                3 |              6 |         2.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[127]_i_1_n_0                 | rst_reg_n_0_repN_20                      |                4 |              6 |         1.50 |
-|  clk_100m_IBUF_BUFG | u_model/l_Qd[0]                           | rst_reg_n_0_repN_11                      |                4 |              6 |         1.50 |
-|  clk_100m_IBUF_BUFG | u_um7/send_byte_i_1_n_0                   | rst_reg_n_0_repN_3                       |                4 |              6 |         1.50 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_2                       |                3 |              6 |         2.00 |
-|  clk_100m_IBUF_BUFG | dbg_hex_start                             | rst_reg_n_0                              |                5 |              6 |         1.20 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_6                       |                4 |              6 |         1.50 |
-|  clk_100m_IBUF_BUFG | c_divisor[0]                              | rst_reg_n_0_repN_4                       |                2 |              6 |         3.00 |
-|  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN_7                       |                3 |              6 |         2.00 |
-|  clk_100m_IBUF_BUFG | c_product[31]_i_1_n_0                     | rst_reg_n_0_repN_7                       |                1 |              6 |         6.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[255]_i_1_n_0                 | rst_reg_n_0_repN_20                      |                4 |              7 |         1.75 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_16                      |                3 |              7 |         2.33 |
-|  clk_100m_IBUF_BUFG | c_divisor[0]                              | rst_reg_n_0_repN_5                       |                2 |              7 |         3.50 |
-|  clk_100m_IBUF_BUFG | u_dbg_uart/tx_data_tmp[6]_i_1_n_0         | rst_reg_n_0_repN_16                      |                1 |              7 |         7.00 |
-|  clk_100m_IBUF_BUFG | u_dbg_hex/dbg_byte_send_r_reg[0]          | rst_reg_n_0_repN_16                      |                1 |              7 |         7.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_13                      |                4 |              7 |         1.75 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_2                       |                1 |              8 |         8.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_7                       |                2 |              8 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[107]_i_1_n_0 | rst_reg_n_0_repN_2                       |                3 |              8 |         2.67 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_2                       |                2 |              8 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_uart/tx_data_tmp[7]_i_1_n_0             | rst_reg_n_0_repN_13                      |                2 |              8 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_5                       |                2 |              8 |         4.00 |
-|  clk_100m_IBUF_BUFG | c_product[31]_i_1_n_0                     | rst_reg_n_0_repN_4                       |                1 |              8 |         8.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[191]_i_1_n_0                 | rst_reg_n_0_repN_20                      |                3 |              8 |         2.67 |
-|  clk_100m_IBUF_BUFG | u_um7/u_cord/sin_reg[0]                   | rst_reg_n_0_repN_13                      |                3 |              8 |         2.67 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[223]_i_1_n_0                 | rst_reg_n_0_repN_3                       |                6 |              8 |         1.33 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[35]_i_1_n_0  | rst_reg_n_0_repN_5                       |                2 |              8 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_model/l_Pd[0]                           | rst_reg_n_0_repN_10                      |                8 |              8 |         1.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_4                       |                2 |              9 |         4.50 |
-|  clk_100m_IBUF_BUFG | c_remainder[30]_i_1_n_0                   | rst_reg_n_0_repN_5                       |                4 |              9 |         2.25 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[63]_i_1_n_0                  | rst_reg_n_0_repN_20                      |                4 |             10 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[107]_i_1_n_0 | rst_reg_n_0_repN_7                       |                3 |             10 |         3.33 |
-|  clk_100m_IBUF_BUFG | u_um7/u_cord/x_reg[15]_i_1__0_n_0         | rst_reg_n_0_repN_13                      |                4 |             10 |         2.50 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[107]_i_1_n_0 | rst_reg_n_0_repN_6                       |                4 |              5 |         1.25 |
+|  clk_100m_IBUF_BUFG | u_uart/tx_data_tmp[7]_i_1_n_0             | rst_reg_n_0_repN_9                       |                2 |              5 |         2.50 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[35]_i_1_n_0  | rst_reg_n_0_repN_6                       |                3 |              5 |         1.67 |
+|  clk_100m_IBUF_BUFG | u_um7/tx_idx[4]_i_1_n_0                   | rst_reg_n_0_repN_9                       |                2 |              5 |         2.50 |
+|  clk_100m_IBUF_BUFG | u_dbg_hex/send_byte_i_1__0_n_0            | rst_reg_n_0_repN_15                      |                1 |              6 |         6.00 |
+|  clk_100m_IBUF_BUFG | u_d2f/dvc[5]_i_1__0_n_0                   | u_d2f/dv_rem[46]_i_1__0_n_0              |                2 |              6 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[107]_i_1_n_0 | rst_reg_n_0_repN_3                       |                4 |              6 |         1.50 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[89]_i_1_n_0  | rst_reg_n_0_repN_3                       |                2 |              6 |         3.00 |
+|  clk_100m_IBUF_BUFG | c_bit[5]_i_1_n_0                          | rst_reg_n_0_repN_13                      |                3 |              6 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[53]_i_1_n_0  | rst_reg_n_0_repN_3                       |                3 |              6 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_model/dvc[0]                            | u_model/dvc[5]_i_1_n_0                   |                2 |              6 |         3.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_3                       |                1 |              6 |         6.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[71]_i_1_n_0  | rst_reg_n_0_repN_3                       |                1 |              6 |         6.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_3                       |                3 |              7 |         2.33 |
+|  clk_100m_IBUF_BUFG | duty_val[3][13]_i_1_n_0                   | rst_reg_n_0_repN_19                      |                4 |              7 |         1.75 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_17                      |                6 |              7 |         1.17 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_14                      |                4 |              7 |         1.75 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN                         |                4 |              7 |         1.75 |
+|  clk_100m_IBUF_BUFG | u_dbg_hex/dbg_byte_send_r_reg[0]          | rst_reg_n_0_repN_15                      |                1 |              7 |         7.00 |
+|  clk_100m_IBUF_BUFG | u_dbg_uart/tx_data_tmp[6]_i_1_n_0         | rst_reg_n_0_repN_15                      |                1 |              7 |         7.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[143]_i_1_n_0 | rst_reg_n_0_repN_4                       |                2 |              7 |         3.50 |
+|  clk_100m_IBUF_BUFG | duty_val[4][13]_i_1_n_0                   | rst_reg_n_0_repN_19                      |                4 |              7 |         1.75 |
+|  clk_100m_IBUF_BUFG | dbg_hex_start                             | rst_reg_n_0_repN_21                      |                3 |              8 |         2.67 |
+|  clk_100m_IBUF_BUFG | duty_val[0][13]_i_1_n_0                   | rst_reg_n_0_repN_19                      |                6 |              8 |         1.33 |
+|  clk_100m_IBUF_BUFG | duty_val[2][13]_i_1_n_0                   | rst_reg_n_0_repN_19                      |                6 |              8 |         1.33 |
+|  clk_100m_IBUF_BUFG | duty_val[1][13]_i_1_n_0                   | rst_reg_n_0_repN_19                      |                6 |              8 |         1.33 |
+|  clk_100m_IBUF_BUFG | u_byteif/tx_data[7]_i_1_n_0               | rst_reg_n_0_repN_9                       |                3 |              8 |         2.67 |
+|  clk_100m_IBUF_BUFG | duty_val[5][13]_i_1_n_0                   | rst_reg_n_0_repN_19                      |                4 |              8 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_um7/send_byte_i_1_n_0                   | rst_reg_n_0_repN_9                       |                7 |              8 |         1.14 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_13                      |                3 |              8 |         2.67 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[35]_i_1_n_0  | rst_reg_n_0_repN_4                       |                3 |              8 |         2.67 |
+|  clk_100m_IBUF_BUFG | duty_ready                                | rst_reg_n_0_repN_19                      |                8 |             10 |         1.25 |
+|  clk_100m_IBUF_BUFG | u_um7/u_cord/x_reg[15]_i_1__0_n_0         | rst_reg_n_0_repN_9                       |                3 |             10 |         3.33 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     | rst_reg_n_0_repN_7                       |                5 |             10 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[17]_i_1_n_0  | rst_reg_n_0_repN_2                       |                2 |             10 |         5.00 |
+|  clk_100m_IBUF_BUFG |                                           | u_dbg_uart/tx_div[9]_i_1_n_0             |                3 |             10 |         3.33 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/x_reg[15]_i_1_n_0        | rst_reg_n_0_repN_8                       |                3 |             10 |         3.33 |
 |  clk_100m_IBUF_BUFG |                                           | u_uart/tx_div[9]_i_1__0_n_0              |                3 |             10 |         3.33 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[159]_i_1_n_0                 | rst_reg_n_0_repN_20                      |                6 |             10 |         1.67 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/x_reg[15]_i_1_n_0        | rst_reg_n_0_repN                         |                4 |             10 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[125]_i_1_n_0 | rst_reg_n_0_repN_2                       |                3 |             10 |         3.33 |
-|  clk_100m_IBUF_BUFG |                                           | u_dbg_uart/tx_div[9]_i_1_n_0             |                4 |             10 |         2.50 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_5                       |                6 |             11 |         1.83 |
-|  clk_100m_IBUF_BUFG | duty_val[4][13]_i_1_n_0                   | rst_reg_n_0_repN_9                       |                6 |             11 |         1.83 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/total_counts_flat[17]_i_1_n_0  | rst_reg_n_0_repN_5                       |                3 |             11 |         3.67 |
-|  clk_100m_IBUF_BUFG | duty_val[0][13]_i_1_n_0                   | rst_reg_n_0_repN_9                       |                7 |             11 |         1.57 |
-|  clk_100m_IBUF_BUFG | c_remainder[30]_i_1_n_0                   | rst_reg_n_0_repN_7                       |                4 |             11 |         2.75 |
-|  clk_100m_IBUF_BUFG | c_remainder[30]_i_1_n_0                   | rst_reg_n_0_repN_4                       |                3 |             11 |         3.67 |
-|  clk_100m_IBUF_BUFG | duty_val[1][13]_i_1_n_0                   | rst_reg_n_0_repN_9                       |                9 |             12 |         1.33 |
-|  clk_100m_IBUF_BUFG | u_d2f/u_flat[95]_i_1_n_0                  | rst_reg_n_0_repN_20                      |                5 |             12 |         2.40 |
-|  clk_100m_IBUF_BUFG | duty_ready                                | rst_reg_n_0_repN_9                       |               10 |             12 |         1.20 |
-|  clk_100m_IBUF_BUFG | duty_val[6][13]_i_1_n_0                   | rst_reg_n_0_repN_9                       |               10 |             12 |         1.20 |
-|  clk_100m_IBUF_BUFG | duty_val[3][13]_i_1_n_0                   | rst_reg_n_0_repN_9                       |                9 |             12 |         1.33 |
-|  clk_100m_IBUF_BUFG | duty_val[2][13]_i_1_n_0                   | rst_reg_n_0_repN_9                       |                9 |             12 |         1.33 |
-|  clk_100m_IBUF_BUFG | duty_val[5][13]_i_1_n_0                   | rst_reg_n_0_repN_9                       |                9 |             13 |         1.44 |
-|  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN_5                       |                6 |             13 |         2.17 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_6                       |                7 |             14 |         2.00 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_13                      |                6 |             14 |         2.33 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_4                       |                6 |             14 |         2.33 |
-|  clk_100m_IBUF_BUFG | c_product[31]_i_1_n_0                     | rst_reg_n_0_repN_2                       |                5 |             14 |         2.80 |
-|  clk_100m_IBUF_BUFG | u_um7/u_cord/sin_reg[0]                   | rst_reg_n_0_repN_12                      |                7 |             15 |         2.14 |
-|  clk_100m_IBUF_BUFG | u_um7/q_payload[0][7]_i_1_n_0             | u_um7/q_payload[0][6]_i_1_n_0            |                6 |             15 |         2.50 |
+|  clk_100m_IBUF_BUFG | duty_val[6][13]_i_1_n_0                   | rst_reg_n_0_repN_19                      |                8 |             10 |         1.25 |
+|  clk_100m_IBUF_BUFG | u_model/l_Rd[0]                           | rst_reg_n_0_repN_12                      |                5 |             12 |         2.40 |
+|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_10                      |                7 |             13 |         1.86 |
+|  clk_100m_IBUF_BUFG | u_model/l_thd[0]                          | rst_reg_n_0_repN_8                       |                3 |             14 |         4.67 |
+|  clk_100m_IBUF_BUFG | u_model/l_thd[0]                          | rst_reg_n_0_repN_12                      |                2 |             14 |         7.00 |
+|  clk_100m_IBUF_BUFG | u_model/l_Qd[0]                           | rst_reg_n_0_repN_23                      |                7 |             15 |         2.14 |
+|  clk_100m_IBUF_BUFG | u_um7/q_payload[0][7]_i_1_n_0             | u_um7/q_payload[0][6]_i_1_n_0            |                7 |             15 |         2.14 |
 |  clk_100m_IBUF_BUFG | u_um7/q_payload[0][7]_i_1_n_0             | u_um7/q_payload[2][6]_i_1_n_0            |                4 |             15 |         3.75 |
 |  clk_100m_IBUF_BUFG | u_um7/q_payload[0][7]_i_1_n_0             | u_um7/q_payload[4][6]_i_1_n_0            |                4 |             15 |         3.75 |
 |  clk_100m_IBUF_BUFG | u_um7/q_payload[0][7]_i_1_n_0             | u_um7/q_payload[6][6]_i_1_n_0            |                4 |             15 |         3.75 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_14                      |               10 |             15 |         1.50 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_7                       |                6 |             15 |         2.50 |
-|  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN_4                       |                7 |             15 |         2.14 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_8                       |                8 |             16 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_model/done                              | rst_reg_n_0_repN_12                      |                6 |             16 |         2.67 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_16                      |                4 |             16 |         4.00 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_18                      |               12 |             16 |         1.33 |
+|  clk_100m_IBUF_BUFG | u_model/l_phid[0]                         | rst_reg_n_0_repN_7                       |                4 |             16 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/l_phid[0]                         | rst_reg_n_0_repN_25                      |                2 |             16 |         8.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt25_out                      | u_pwm_meas/cnt[17]                       |                5 |             17 |         3.40 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt13_out                      | u_pwm_meas/cnt[4][17]_i_1_n_0            |                5 |             17 |         3.40 |
 |  clk_100m_IBUF_BUFG | u_pwm_meas/cnt10_out                      | u_pwm_meas/cnt[5][17]_i_1_n_0            |                5 |             17 |         3.40 |
 |  clk_100m_IBUF_BUFG | u_pwm_meas/cnt22_out                      | u_pwm_meas/cnt[1][17]_i_1_n_0            |                5 |             17 |         3.40 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt19_out                      | u_pwm_meas/cnt[2][17]_i_1_n_0            |                5 |             17 |         3.40 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt13_out                      | u_pwm_meas/cnt[4][17]_i_1_n_0            |                5 |             17 |         3.40 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt[7][17]_i_2_n_0             | u_pwm_meas/cnt[7][17]_i_1_n_0            |                5 |             17 |         3.40 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt16_out                      | u_pwm_meas/cnt[3][17]_i_1_n_0            |                5 |             17 |         3.40 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt25_out                      | u_pwm_meas/cnt[1]                        |                5 |             17 |         3.40 |
 |  clk_100m_IBUF_BUFG | u_pwm_meas/cnt7_out                       | u_pwm_meas/cnt[6][17]_i_1_n_0            |                5 |             17 |         3.40 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[143]                  | u_pwm_meas/high_counts_flat[143]_i_1_n_0 |                3 |             18 |         6.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[17]                   | u_pwm_meas/high_counts_flat[17]_i_1_n_0  |                6 |             18 |         3.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[107]                  | u_pwm_meas/high_counts_flat[107]_i_1_n_0 |                3 |             18 |         6.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt[7][17]_i_2_n_0             | u_pwm_meas/cnt[7][17]_i_1_n_0            |                5 |             17 |         3.40 |
+|  clk_100m_IBUF_BUFG | u_d2f/dvqr[0]_i_1__0_n_0                  | u_d2f/dv_rem[46]_i_1__0_n_0              |                5 |             17 |         3.40 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt16_out                      | u_pwm_meas/cnt[3][17]_i_1_n_0            |                5 |             17 |         3.40 |
+|  clk_100m_IBUF_BUFG | u_model/l_Qd[0]                           | rst_reg_n_0_repN_24                      |                8 |             17 |         2.12 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/cnt19_out                      | u_pwm_meas/cnt[2][17]_i_1_n_0            |                5 |             17 |         3.40 |
 |  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[89]                   | u_pwm_meas/high_counts_flat[89]_i_1_n_0  |                6 |             18 |         3.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[53]                   | u_pwm_meas/high_counts_flat[53]_i_1_n_0  |                7 |             18 |         2.57 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[125]                  | u_pwm_meas/high_counts_flat[125]_i_1_n_0 |                3 |             18 |         6.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[35]                   | u_pwm_meas/high_counts_flat[35]_i_1_n_0  |                3 |             18 |         6.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[71]                   | u_pwm_meas/high_counts_flat[71]_i_1_n_0  |                3 |             18 |         6.00 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[6][0]_i_1_n_0             | u_pwm_meas/cnt[6][17]_i_1_n_0            |                5 |             19 |         3.80 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[1][0]_i_1_n_0             | u_pwm_meas/cnt[1][17]_i_1_n_0            |                5 |             19 |         3.80 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[4][0]_i_1_n_0             | u_pwm_meas/cnt[4][17]_i_1_n_0            |                5 |             19 |         3.80 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[0][0]_i_1_n_0             | u_pwm_meas/cnt[1]                        |                5 |             19 |         3.80 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[2][0]_i_1_n_0             | u_pwm_meas/cnt[2][17]_i_1_n_0            |                5 |             19 |         3.80 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[107]                  | u_pwm_meas/high_counts_flat[107]_i_1_n_0 |                7 |             18 |         2.57 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[17]                   | u_pwm_meas/high_counts_flat[17]_i_1_n_0  |                5 |             18 |         3.60 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[35]                   | u_pwm_meas/high_counts_flat[35]_i_1_n_0  |                9 |             18 |         2.00 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[71]                   | u_pwm_meas/high_counts_flat[71]_i_1_n_0  |                6 |             18 |         3.00 |
+|  clk_100m_IBUF_BUFG | c_divisor[0]                              | rst_reg_n_0_repN_1                       |                5 |             18 |         3.60 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[143]                  | u_pwm_meas/high_counts_flat[143]_i_1_n_0 |                8 |             18 |         2.25 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[125]                  | u_pwm_meas/high_counts_flat[125]_i_1_n_0 |                8 |             18 |         2.25 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/p_16_out[53]                   | u_pwm_meas/high_counts_flat[53]_i_1_n_0  |                8 |             18 |         2.25 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[0][0]_i_1_n_0             | u_pwm_meas/cnt[17]                       |                5 |             19 |         3.80 |
 |  clk_100m_IBUF_BUFG | u_pwm_meas/sel                            | u_pwm_meas/cnt[7][17]_i_1_n_0            |                5 |             19 |         3.80 |
-|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[5][0]_i_1_n_0             | u_pwm_meas/cnt[5][17]_i_1_n_0            |                5 |             19 |         3.80 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     | rst_reg_n_0_repN_8                       |               11 |             19 |         1.73 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_9                       |                9 |             19 |         2.11 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[1][0]_i_1_n_0             | u_pwm_meas/cnt[1][17]_i_1_n_0            |                5 |             19 |         3.80 |
 |  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[3][0]_i_1_n_0             | u_pwm_meas/cnt[3][17]_i_1_n_0            |                5 |             19 |         3.80 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[2][0]_i_1_n_0             | u_pwm_meas/cnt[2][17]_i_1_n_0            |                5 |             19 |         3.80 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[4][0]_i_1_n_0             | u_pwm_meas/cnt[4][17]_i_1_n_0            |                5 |             19 |         3.80 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[6][0]_i_1_n_0             | u_pwm_meas/cnt[6][17]_i_1_n_0            |                5 |             19 |         3.80 |
+|  clk_100m_IBUF_BUFG | u_pwm_meas/wdog[5][0]_i_1_n_0             | u_pwm_meas/cnt[5][17]_i_1_n_0            |                5 |             19 |         3.80 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_23                      |                9 |             20 |         2.22 |
 |  clk_100m_IBUF_BUFG | u_d2f/f1_r[19]_i_1_n_0                    |                                          |                3 |             20 |         6.67 |
-|  clk_100m_IBUF_BUFG | por_cnt[0]_i_1_n_0                        |                                          |                5 |             20 |         4.00 |
 |  clk_100m_IBUF_BUFG | u_d2f/f0_r[19]_i_1_n_0                    |                                          |                3 |             20 |         6.67 |
-|  clk_100m_IBUF_BUFG | u_model/l_Pd[0]                           | rst_reg_n_0_repN_1                       |                8 |             20 |         2.50 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_8                       |               17 |             21 |         1.24 |
+|  clk_100m_IBUF_BUFG | u_model/l_Rd[0]                           | rst_reg_n_0_repN_24                      |                9 |             20 |         2.22 |
+|  clk_100m_IBUF_BUFG | por_cnt[0]_i_1_n_0                        |                                          |                5 |             20 |         4.00 |
 |  clk_100m_IBUF_BUFG |                                           | step_timer[0]_i_1_n_0                    |                6 |             21 |         3.50 |
-|  clk_100m_IBUF_BUFG | dbg_hex_start                             | rst_reg_n_0_repN_19                      |               10 |             22 |         2.20 |
-|  clk_100m_IBUF_BUFG | u_model/l_Qd[0]                           | rst_reg_n_0_repN_10                      |               14 |             23 |         1.64 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0                              |               11 |             23 |         2.09 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_9                       |               14 |             24 |         1.71 |
-|  clk_100m_IBUF_BUFG | u_model/l_Rd[0]                           | rst_reg_n_0_repN_11                      |               11 |             25 |         2.27 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_2                       |               10 |             25 |         2.50 |
+|  clk_100m_IBUF_BUFG | dbg_hex_start                             | rst_reg_n_0_repN_22                      |               12 |             22 |         1.83 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_3                       |               14 |             24 |         1.71 |
+|  clk_100m_IBUF_BUFG | c_ch[2]_i_1_n_0                           | rst_reg_n_0_repN_1                       |               13 |             25 |         1.92 |
 |  clk_100m_IBUF_BUFG |                                           | hb_cnt[0]_i_1_n_0                        |                7 |             26 |         3.71 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_3                       |               23 |             28 |         1.22 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_3                       |                8 |             30 |         3.75 |
-|  clk_100m_IBUF_BUFG | u_model/fmul1_return0__3__3_i_1_n_0       |                                          |                8 |             30 |         3.75 |
-|  clk_100m_IBUF_BUFG | u_um7/cord_angle[31]_i_1_n_0              |                                          |               10 |             31 |         3.10 |
-|  clk_100m_IBUF_BUFG | u_model/E[0]                              | rst_reg_n_0_repN_10                      |               16 |             31 |         1.94 |
-|  clk_100m_IBUF_BUFG | u_dbg_hex/nibble[2]_i_1_n_0               | rst_reg_n_0_repN_19                      |                6 |             32 |         5.33 |
-|  clk_100m_IBUF_BUFG | u_d2f/dv_div[47]_i_1_n_0                  | rst_reg_n_0_repN_9                       |               12 |             32 |         2.67 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/FSM_onehot_st_reg[19][0] | rst_reg_n_0_repN                         |               18 |             32 |         1.78 |
-|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_10                      |                7 |             32 |         4.57 |
-|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_15                      |                9 |             32 |         3.56 |
-|  clk_100m_IBUF_BUFG | u_model/l_phid[0]                         | rst_reg_n_0_repN_15                      |                4 |             32 |         8.00 |
-|  clk_100m_IBUF_BUFG | u_model/l_det[0]                          | rst_reg_n_0_repN_17                      |                8 |             32 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_model/cord_angle[31]_i_1__0_n_0         |                                          |               12 |             32 |         2.67 |
-|  clk_100m_IBUF_BUFG | u_model/dv_div[47]                        | rst_reg_n_0_repN                         |                9 |             32 |         3.56 |
-|  clk_100m_IBUF_BUFG | u_model/dvb0                              | rst_reg_n_0_repN                         |                8 |             32 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_d2f/dvdividend[31]_i_1_n_0              |                                          |                9 |             34 |         3.78 |
-|  clk_100m_IBUF_BUFG |                                           |                                          |               32 |             34 |         1.06 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/z_reg0                   | u_model/u_cordic/z_reg[33]_i_1_n_0       |               10 |             34 |         3.40 |
-|  clk_100m_IBUF_BUFG | u_um7/u_cord/z_reg0                       | u_um7/u_cord/z_reg[33]_i_1__0_n_0        |               16 |             34 |         2.12 |
-|  clk_100m_IBUF_BUFG | u_model/E[0]                              | rst_reg_n_0_repN_1                       |               16 |             36 |         2.25 |
-|  clk_100m_IBUF_BUFG | u_model/E[0]                              | rst_reg_n_0_repN_15                      |               14 |             38 |         2.71 |
-|  clk_100m_IBUF_BUFG | u_um7/u_cord/sin_reg[0]                   | rst_reg_n_0_repN_20                      |               10 |             43 |         4.30 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_14                      |               17 |             46 |         2.71 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_9                       |               13 |             50 |         3.85 |
-|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_4                       |               14 |             51 |         3.64 |
-|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_7                       |               11 |             51 |         4.64 |
-|  clk_100m_IBUF_BUFG | tau_delay_sr[1]                           | rst_reg_n_0_repN_19                      |               32 |             52 |         1.62 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/z_reg0                   | u_model/u_cordic/x_reg[33]_i_1_n_0       |               24 |             58 |         2.42 |
+|  clk_100m_IBUF_BUFG | u_model/l_Pd[0]                           | rst_reg_n_0_repN_8                       |               15 |             26 |         1.73 |
+|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_2                       |               10 |             27 |         2.70 |
+|  clk_100m_IBUF_BUFG | c_product[31]_i_1_n_0                     | rst_reg_n_0_repN_1                       |                6 |             28 |         4.67 |
+|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_24                      |                5 |             28 |         5.60 |
+|  clk_100m_IBUF_BUFG | u_dbg_hex/nibble[2]_i_1_n_0               | rst_reg_n_0_repN_22                      |                4 |             28 |         7.00 |
+|  clk_100m_IBUF_BUFG | c_remainder[30]_i_1_n_0                   | rst_reg_n_0_repN_1                       |               10 |             30 |         3.00 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_15                      |               11 |             30 |         2.73 |
+|  clk_100m_IBUF_BUFG | u_model/done                              | rst_reg_n_0_repN_7                       |               16 |             31 |         1.94 |
+|  clk_100m_IBUF_BUFG | u_model/dv_div[47]_i_1__0_n_0             | rst_reg_n_0_repN_18                      |               10 |             31 |         3.10 |
+|  clk_100m_IBUF_BUFG | u_um7/cord_angle[31]_i_1_n_0              |                                          |               17 |             31 |         1.82 |
+|  clk_100m_IBUF_BUFG | u_model/cord_angle[31]_i_1__0_n_0         |                                          |               10 |             32 |         3.20 |
+|  clk_100m_IBUF_BUFG | u_model/l_det[0]                          | rst_reg_n_0_repN_4                       |                8 |             32 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/l_thd[0]                          | rst_reg_n_0_repN_7                       |                5 |             32 |         6.40 |
+|  clk_100m_IBUF_BUFG | u_d2f/dv_div[47]                          | rst_reg_n_0_repN                         |               11 |             32 |         2.91 |
+|  clk_100m_IBUF_BUFG | u_model/l_det[0]                          | rst_reg_n_0_repN_6                       |                8 |             32 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_12                      |                6 |             32 |         5.33 |
+|  clk_100m_IBUF_BUFG | u_model/l_det[0]                          | rst_reg_n_0_repN_3                       |                8 |             32 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/dvqr[0]_i_1_n_0                   | u_model/dvc[5]_i_1_n_0                   |                8 |             32 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/dvb0                              | rst_reg_n_0_repN_5                       |                8 |             32 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/l_det[0]                          | rst_reg_n_0_repN_5                       |               18 |             32 |         1.78 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/z_reg0                   | u_model/u_cordic/z_reg[33]_i_1_n_0       |               16 |             34 |         2.12 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_4                       |               10 |             34 |         3.40 |
+|  clk_100m_IBUF_BUFG | u_d2f/dvdivisor[6]_i_1_n_0                |                                          |                9 |             34 |         3.78 |
+|  clk_100m_IBUF_BUFG | u_um7/u_cord/z_reg0                       | u_um7/u_cord/z_reg[33]_i_1__0_n_0        |               15 |             34 |         2.27 |
+|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_7                       |                9 |             36 |         4.00 |
+|  clk_100m_IBUF_BUFG |                                           |                                          |               34 |             38 |         1.12 |
+|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_9                       |               14 |             39 |         2.79 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_20                      |               11 |             40 |         3.64 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_6                       |               11 |             41 |         3.73 |
+|  clk_100m_IBUF_BUFG | u_model/done                              | rst_reg_n_0_repN_8                       |               15 |             43 |         2.87 |
+|  clk_100m_IBUF_BUFG | u_model/done                              | rst_reg_n_0_repN_9                       |               24 |             44 |         1.83 |
+|  clk_100m_IBUF_BUFG | u_d2f/dv_rem[0]                           | u_d2f/dv_rem[46]_i_1__0_n_0              |               10 |             47 |         4.70 |
+|  clk_100m_IBUF_BUFG | u_model/dv_rem[0]                         | u_model/dvc[5]_i_1_n_0                   |               10 |             47 |         4.70 |
+|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_1                       |               13 |             49 |         3.77 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_1                       |               19 |             50 |         2.63 |
+|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_25                      |               17 |             53 |         3.12 |
+|  clk_100m_IBUF_BUFG | u_model/done                              | rst_reg_n_0_repN_25                      |               20 |             55 |         2.75 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_19                      |               19 |             56 |         2.95 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/z_reg0                   | u_model/u_cordic/x_reg[33]_i_1_n_0       |               26 |             58 |         2.23 |
+|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_4                       |               20 |             58 |         2.90 |
 |  clk_100m_IBUF_BUFG | u_um7/u_cord/z_reg0                       | u_um7/u_cord/x_reg[33]_i_1__0_n_0        |               26 |             58 |         2.23 |
-|  clk_100m_IBUF_BUFG | u_um7/p_0_out_i_1_n_0                     |                                          |               19 |             60 |         3.16 |
-|  clk_100m_IBUF_BUFG | u_um7/fmul41_return0__3_i_2_n_0           |                                          |               22 |             60 |         2.73 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_18                      |               18 |             63 |         3.50 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/E[0]                     |                                          |               30 |             64 |         2.13 |
-|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_11                      |               16 |             64 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/rst_reg                  |                                          |               25 |             64 |         2.56 |
-|  clk_100m_IBUF_BUFG | u_model/l_det[0]                          | rst_reg_n_0_repN                         |               16 |             64 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_model/sv_phi[0]                         | rst_reg_n_0_repN_1                       |                9 |             64 |         7.11 |
-|  clk_100m_IBUF_BUFG | u_model/l_thd[0]                          | rst_reg_n_0_repN_1                       |               13 |             64 |         4.92 |
-|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN                         |               24 |             64 |         2.67 |
-|  clk_100m_IBUF_BUFG | u_model/dvn[31]_i_1_n_0                   |                                          |               29 |             64 |         2.21 |
-|  clk_100m_IBUF_BUFG | u_d2f/dvc[0]                              | u_d2f/dvqr[0]                            |               20 |             69 |         3.45 |
-|  clk_100m_IBUF_BUFG | u_d2f/fl_done                             | rst_reg_n_0_repN_20                      |               37 |             70 |         1.89 |
-|  clk_100m_IBUF_BUFG | u_um7/g_payload[0][7]_i_1_n_0             |                                          |               33 |             81 |         2.45 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_14                      |               24 |             81 |         3.38 |
-|  clk_100m_IBUF_BUFG | u_model/E[0]                              | rst_reg_n_0_repN_11                      |               38 |             83 |         2.18 |
-|  clk_100m_IBUF_BUFG | u_model/dvc[0]                            | u_model/dvqr[0]                          |               27 |             85 |         3.15 |
-|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_5                       |               27 |             91 |         3.37 |
-|  clk_100m_IBUF_BUFG | u_model/r5b_A[31]_i_1_n_0                 |                                          |               24 |             94 |         3.92 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_8                       |               27 |             94 |         3.48 |
-|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_2                       |               26 |             94 |         3.62 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/sin_reg[0]               | rst_reg_n_0_repN_8                       |               16 |             59 |         3.69 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_19                      |               15 |             60 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/done_reg_0               |                                          |               33 |             64 |         1.94 |
+|  clk_100m_IBUF_BUFG | u_model/u_cordic/done_reg_1               |                                          |               22 |             64 |         2.91 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_21                      |               23 |             64 |         2.78 |
+|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_6                       |               33 |             64 |         1.94 |
+|  clk_100m_IBUF_BUFG | u_model/dvd_en[31]_i_1_n_0                |                                          |               26 |             64 |         2.46 |
+|  clk_100m_IBUF_BUFG | u_um7/u_cord/sin_reg[0]                   | rst_reg_n_0_repN_9                       |               19 |             66 |         3.47 |
+|  clk_100m_IBUF_BUFG | tick_002s_reg_n_0                         | rst_reg_n_0_repN_3                       |               20 |             76 |         3.80 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_15                      |               34 |             76 |         2.24 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_21                      |               21 |             79 |         3.76 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_17                      |               21 |             80 |         3.81 |
+|  clk_100m_IBUF_BUFG | u_um7/g_payload[0][7]_i_1_n_0             |                                          |               35 |             81 |         2.31 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_2                       |               23 |             82 |         3.57 |
+|  clk_100m_IBUF_BUFG | model_start                               | rst_reg_n_0_repN_22                      |               38 |             83 |         2.18 |
 |  clk_100m_IBUF_BUFG | u_model/r4_rhs0[0]                        |                                          |               24 |             96 |         4.00 |
+|  clk_100m_IBUF_BUFG | u_model/r5b_B[31]_i_1_n_0                 |                                          |               24 |             96 |         4.00 |
 |  clk_100m_IBUF_BUFG | u_model/r3_cw0[31]_i_1_n_0                |                                          |               24 |             96 |         4.00 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0                              |               38 |            129 |         3.39 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_17                      |               36 |            131 |         3.64 |
-|  clk_100m_IBUF_BUFG | u_model/up_phi_dt[30]_i_1_n_0             |                                          |               42 |            150 |         3.57 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_6                       |               43 |            160 |         3.72 |
-|  clk_100m_IBUF_BUFG | u_model/r5_d0[0]                          |                                          |               49 |            182 |         3.71 |
-|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_19                      |               49 |            183 |         3.73 |
-|  clk_100m_IBUF_BUFG | u_um7/l_p[31]_i_1_n_0                     |                                          |               91 |            189 |         2.08 |
-|  clk_100m_IBUF_BUFG | u_model/K2_theta[31]_i_1_n_0              |                                          |               83 |            191 |         2.30 |
-|  clk_100m_IBUF_BUFG | u_model/K1_theta[31]_i_1_n_0              |                                          |               77 |            191 |         2.48 |
-|  clk_100m_IBUF_BUFG | u_model/x0_phi[31]_i_1_n_0                |                                          |               73 |            192 |         2.63 |
-|  clk_100m_IBUF_BUFG | u_model/up_phi_sum[31]_i_1_n_0            |                                          |               48 |            192 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_model/K0_theta[31]_i_1_n_0              |                                          |               78 |            192 |         2.46 |
-|  clk_100m_IBUF_BUFG | u_model/K3_phi[31]_i_1_n_0                |                                          |               48 |            192 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_model/r3b_eul1[31]_i_1_n_0              |                                          |               64 |            256 |         4.00 |
-|  clk_100m_IBUF_BUFG | u_model/r6_n0_1[-1111111066]_i_1_n_0      |                                          |               76 |            270 |         3.55 |
-|  clk_100m_IBUF_BUFG | u_model/r2_dq01[30]_i_1_n_0               |                                          |               91 |            345 |         3.79 |
-|  clk_100m_IBUF_BUFG | u_model/up_phi_s1[31]_i_1_n_0             |                                          |              101 |            384 |         3.80 |
-|  clk_100m_IBUF_BUFG | u_model/tphi[31]_i_1_n_0                  |                                          |              436 |           1131 |         2.59 |
-|  clk_100m_IBUF_BUFG | u_model/r1_am12[-1111111065]_i_1_n_0      |                                          |              328 |           1174 |         3.58 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_22                      |               32 |            117 |         3.66 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_18                      |               34 |            122 |         3.59 |
+|  clk_100m_IBUF_BUFG | u_model/up_p_dt[30]_i_1_n_0               |                                          |               42 |            144 |         3.43 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_13                      |               42 |            144 |         3.43 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_16                      |               51 |            161 |         3.16 |
+|  clk_100m_IBUF_BUFG | u_um7/l_p[31]_i_1_n_0                     |                                          |               87 |            189 |         2.17 |
+|  clk_100m_IBUF_BUFG | u_model/K2_p[31]_i_1_n_0                  |                                          |               86 |            191 |         2.22 |
+|  clk_100m_IBUF_BUFG | u_model/K1_p[31]_i_1_n_0                  |                                          |               95 |            191 |         2.01 |
+|  clk_100m_IBUF_BUFG | u_model/K3_p[31]_i_1_n_0                  |                                          |               63 |            192 |         3.05 |
+|  clk_100m_IBUF_BUFG | u_model/x0_p[31]_i_1_n_0                  |                                          |               85 |            192 |         2.26 |
+|  clk_100m_IBUF_BUFG | u_model/K0_p[31]_i_1_n_0                  |                                          |               90 |            192 |         2.13 |
+|  clk_100m_IBUF_BUFG | u_model/up_p_sum[31]_i_1_n_0              |                                          |               48 |            192 |         4.00 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_10                      |               62 |            199 |         3.21 |
+|  clk_100m_IBUF_BUFG |                                           | rst_reg_n_0_repN_11                      |               64 |            235 |         3.67 |
+|  clk_100m_IBUF_BUFG | u_model/r3b_eul0[31]_i_1_n_0              |                                          |               66 |            256 |         3.88 |
+|  clk_100m_IBUF_BUFG | u_model/r5_d0[0]                          |                                          |               77 |            268 |         3.48 |
+|  clk_100m_IBUF_BUFG | u_model/r6_n0_1[30]_i_1_n_0               |                                          |               87 |            314 |         3.61 |
+|  clk_100m_IBUF_BUFG | u_model/fmul0_return1__31_i_1_n_0         |                                          |              100 |            368 |         3.68 |
+|  clk_100m_IBUF_BUFG | u_model/up_p_s1[31]_i_1_n_0               |                                          |               98 |            384 |         3.92 |
+|  clk_100m_IBUF_BUFG | u_model/ttau_r[31]_i_1_n_0                |                                          |              481 |           1131 |         2.35 |
+|  clk_100m_IBUF_BUFG | u_model/r1_sph_tR[31]_i_1_n_0             |                                          |              340 |           1193 |         3.51 |
 +---------------------+-------------------------------------------+------------------------------------------+------------------+----------------+--------------+
 
 

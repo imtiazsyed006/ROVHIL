@@ -1,0 +1,27 @@
++====================+===================+==========================+
+| Launch Setup Clock | Launch Hold Clock | Pin                      |
++====================+===================+==========================+
+| clk_100m           | clk_100m          | u_model/ttheta_reg[13]/D |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[20]/D |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[28]/D |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[15]/D |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[14]/D |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[1]/D  |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[0]/D  |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[17]/D |
+| clk_100m           | clk_100m          | u_model/ttheta_reg[9]/D  |
+| clk_100m           | clk_100m          | u_d2f/maxf_r_reg[3]/D    |
+| clk_100m           | clk_100m          | u_d2f/rev_r_reg/D        |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[29]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[31]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[25]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[28]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[27]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[21]/D   |
+| clk_100m           | clk_100m          | u_d2f/fwd_r_reg/D        |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[24]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[23]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[17]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[20]/D   |
+| clk_100m           | clk_100m          | u_model/dvqr_reg[19]/D   |
++--------------------+-------------------+--------------------------+

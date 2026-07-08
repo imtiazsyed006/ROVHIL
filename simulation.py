@@ -29,7 +29,7 @@ from ThrusterConfigMatrix import (
 # =============================================================================
 # Constants
 # =============================================================================
-DEFAULT_INPUT_SIGNS = np.array([1.0, -1.0, -1.0], dtype=float)
+DEFAULT_INPUT_SIGNS = np.array([1.0, 1.0, 1.0], dtype=float)
 DEFAULT_THRUSTER_CONFIG_SCALE = 1.0
 RATE_LIMIT_RAD_S = np.deg2rad(500.0)
 KGF_TO_N = 9.80665

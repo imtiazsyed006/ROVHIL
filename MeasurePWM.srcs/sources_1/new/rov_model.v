@@ -5,7 +5,16 @@
 //----------------------------------------------------------------------
 `include "rov_params.vh"
 
-module rov_model (
+module rov_model #(
+    // Initial state (Q16.16). Python starts from the first measured sample;
+    // set these to replicate a specific replay, default = at rest, level.
+    parameter signed [31:0] INIT_PHI   = 32'sd0,
+    parameter signed [31:0] INIT_THETA = 32'sd0,
+    parameter signed [31:0] INIT_PSI   = 32'sd0,
+    parameter signed [31:0] INIT_P     = 32'sd0,
+    parameter signed [31:0] INIT_Q     = 32'sd0,
+    parameter signed [31:0] INIT_R     = 32'sd0
+)(
     input  wire         clk,
     input  wire         rst,
     input  wire         start,
@@ -36,12 +45,25 @@ module rov_model (
     //==================================================================
     // fixed-point arithmetic helpers
     //==================================================================
+    // Round-to-nearest Q16.16 multiply. Plain truncation (floor) biases every
+    // product by -0.5 LSB; across the ~20 products per axis that bias
+    // integrates into a visible yaw drift vs the float64 Python model.
+    // The +2^15 folds into the DSP48 post-adder.
     function [31:0] fmul;
         input signed [31:0] a, b;
         reg signed [63:0] p;
         begin
-            p   = a * b;
+            p   = a * b + 64'sd32768;
             fmul = p[47:16];
+        end
+    endfunction
+    // Q12.20 x Q16.16 -> Q16.16 (for the dt constants: 16x finer rounding)
+    function [31:0] fmul20;
+        input signed [31:0] a, b;
+        reg signed [63:0] p;
+        begin
+            p     = a * b + 64'sd524288;
+            fmul20 = p[51:20];
         end
     endfunction
     function [31:0] fclamp;
@@ -103,7 +125,7 @@ module rov_model (
 
     wire       dv_bit = dv_div[47];
 
-    assign dvd = dvb && (dvc == 6'd48);
+    assign dvd = dvb && (dvc == 6'd49);
     assign dvq = dvq_neg ? {~dvqr + 1'b1} : dvqr;
 
     always @(posedge clk) begin
@@ -130,6 +152,12 @@ module rov_model (
                         dv_rem <= {dv_rem[46:0], dv_bit};
                         dvqr   <= {dvqr[30:0], 1'b0};
                     end
+                end else if (dvc == 6'd48) begin
+                    // round-to-nearest: bump magnitude if 2*rem >= divisor
+                    // (truncation toward zero biases each quotient -0.5 LSB)
+                    if ({dv_rem[46:0], 1'b0} >= {16'd0, dvden_abs})
+                        dvqr <= dvqr + 32'd1;
+                    dvc <= 6'd49;
                 end else begin
                     dvb <= 1'b0;
                 end
@@ -219,6 +247,8 @@ module rov_model (
     reg signed [31:0] r1_am20, r1_am21;                 // off-diag added-mass: N_dp*p, N_dq*q
     reg signed [31:0] r1_IxzP, r1_IzR;
     reg signed [31:0] r1_IyQ,  r1_IxP;
+    reg signed [31:0] r1_IxyP, r1_IxyQ;                 // I_xy*p, I_xy*q
+    reg signed [31:0] r1_IyzR, r1_IxzR;                 // I_yz*r, I_xz*r
     reg signed [31:0] r1_dl0, r1_dl1, r1_dl2;            // diag linear damping (K_p*p, M_q*q, N_r*r)
     reg signed [31:0] r1_dl01, r1_dl02;                 // off-diag linear damp: K_q*q, K_r*r
     reg signed [31:0] r1_dl10, r1_dl12;                 // off-diag linear damp: M_p*p, M_r*r
@@ -294,7 +324,8 @@ module rov_model (
             cord_start <= 1'b0;
             cord_sincos<= 1'b0;
             dvs     <= 1'b0;
-            sv_phi  <= 0; sv_theta <= 0; sv_psi <= 0; sv_p <= 0; sv_q <= 0; sv_r <= 0;
+            sv_phi  <= INIT_PHI; sv_theta <= INIT_THETA; sv_psi <= INIT_PSI;
+            sv_p    <= INIT_P;   sv_q     <= INIT_Q;     sv_r   <= INIT_R;
             tP_abs  <= 0; tQ_abs   <= 0; tR_abs <= 0;
             l_phid  <= 0; l_thd <= 0; l_psid <= 0;
             l_det   <= 0; l_n0 <= 0; l_n1 <= 0; l_n2 <= 0;
@@ -321,37 +352,47 @@ module rov_model (
                     ttau_r <= tau0_roll; ttau_p <= tau0_pitch; ttau_y <= tau0_yaw;
                     st <= ST_T_PHI;
                 end
+                // tphi is wrapped (trig is periodic, so this is exact) and
+                // ttheta is clamped to +/-89 deg exactly like Python's
+                // pqr_euler_angle_rates -- both keep the CORDIC and the
+                // tan/sec divisions inside their valid range.
+                // NOTE: tau averaging MUST be done on $signed values; the raw
+                // input wires are unsigned and ">>> 1" on them is a LOGICAL
+                // shift that corrupts every negative torque.
                 ST_K2_SETUP: begin
-                    tphi <= x0_phi + fmul(`FP_HALF_DT, K0_phi);
-                    ttheta<=x0_theta+ fmul(`FP_HALF_DT, K0_theta);
-                    tpsi <= x0_psi + fmul(`FP_HALF_DT, K0_psi);
-                    tP   <= x0_p   + fmul(`FP_HALF_DT, K0_p);
-                    tQ   <= x0_q   + fmul(`FP_HALF_DT, K0_q);
-                    tR   <= x0_r   + fmul(`FP_HALF_DT, K0_r);
-                    ttau_r <= (tau0_roll  + tau1_roll)  >>> 1;
-                    ttau_p <= (tau0_pitch + tau1_pitch) >>> 1;
-                    ttau_y <= (tau0_yaw   + tau1_yaw)   >>> 1;
+                    tphi <= fwrap(x0_phi + fmul20(`FP_HALF_DT_Q20, K0_phi));
+                    ttheta<= fclamp(x0_theta + fmul20(`FP_HALF_DT_Q20, K0_theta),
+                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
+                    tpsi <= x0_psi + fmul20(`FP_HALF_DT_Q20, K0_psi);
+                    tP   <= x0_p   + fmul20(`FP_HALF_DT_Q20, K0_p);
+                    tQ   <= x0_q   + fmul20(`FP_HALF_DT_Q20, K0_q);
+                    tR   <= x0_r   + fmul20(`FP_HALF_DT_Q20, K0_r);
+                    ttau_r <= ($signed(tau0_roll)  + $signed(tau1_roll))  >>> 1;
+                    ttau_p <= ($signed(tau0_pitch) + $signed(tau1_pitch)) >>> 1;
+                    ttau_y <= ($signed(tau0_yaw)   + $signed(tau1_yaw))   >>> 1;
                     st <= ST_T_PHI;
                 end
                 ST_K3_SETUP: begin
-                    tphi <= x0_phi + fmul(`FP_HALF_DT, K1_phi);
-                    ttheta<=x0_theta+ fmul(`FP_HALF_DT, K1_theta);
-                    tpsi <= x0_psi + fmul(`FP_HALF_DT, K1_psi);
-                    tP   <= x0_p   + fmul(`FP_HALF_DT, K1_p);
-                    tQ   <= x0_q   + fmul(`FP_HALF_DT, K1_q);
-                    tR   <= x0_r   + fmul(`FP_HALF_DT, K1_r);
-                    ttau_r <= (tau0_roll  + tau1_roll)  >>> 1;
-                    ttau_p <= (tau0_pitch + tau1_pitch) >>> 1;
-                    ttau_y <= (tau0_yaw   + tau1_yaw)   >>> 1;
+                    tphi <= fwrap(x0_phi + fmul20(`FP_HALF_DT_Q20, K1_phi));
+                    ttheta<= fclamp(x0_theta + fmul20(`FP_HALF_DT_Q20, K1_theta),
+                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
+                    tpsi <= x0_psi + fmul20(`FP_HALF_DT_Q20, K1_psi);
+                    tP   <= x0_p   + fmul20(`FP_HALF_DT_Q20, K1_p);
+                    tQ   <= x0_q   + fmul20(`FP_HALF_DT_Q20, K1_q);
+                    tR   <= x0_r   + fmul20(`FP_HALF_DT_Q20, K1_r);
+                    ttau_r <= ($signed(tau0_roll)  + $signed(tau1_roll))  >>> 1;
+                    ttau_p <= ($signed(tau0_pitch) + $signed(tau1_pitch)) >>> 1;
+                    ttau_y <= ($signed(tau0_yaw)   + $signed(tau1_yaw))   >>> 1;
                     st <= ST_T_PHI;
                 end
                 ST_K4_SETUP: begin
-                    tphi <= x0_phi + fmul(`FP_DT, K2_phi);
-                    ttheta<=x0_theta+ fmul(`FP_DT, K2_theta);
-                    tpsi <= x0_psi + fmul(`FP_DT, K2_psi);
-                    tP   <= x0_p   + fmul(`FP_DT, K2_p);
-                    tQ   <= x0_q   + fmul(`FP_DT, K2_q);
-                    tR   <= x0_r   + fmul(`FP_DT, K2_r);
+                    tphi <= fwrap(x0_phi + fmul20(`FP_DT_Q20, K2_phi));
+                    ttheta<= fclamp(x0_theta + fmul20(`FP_DT_Q20, K2_theta),
+                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
+                    tpsi <= x0_psi + fmul20(`FP_DT_Q20, K2_psi);
+                    tP   <= x0_p   + fmul20(`FP_DT_Q20, K2_p);
+                    tQ   <= x0_q   + fmul20(`FP_DT_Q20, K2_q);
+                    tR   <= x0_r   + fmul20(`FP_DT_Q20, K2_r);
                     ttau_r <= tau1_roll; ttau_p <= tau1_pitch; ttau_y <= tau1_yaw;
                     st <= ST_T_PHI;
                 end
@@ -424,6 +465,10 @@ module rov_model (
                     r1_IzR  <= fmul(`FP_I_Z,  tR);
                     r1_IyQ  <= fmul(`FP_I_Y,  tQ);
                     r1_IxP  <= fmul(`FP_I_X,  tP);
+                    r1_IxyP <= fmul(`FP_I_XY, tP);
+                    r1_IxyQ <= fmul(`FP_I_XY, tQ);
+                    r1_IyzR <= fmul(`FP_I_YZ, tR);
+                    r1_IxzR <= fmul(`FP_I_XZ, tR);
                     // diag linear damping (D_linear diagonal: K_p*p, M_q*q, N_r*r)
                     r1_dl0 <= fmul(`FP_K_p, tP);
                     r1_dl1 <= fmul(`FP_M_q, tQ);
@@ -464,13 +509,17 @@ module rov_model (
                 //   row2 = N_pp|p|p + N_qq|q|q + N_rr|r|r
                 //==========================================================
                 ST_C2: begin
-                    // b1 = -(am10 + add1 + am12);  b2 = -(am20 + am21 + add2)
-                    r2_C45 <= -r1_IxzP + r1_IzR
-                              + r1_am20 + r1_am21 + r1_add2;          // ... - b2 = ... + (am20+am21+add2)
-                    r2_C46 <= -r1_IyQ
-                              - r1_am10 - r1_add1 - r1_am12;          // b1 = -(...); C46 += b1
-                    // b0 = -(add0 + am01 + am02);  C56 += -b0 = +(add0+am01+am02)
-                    r2_C56 <=  r1_IxP
+                    // Full Python expressions incl. the small product terms:
+                    //   C45 = -I_xy*q - I_xz*p + I_z*r - b3
+                    //   C46 =  I_yz*r + I_xy*p - I_y*q + b2
+                    //   C56 = -I_xz*r - I_xy*q + I_x*p - b1
+                    // b3 = -(am20+am21+add2); b2 = -(am10+add1+am12);
+                    // b1 = -(add0+am01+am02)
+                    r2_C45 <= -r1_IxyQ - r1_IxzP + r1_IzR
+                              + r1_am20 + r1_am21 + r1_add2;
+                    r2_C46 <=  r1_IyzR + r1_IxyP - r1_IyQ
+                              - r1_am10 - r1_add1 - r1_am12;
+                    r2_C56 <= -r1_IxzR - r1_IxyQ + r1_IxP
                               + r1_add0 + r1_am01 + r1_am02;
                     // full quad-damping rows (D_quad @ |w|w)
                     r2_dq0  <= fmul(`FP_K_pp, r1_wap);
@@ -533,8 +582,10 @@ module rov_model (
                     r4_t2 <= r3b_t2a - r3b_t2b;
                     r4_t3 <= r3b_t3a - r3b_t3b;
                     r4_phid_sum <= tP + r3b_eul0;
-                    l_thd  <= fclamp(r1_cph_tQ - r1_sph_tR, -`FP_ACCEL_CLIP, `FP_ACCEL_CLIP);
-                    l_psid <= fclamp(r1_sov_tQ + r1_cov_tR, -`FP_ACCEL_CLIP, `FP_ACCEL_CLIP);
+                    // Python does not clip Euler rates; FP_EULER_CLIP is a
+                    // fixed-point range guard only (see rov_params.vh).
+                    l_thd  <= fclamp(r1_cph_tQ - r1_sph_tR, -`FP_EULER_CLIP, `FP_EULER_CLIP);
+                    l_psid <= fclamp(r1_sov_tQ + r1_cov_tR, -`FP_EULER_CLIP, `FP_EULER_CLIP);
                     st <= ST_C5;
                 end
 
@@ -542,7 +593,7 @@ module rov_model (
                 // ST_C5: Euler clamp, det pre-mul, A/B/C pre-mul
                 //==========================================================
                 ST_C5: begin
-                    l_phid <= fclamp(r4_phid_sum + r3b_eul1, -`FP_ACCEL_CLIP, `FP_ACCEL_CLIP);
+                    l_phid <= fclamp(r4_phid_sum + r3b_eul1, -`FP_EULER_CLIP, `FP_EULER_CLIP);
                     r5_d0 <= fmul(w_M11, r4_t1);
                     r5_d1 <= fmul(w_M12, r4_t2);
                     r5_d2 <= fmul(w_M13, r4_t3);
@@ -678,14 +729,14 @@ module rov_model (
                     st <= ST_UPDATE_P3;
                 end
 
-                // ---- UPDATE P3: dt_mult = dt/6 * sum ----
+                // ---- UPDATE P3: dt_mult = dt/6 * sum (Q12.20 constant) ----
                 ST_UPDATE_P3: begin
-                    up_phi_dt   <= fmul(`FP_DT_OVER_6, up_phi_sum);
-                    up_theta_dt <= fmul(`FP_DT_OVER_6, up_theta_sum);
-                    up_psi_dt   <= fmul(`FP_DT_OVER_6, up_psi_sum);
-                    up_p_dt     <= fmul(`FP_DT_OVER_6, up_p_sum);
-                    up_q_dt     <= fmul(`FP_DT_OVER_6, up_q_sum);
-                    up_r_dt     <= fmul(`FP_DT_OVER_6, up_r_sum);
+                    up_phi_dt   <= fmul20(`FP_DT_OVER_6_Q20, up_phi_sum);
+                    up_theta_dt <= fmul20(`FP_DT_OVER_6_Q20, up_theta_sum);
+                    up_psi_dt   <= fmul20(`FP_DT_OVER_6_Q20, up_psi_sum);
+                    up_p_dt     <= fmul20(`FP_DT_OVER_6_Q20, up_p_sum);
+                    up_q_dt     <= fmul20(`FP_DT_OVER_6_Q20, up_q_sum);
+                    up_r_dt     <= fmul20(`FP_DT_OVER_6_Q20, up_r_sum);
                     st <= ST_UPDATE_P4;
                 end
 
