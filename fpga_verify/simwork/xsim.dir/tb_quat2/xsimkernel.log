@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_quat2/xsimk.exe -runall -simmode gui -wdb tb_quat2.wdb -simrunnum 0 -socket 63228
+Design successfully loaded
+Design Loading Memory Usage: 18536 KB (Peak: 18536 KB)
+Design Loading CPU Usage: 77 ms
+Simulation completed
+Simulation Memory Usage: 19068 KB (Peak: 19068 KB)
+Simulation CPU Usage: 77 ms

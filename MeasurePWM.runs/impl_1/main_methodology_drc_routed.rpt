@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2026.1 (win64) Build 6511674 Tue Jun 16 11:02:23 MDT 2026
-| Date         : Thu Jul  9 13:49:56 2026
+| Date         : Thu Jul  9 22:52:32 2026
 | Host         : WIN-GAVN6IIRGIQ running 64-bit major release  (build 9200)
 | Command      : report_methodology -file main_methodology_drc_routed.rpt -pb main_methodology_drc_routed.pb -rpx main_methodology_drc_routed.rpx
 | Design       : main
@@ -23,12 +23,12 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 156
+             Checks found: 136
 +----------+----------+--------------------------------------------+--------+
 | Rule     | Severity | Description                                | Checks |
 +----------+----------+--------------------------------------------+--------+
 | SYNTH-6  | Warning  | Timing of a RAM block might be sub-optimal | 4      |
-| SYNTH-10 | Warning  | Wide multiplier                            | 152    |
+| SYNTH-10 | Warning  | Wide multiplier                            | 132    |
 +----------+----------+--------------------------------------------+--------+
 
 2. REPORT DETAILS
@@ -120,697 +120,597 @@ Related violations: <none>
 
 SYNTH-10#14 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__11__0__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__12 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#15 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__11__1 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__12__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#16 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__12 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__13 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#17 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__12__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__13__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#18 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__12__0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__14 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#19 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__12__1 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__14__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#20 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__13 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__15 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#21 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__13__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__15__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#22 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__13__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__16 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#23 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__14 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__16__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#24 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__14__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__17 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#25 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__14__0__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__17__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#26 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__15 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__18 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#27 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__15__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__18__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#28 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__15__0__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__19 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#29 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__16 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__19__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#30 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__16__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__1__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#31 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__16__0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__1__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#32 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__17 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__1__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#33 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__17__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__1__2 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#34 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__17__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__2 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#35 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__18 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__20 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#36 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__18__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__20__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#37 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__18__0__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__21 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#38 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__19 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__21__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#39 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__19__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__22 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#40 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__19__0__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__22__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#41 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__1__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__23 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#42 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__1__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__23__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#43 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__1__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__24 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#44 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__1__2 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__24__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#45 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__2 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__25 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#46 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__20 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__26 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#47 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__20__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__27 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#48 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__21 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__2__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#49 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__21__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__2__0__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#50 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__22 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__2__1 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#51 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__22__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__2__2 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#52 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__23 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__3 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#53 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__23__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__3__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#54 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__24 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__3__0__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#55 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__25 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__3__1 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#56 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__26 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__3__2 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#57 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__2__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__4 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#58 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__2__0__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__4__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#59 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__2__1 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__4__0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#60 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__2__2 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__4__1 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#61 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__3 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__4__2 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#62 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__3__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__5 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#63 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__3__0__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__5__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#64 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__3__1 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__5__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#65 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__4 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__5__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#66 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__4__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__5__2 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#67 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__4__0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__6 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#68 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__4__1 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__6__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#69 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__5 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__6__0__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#70 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__5__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__6__1 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#71 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__5__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__6__2 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#72 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__5__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__7 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#73 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__6 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__7__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#74 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__6__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__7__0__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#75 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__6__0__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__7__1 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#76 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__6__1 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__7__2 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#77 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__7 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__8 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#78 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__7__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__8__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#79 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__7__0__0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__8__0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#80 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__7__1 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__8__1 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#81 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__8 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__9 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#82 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__8__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__9__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#83 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__8__0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__9__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#84 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__8__1 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_model/fmul0_return1__9__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#85 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__9 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#86 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__9__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#87 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__9__0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#88 Warning
 Wide multiplier  
-Detected multiplier at u_model/fmul0_return1__9__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__10 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#89 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__11 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#90 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__0 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__12 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#91 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__1 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__13 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#92 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__10 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__14 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#93 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__11 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__15 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#94 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__12 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__16 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#95 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__13 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__17 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#96 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__14 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__18 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#97 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__15 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__19 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#98 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__16 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__2 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#99 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__17 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__20 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#100 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__18 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__21 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#101 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__19 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__22 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#102 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__2 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__23 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#103 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__20 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__24 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#104 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__21 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__25 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#105 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__22 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__26 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#106 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__23 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__27 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#107 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__24 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__28 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#108 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__25 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__29 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#109 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__26 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__3 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#110 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__27 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__30 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#111 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__28 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__31 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#112 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__29 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__32 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#113 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__3 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__33 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#114 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__30 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__34 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#115 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__31 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__35 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#116 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__32 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__36 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#117 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__33 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__37 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#118 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__34 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__38 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#119 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__35 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__39 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#120 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__36 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__4 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#121 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__37 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__40 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#122 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__38 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__41 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#123 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__39 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__42 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#124 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__4 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__5 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#125 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__40 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__6 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#126 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__41 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__7 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#127 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__42 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__8 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#128 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__5 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/fmul41_return0__9 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#129 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__6 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/q2_wy_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#130 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__7 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/q2_wy_reg__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#131 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__8 of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
+Detected multiplier at u_um7/q2_xx_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 SYNTH-10#132 Warning
 Wide multiplier  
-Detected multiplier at u_um7/fmul42_return0__9 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#133 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#134 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0__0 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#135 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0__1 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#136 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0__2 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#137 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0__3 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#138 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0__4 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#139 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0__5 of size 15x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#140 Warning
-Wide multiplier  
-Detected multiplier at u_um7/fmul43_return0__6 of size 18x18, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#141 Warning
-Wide multiplier  
-Detected multiplier at u_um7/q2_wy_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#142 Warning
-Wide multiplier  
-Detected multiplier at u_um7/q2_wy_reg__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#143 Warning
-Wide multiplier  
-Detected multiplier at u_um7/q2_xx_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#144 Warning
-Wide multiplier  
 Detected multiplier at u_um7/q2_xx_reg__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#145 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_w_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#146 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_w_reg__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#147 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_x_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#148 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_x_reg__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#149 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_y_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#150 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_y_reg__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#151 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_z_reg of size 15x15, it is decomposed from a wide multipler into 4 DSP blocks.
-Related violations: <none>
-
-SYNTH-10#152 Warning
-Wide multiplier  
-Detected multiplier at u_um7/qs_z_reg__0 of size 18x15, it is decomposed from a wide multipler into 4 DSP blocks.
 Related violations: <none>
 
 

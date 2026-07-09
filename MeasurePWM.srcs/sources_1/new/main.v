@@ -7,12 +7,14 @@
 //   duty_calc     (hi * 10000) / tot  → 8 duty_scaled values (0..10000)
 //   duty_to_force duty/4 → LUT       → 8 forces (Q16.16 kgf)
 //   tau_alloc     B * u              → Mx, My, Mz (Q16.16 N*m)
-//   rov_model     RK4 6-DOF          → roll, pitch, yaw, p, q, r (Q16.16 rad)
+//   rov_model     RK4 6-DOF          → true roll,pitch,yaw,p,q,r (Q16.16)
+//   sensor_model  AHRS corruption    → measured RPY + pqr (rov_sensor.py)
 //   um7_tx        UM7 binary packets → UART @ 115200 baud
+//                 (quaternion is built from *measured* RPY)
 //
 // UART output: UM7 "snp" binary protocol (quaternion + gyro packets)
 //   Packet 1: 'snp' + quaternion (int16 w,x,y,z scaled by 29789.09)
-//   Packet 2: 'snp' + gyro (float32 p,q,r rad/s)
+//   Packet 2: 'snp' + gyro (float32 p,q,r deg/s)
 //   Total: 34 bytes, ~2.9 ms at 115200 baud
 //
 // LEDs: LD0=heartbeat, LD1-3=Mx/My/Mz present, LD4-6=Mx/My/Mz sign, LD7=any PWM
@@ -330,53 +332,89 @@ module main (
         .dbg_Pd(),   .dbg_Qd(),   .dbg_Rd()
     );
 
-    // Latch state when model completes
+    //==================================================================
+    // 7. SENSOR MODEL
+    //    PASSTHROUGH=1 (default): true plant state → UART (clean HIL).
+    //    PASSTHROUGH=0: inject AHRS noise from rov_sensor.py constants.
+    //    um7_tx builds the quaternion from RPY (STM32 never sees Euler
+    //    on the wire — only quat + gyro packets).
+    //==================================================================
+    reg model_done_d;
+    always @(posedge clk_100m) begin
+        if (rst) model_done_d <= 1'b0;
+        else     model_done_d <= model_done;
+    end
+    wire sensor_start = model_done && !model_done_d;
+
+    wire        sensor_done;
+    wire [31:0] meas_roll, meas_pitch, meas_yaw, meas_p, meas_q, meas_r;
+
+    sensor_model #(
+        .PASSTHROUGH(1)   // 1=clean rest@0; set 0 to enable AHRS noise
+    ) u_sensor (
+        .clk      (clk_100m),
+        .rst      (rst),
+        .start    (sensor_start),
+        .done     (sensor_done),
+        .roll_in  (st_roll),
+        .pitch_in (st_pitch),
+        .yaw_in   (st_yaw),
+        .p_in     (st_p),
+        .q_in     (st_q),
+        .r_in     (st_r),
+        .roll_out (meas_roll),
+        .pitch_out(meas_pitch),
+        .yaw_out  (meas_yaw),
+        .p_out    (meas_p),
+        .q_out    (meas_q),
+        .r_out    (meas_r)
+    );
+
+    // Latch measured state; hold stable until um7 accepts them
     reg [31:0] cap_roll, cap_pitch, cap_yaw, cap_p, cap_q, cap_r;
-    reg        cap_state_valid;
+    reg        cap_pending;   // 1 = new sample waiting for um7
+
+    wire       um7_done;
+    wire       um7_busy;
+    wire       um7_send;
+    wire [7:0] um7_data;
+    // Never re-enter um7 while busy (prevents corrupted mid-packet samples
+    // that showed up as intermittent 90–180° RPY glitches in Experiment.mat).
+    wire       um7_start_w = cap_pending && !um7_busy;
 
     always @(posedge clk_100m) begin
         if (rst) begin
-            cap_state_valid <= 1'b0;
+            cap_pending <= 1'b0;
             cap_roll  <= 0; cap_pitch <= 0; cap_yaw <= 0;
             cap_p     <= 0; cap_q     <= 0; cap_r   <= 0;
         end else begin
-            cap_state_valid <= 1'b0;
-            if (model_done) begin
-                cap_roll   <= st_roll;
-                cap_pitch  <= st_pitch;
-                cap_yaw    <= st_yaw;
-                cap_p      <= st_p;
-                cap_q      <= st_q;
-                cap_r      <= st_r;
-                cap_state_valid <= 1'b1;
-            end
+            if (sensor_done) begin
+                cap_roll    <= meas_roll;
+                cap_pitch   <= meas_pitch;
+                cap_yaw     <= meas_yaw;
+                cap_p       <= meas_p;
+                cap_q       <= meas_q;
+                cap_r       <= meas_r;
+                cap_pending <= 1'b1;
+            end else if (um7_start_w)
+                cap_pending <= 1'b0;
         end
     end
 
     //==================================================================
-    // 7. UM7 PACKET TRANSMITTER
+    // 8. UM7 PACKET TRANSMITTER
     //==================================================================
-    reg cap_state_valid_d;
-    wire um7_start = cap_state_valid && !cap_state_valid_d;
-    always @(posedge clk_100m) begin
-        if (rst) cap_state_valid_d <= 1'b0;
-        else     cap_state_valid_d <= cap_state_valid;
-    end
-
-    wire       um7_done;
-    wire       um7_send;
-    wire [7:0] um7_data;
 
     // byte-channel wires shared by um7_tx and the uart_tx_byte_if below.
-    // Declared here (before any use) to avoid implicit-declaration warnings.
     wire       byte_busy, byte_done, byte_send;
     wire [7:0] byte_data;
 
     um7_tx u_um7 (
         .clk      (clk_100m),
         .rst      (rst),
-        .start    (um7_start),
+        .start    (um7_start_w),
         .done     (um7_done),
+        .busy     (um7_busy),
         .roll     (cap_roll),
         .pitch    (cap_pitch),
         .yaw      (cap_yaw),
@@ -390,7 +428,7 @@ module main (
     );
 
     //==================================================================
-    // 8. UART + BYTE INTERFACE
+    // 9. UART + BYTE INTERFACE
     //==================================================================
     wire       tx_end, tx_busy, rx_ready;
     wire [7:0] rx_data;
@@ -432,7 +470,7 @@ module main (
     assign byte_data = um7_data;
 
     //==================================================================
-    // 9. DEBUG UART — outputs 8 duties + 3 torques on JA3/JA4
+    // 10. DEBUG UART — outputs 8 duties + 3 torques on JA3/JA4
     //    Format: D0..D7 Mx My Mz  (11 hex words, space-sep, CRLF)
     //==================================================================
     // ---- latch duty values and torques when tau becomes valid ----

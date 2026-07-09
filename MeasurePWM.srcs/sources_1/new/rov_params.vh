@@ -32,9 +32,14 @@
 `define FP_Z_B              32'shFFFFFF79    // -0.002057619 = -135
 
 // --- Restoring-moment products: W*offset (Q16.16), W = 151.61355 N ---
-`define FP_WY_B             32'sd263         // W*y_B =  0.00401403
+// NOTE: W*x_B produced a constant pitch torque even at level attitude
+// (g5 = -W*x_B at phi=theta=0), so a "grounded / zero-input" ROV slowly
+// walked away from RPY=0.  Horizontal CB levers are zeroed so the only
+// restoring is the vertical W*z_B term (roll/pitch stability about level).
+// Original: WY_B=263, WX_B=1138, WZ_B=-20445.
+`define FP_WY_B             32'sd0           // was 263  (W*y_B) — zeroed for rest@0
 `define FP_WZ_B             32'shFFFFB023    // W*z_B = -0.31196290 = -20445
-`define FP_WX_B             32'sd1138        // W*x_B =  0.01736052
+`define FP_WX_B             32'sd0           // was 1138 (W*x_B) — zeroed for rest@0
 
 // --- Added mass (Q16.16) ---
 `define FP_K_dp             32'sd26345       // 0.40199742

@@ -47,8 +47,10 @@ module um7_tx (
     input  wire        rst,
 
     // Trigger: pulse to latch inputs and begin a transmission cycle.
+    // Ignored while busy=1 (previous packet still in flight).
     input  wire        start,
     output reg         done,
+    output wire        busy,   // 1 from accept(start) until done pulse
 
     // ROV state inputs (Q16.16).  roll/pitch/yaw in RADIANS (not degrees),
     // p/q/r body rates in rad/s (converted to deg/s before TX).
@@ -83,9 +85,11 @@ module um7_tx (
     // 0.5 in Q16.16
     localparam signed [31:0] FP_HALF = 32'sd32768;
 
-    // Quaternion int16 scale: 29789.09091 in Q16.16 = 29789.09091 * 65536
-    //   = 1952257861.0 (rounds to 1952257861)
-    localparam signed [31:0] FP_QUAT_SCALE = 32'sd1952257861; // 29789.09091
+    // int16 = round(q_real * 29789.09)
+    // With q in Q16.16:  int16 = (q_q16 * 29789 + 32768) >>> 16
+    // DO NOT encode 29789 as Q16.16 and then take low 16 bits of fmul —
+    // that saturates every sample to ±32767 (see Experiment.mat history).
+    localparam signed [31:0] QUAT_SCALE_INT = 32'sd29789;
 
     localparam signed [31:0] INT16_MAX =  32'sd32767;
     localparam signed [31:0] INT16_MIN = -32'sd32768;
@@ -131,15 +135,14 @@ module um7_tx (
     reg [7:0] g_payload [0:11];  // 3 x float32 BE
 
     // Intermediate product / float registers for multi-cycle packing.
-    // Timing (impl @ 100 MHz): a single-cycle fmul(DSP cascade) →
-    // q16_to_float (priority-encoder + shift) → g_payload was WNS=-4.86 ns.
-    // Each arithmetic step is now its own FSM cycle.
     reg signed [31:0] q2_ww, q2_wx, q2_wy, q2_wz;   // ST_Q2a products
     reg signed [31:0] q2_xw, q2_xx, q2_yw, q2_yx;
-    reg signed [31:0] qs_w, qs_x, qs_y, qs_z;       // quat * scale
+    reg signed [31:0] qs_w, qs_x, qs_y, qs_z;       // (q * 29789) before >>>16
     reg signed [31:0] deg_p, deg_q, deg_r;          // rad/s * (180/pi)
     reg [31:0]        fp;                            // q16_to_float result
-    reg [15:0]        iw, ix, iy, iz;                // sat_int16 temps
+    reg [15:0]        iw, ix, iy, iz;                // packed int16 temps
+    // busy: high from accepting start until done (for external lockout)
+    reg               busy_r;
 
     //==================================================================
     // FSM
@@ -211,16 +214,18 @@ module um7_tx (
     endfunction
 
     //==================================================================
-    // Saturate a pre-scaled Q16.16 value to int16 (no multiply here).
+    // (q_q16 * QUAT_SCALE_INT) rounded >>> 16 → saturating int16
     //==================================================================
     function [15:0] sat_int16;
-        input signed [31:0] scaled;
+        input signed [31:0] prod_shr;   // already (q*29789+0.5)>>16
         begin
-            if (scaled > INT16_MAX)       sat_int16 = 16'h7FFF;
-            else if (scaled < INT16_MIN)  sat_int16 = 16'h8000;
-            else                          sat_int16 = scaled[15:0];
+            if (prod_shr > INT16_MAX)       sat_int16 = 16'h7FFF;
+            else if (prod_shr < INT16_MIN)  sat_int16 = 16'h8000;
+            else                            sat_int16 = prod_shr[15:0];
         end
     endfunction
+
+    assign busy = busy_r;
 
     //==================================================================
     // Main FSM
@@ -229,6 +234,7 @@ module um7_tx (
         if (rst) begin
             state      <= ST_IDLE;
             done       <= 1'b0;
+            busy_r     <= 1'b0;
             cord_start <= 1'b0;
             cord_sincos<= 1'b0;
             send_byte  <= 1'b0;
@@ -244,14 +250,16 @@ module um7_tx (
             case (state)
                 //--------------------------------------------------------
                 ST_IDLE: begin
+                    busy_r <= 1'b0;
                     if (start) begin
-                        l_phi <= roll;
-                        l_th  <= pitch;
-                        l_ps  <= yaw;
-                        l_p   <= p;
-                        l_q   <= q;
-                        l_r   <= r;
-                        state <= ST_PHI;
+                        l_phi  <= roll;
+                        l_th   <= pitch;
+                        l_ps   <= yaw;
+                        l_p    <= p;
+                        l_q    <= q;
+                        l_r    <= r;
+                        busy_r <= 1'b1;
+                        state  <= ST_PHI;
                     end
                 end
 
@@ -341,12 +349,13 @@ module um7_tx (
                 end
 
                 //--------------------------------------------------------
-                // Pack quaternion: cycle 1 = scale (fmul only)
+                // Pack quaternion: cycle 1 = q * 29789  (explicit 64-bit product)
                 ST_PACK_Q_MUL: begin
-                    qs_w <= fmul(qw, FP_QUAT_SCALE);
-                    qs_x <= fmul(qx, FP_QUAT_SCALE);
-                    qs_y <= fmul(qy, FP_QUAT_SCALE);
-                    qs_z <= fmul(qz, FP_QUAT_SCALE);
+                    // qs = (q_q16 * 29789 + 32768) >>> 16  → int ≈ q_real * 29789
+                    qs_w <= ($signed(qw) * $signed(QUAT_SCALE_INT) + 64'sd32768) >>> 16;
+                    qs_x <= ($signed(qx) * $signed(QUAT_SCALE_INT) + 64'sd32768) >>> 16;
+                    qs_y <= ($signed(qy) * $signed(QUAT_SCALE_INT) + 64'sd32768) >>> 16;
+                    qs_z <= ($signed(qz) * $signed(QUAT_SCALE_INT) + 64'sd32768) >>> 16;
                     if (mul_hold) begin mul_hold <= 1'b0; state <= ST_PACK_Q_SAT; end
                     else          mul_hold <= 1'b1;
                 end
@@ -354,7 +363,6 @@ module um7_tx (
                 //--------------------------------------------------------
                 // Pack quaternion: cycle 2 = saturate + pack int16 BE
                 ST_PACK_Q_SAT: begin
-                    // Blocking temps: Verilog cannot bit-select a function result.
                     iw = sat_int16(qs_w);
                     ix = sat_int16(qs_x);
                     iy = sat_int16(qs_y);

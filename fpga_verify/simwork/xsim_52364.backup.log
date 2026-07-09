@@ -1,0 +1,37 @@
+#-----------------------------------------------------------
+# xsim v2026.1 (64-bit)
+# SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
+# IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
+# SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
+# Start of session at: Thu Jul  9 14:23:53 2026
+# Process ID         : 52364
+# Current directory  : C:/VivadoWork/MeasurePWM/fpga_verify/simwork
+# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_sensor_sim/xsim_script.tcl}
+# Log file           : C:/VivadoWork/MeasurePWM/fpga_verify/simwork/xsim.log
+# Journal file       : C:/VivadoWork/MeasurePWM/fpga_verify/simwork\xsim.jou
+# Running On         : WIN-GAVN6IIRGIQ
+# Platform           : Windows Server 2025
+# Operating System   : 26100
+# Processor Detail   : Intel(R) Xeon(R) w7-2495X
+# CPU Frequency      : 2496 MHz
+# CPU Physical cores : 24
+# CPU Logical cores  : 48
+# Host memory        : 68136 MB
+# Swap memory        : 10200 MB
+# Total Virtual      : 78336 MB
+# Available Virtual  : 37482 MB
+#-----------------------------------------------------------
+source xsim.dir/tb_sensor_sim/xsim_script.tcl
+# xsim {tb_sensor_sim} -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+s0 att_deg  =    -0.1346    -0.1923     0.3077
+s0 rate_dps =     0.0848    -0.0245     0.0009
+s1 att_deg  =     6.0202    -4.1737    11.7519
+s1 rate_dps =    28.6995   -17.5220     5.3811
+s9 att_deg  =     4.5007    -3.4429     9.5400
+s9 rate_dps =    28.6995   -17.5133     5.3759
+TB_SENSOR DONE
+$finish called at time : 2545 ns : File "C:/VivadoWork/MeasurePWM/fpga_verify/tb_sensor.v" Line 78
+exit
+INFO: [Common 17-206] Exiting xsim at Thu Jul  9 14:23:55 2026...

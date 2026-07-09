@@ -74,13 +74,17 @@ set_property ip_output_repo c:/VivadoWork/MeasurePWM/MeasurePWM.cache/ip [curren
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_verilog C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh
+read_verilog {
+  C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh
+  C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_params.vh
+}
 read_mem C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/force_lut.mem
 read_verilog -library xil_defaultlib {
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/duty_to_force.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/pwm_measure.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v
+  C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_model.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/uart.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/uart_print_hex.v

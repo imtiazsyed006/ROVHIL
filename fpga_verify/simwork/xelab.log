@@ -1,7 +1,7 @@
 Vivado Simulator v2026.1
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: C:/AMDDesignTools/2026.1/Vivado/bin/unwrapped/win64.o/xelab.exe -debug typical tb_chain -s tb_sim 
+Running: C:/AMDDesignTools/2026.1/Vivado/bin/unwrapped/win64.o/xelab.exe tb_quat_scale -s tb_quat2 
 Multi-threading is on. Using 46 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
@@ -9,9 +9,7 @@ Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
-Compiling module work.duty_to_force
-Compiling module work.tau_alloc
 Compiling module work.cordic
-Compiling module work.rov_model
-Compiling module work.tb_chain
-Built simulation snapshot tb_sim
+Compiling module work.um7_tx
+Compiling module work.tb_quat_scale
+Built simulation snapshot tb_quat2

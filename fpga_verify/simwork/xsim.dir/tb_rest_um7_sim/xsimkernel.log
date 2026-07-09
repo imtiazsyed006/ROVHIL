@@ -1,0 +1,4 @@
+Running: xsim.dir/tb_rest_um7_sim/xsimk.exe -runall -simmode gui -wdb tb_rest_um7_sim.wdb -simrunnum 0 -socket 61845
+Design successfully loaded
+Design Loading Memory Usage: 18604 KB (Peak: 18604 KB)
+Design Loading CPU Usage: 171 ms
