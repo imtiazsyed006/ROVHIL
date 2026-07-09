@@ -49,6 +49,12 @@ module rov_model #(
     // product by -0.5 LSB; across the ~20 products per axis that bias
     // integrates into a visible yaw drift vs the float64 Python model.
     // The +2^15 folds into the DSP48 post-adder.
+    //
+    // A full 32x32 needs a multi-DSP cascade (~11 ns on -1), so pure
+    // reg->fmul->reg paths are given 2 cycles via `mul_hold` + XDC
+    // multicycle constraints (see constraint.xdc). Do NOT rewrite this as
+    // a 16-bit partial-product split: that doubled DSP count to 100% and
+    // made the critical path worse (WNS -3.8 ns, 24 logic levels).
     function [31:0] fmul;
         input signed [31:0] a, b;
         reg signed [63:0] p;
@@ -178,8 +184,10 @@ module rov_model #(
 
     localparam [5:0]
         ST_C1       = 6'd11,  // leaf fmul
-        ST_C2       = 6'd12,  // Coriolis, dq, g
-        ST_C3       = 6'd13,  // C*w
+        ST_C2       = 6'd12,  // Coriolis, dq, restoring partials
+        ST_C2b      = 6'd39,  // restoring g4/g5/g6 add (split from fmul)
+        ST_C3       = 6'd13,  // C*w partial products
+        ST_C3a      = 6'd40,  // C*w add (split from fmul)
         ST_C3b      = 6'd14,  // RHS pre-sum, Euler pre-mul, t pre-mul
         ST_C4       = 6'd15,  // RHS final, t1-3 final, Euler sum
         ST_C5       = 6'd16,  // Euler clamp, det pre-mul, A/B/C pre-mul
@@ -196,8 +204,11 @@ module rov_model #(
     localparam [5:0]
         ST_K1_SETUP = 6'd27,
         ST_K2_SETUP = 6'd28,
+        ST_K2_MUL   = 6'd36,   // register fmul20(dt/2, K0) for K2
         ST_K3_SETUP = 6'd29,
+        ST_K3_MUL   = 6'd37,   // register fmul20(dt/2, K1) for K3
         ST_K4_SETUP = 6'd30,
+        ST_K4_MUL   = 6'd38,   // register fmul20(dt, K2) for K4
         ST_UPDATE_P1 = 6'd31,
         ST_UPDATE_P2 = 6'd32,
         ST_UPDATE_P3 = 6'd33,
@@ -206,6 +217,10 @@ module rov_model #(
 
     reg [5:0] st;
     reg [1:0] k_phase;
+    // Stretch every pure-fmul state to 2 clocks so the 32x32 DSP cascade
+    // has a multicycle of 2 (see constraint.xdc). Functional latency doubles
+    // for those states only; still << 20 ms step budget.
+    reg       mul_hold;
 
     //==================================================================
     // State registers
@@ -217,6 +232,12 @@ module rov_model #(
     reg signed [31:0] K1_phi, K1_theta, K1_psi, K1_p, K1_q, K1_r;
     reg signed [31:0] K2_phi, K2_theta, K2_psi, K2_p, K2_q, K2_r;
     reg signed [31:0] K3_phi, K3_theta, K3_psi, K3_p, K3_q, K3_r;
+
+    // Registered dt*K products for K2/K3/K4 setup. Splitting the
+    // fmul20 product from the x0+product+fwrap add into two cycles is what
+    // closes timing (the multiply->add->wrap chain was 27 logic levels,
+    // WNS=-5.85 ns). Same pattern as the already-passing ST_UPDATE_P3/P4.
+    reg signed [31:0] kprod_phi, kprod_theta, kprod_psi, kprod_p, kprod_q, kprod_r;
 
     reg signed [31:0] tphi, ttheta, tpsi, tP, tQ, tR;
     reg signed [31:0] ttau_r, ttau_p, ttau_y;
@@ -265,6 +286,11 @@ module rov_model #(
     reg signed [31:0] r2_dq10, r2_dq12;                 // off-diag quad-damp: M_pp|p|p, M_rr|r|r
     reg signed [31:0] r2_dq20, r2_dq21;                 // off-diag quad-damp: N_pp|p|p, N_qq|q|q
     reg signed [31:0] r2_g4, r2_g5, r2_g6;
+    // Restoring-moment partial products (registered so ST_C2 is 1 fmul deep)
+    reg signed [31:0] r2_g4a, r2_g4b, r2_g5a, r2_g5b, r2_g6a, r2_g6b;
+
+    // Stage 3 partials for C*w (fmul and add split across ST_C3 / ST_C3a)
+    reg signed [31:0] r3_cw0a, r3_cw0b, r3_cw1a, r3_cw1b, r3_cw2a, r3_cw2b;
 
     // Stage 3: C*w
     reg signed [31:0] r3_cw0, r3_cw1, r3_cw2;
@@ -320,6 +346,7 @@ module rov_model #(
         if (rst) begin
             st      <= ST_IDLE;
             k_phase <= 2'd0;
+            mul_hold<= 1'b0;
             done    <= 1'b0;
             cord_start <= 1'b0;
             cord_sincos<= 1'b0;
@@ -360,40 +387,75 @@ module rov_model #(
                 // input wires are unsigned and ">>> 1" on them is a LOGICAL
                 // shift that corrupts every negative torque.
                 ST_K2_SETUP: begin
-                    tphi <= fwrap(x0_phi + fmul20(`FP_HALF_DT_Q20, K0_phi));
-                    ttheta<= fclamp(x0_theta + fmul20(`FP_HALF_DT_Q20, K0_theta),
-                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
-                    tpsi <= x0_psi + fmul20(`FP_HALF_DT_Q20, K0_psi);
-                    tP   <= x0_p   + fmul20(`FP_HALF_DT_Q20, K0_p);
-                    tQ   <= x0_q   + fmul20(`FP_HALF_DT_Q20, K0_q);
-                    tR   <= x0_r   + fmul20(`FP_HALF_DT_Q20, K0_r);
+                    // Stage A (multiply): register dt/2*K0 into kprod_*.
+                    // Splitting the fmul20 from the add+wrap/fclamp is the
+                    // timing fix (was 27 logic levels, WNS=-5.85 ns @ 100 MHz).
+                    kprod_phi   <= fmul20(`FP_HALF_DT_Q20, K0_phi);
+                    kprod_theta <= fmul20(`FP_HALF_DT_Q20, K0_theta);
+                    kprod_psi   <= fmul20(`FP_HALF_DT_Q20, K0_psi);
+                    kprod_p     <= fmul20(`FP_HALF_DT_Q20, K0_p);
+                    kprod_q     <= fmul20(`FP_HALF_DT_Q20, K0_q);
+                    kprod_r     <= fmul20(`FP_HALF_DT_Q20, K0_r);
                     ttau_r <= ($signed(tau0_roll)  + $signed(tau1_roll))  >>> 1;
                     ttau_p <= ($signed(tau0_pitch) + $signed(tau1_pitch)) >>> 1;
                     ttau_y <= ($signed(tau0_yaw)   + $signed(tau1_yaw))   >>> 1;
+                    // 2-cycle hold for fmul20 -> kprod (multicycle path)
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_K2_MUL; end
+                    else          mul_hold <= 1'b1;
+                end
+                ST_K2_MUL: begin
+                    // Stage B (add + wrap/clamp) -- separate cycle for timing.
+                    tphi <= fwrap(x0_phi + kprod_phi);
+                    ttheta<= fclamp(x0_theta + kprod_theta,
+                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
+                    tpsi <= x0_psi + kprod_psi;
+                    tP   <= x0_p   + kprod_p;
+                    tQ   <= x0_q   + kprod_q;
+                    tR   <= x0_r   + kprod_r;
                     st <= ST_T_PHI;
                 end
                 ST_K3_SETUP: begin
-                    tphi <= fwrap(x0_phi + fmul20(`FP_HALF_DT_Q20, K1_phi));
-                    ttheta<= fclamp(x0_theta + fmul20(`FP_HALF_DT_Q20, K1_theta),
-                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
-                    tpsi <= x0_psi + fmul20(`FP_HALF_DT_Q20, K1_psi);
-                    tP   <= x0_p   + fmul20(`FP_HALF_DT_Q20, K1_p);
-                    tQ   <= x0_q   + fmul20(`FP_HALF_DT_Q20, K1_q);
-                    tR   <= x0_r   + fmul20(`FP_HALF_DT_Q20, K1_r);
+                    kprod_phi   <= fmul20(`FP_HALF_DT_Q20, K1_phi);
+                    kprod_theta <= fmul20(`FP_HALF_DT_Q20, K1_theta);
+                    kprod_psi   <= fmul20(`FP_HALF_DT_Q20, K1_psi);
+                    kprod_p     <= fmul20(`FP_HALF_DT_Q20, K1_p);
+                    kprod_q     <= fmul20(`FP_HALF_DT_Q20, K1_q);
+                    kprod_r     <= fmul20(`FP_HALF_DT_Q20, K1_r);
                     ttau_r <= ($signed(tau0_roll)  + $signed(tau1_roll))  >>> 1;
                     ttau_p <= ($signed(tau0_pitch) + $signed(tau1_pitch)) >>> 1;
                     ttau_y <= ($signed(tau0_yaw)   + $signed(tau1_yaw))   >>> 1;
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_K3_MUL; end
+                    else          mul_hold <= 1'b1;
+                end
+                ST_K3_MUL: begin
+                    tphi <= fwrap(x0_phi + kprod_phi);
+                    ttheta<= fclamp(x0_theta + kprod_theta,
+                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
+                    tpsi <= x0_psi + kprod_psi;
+                    tP   <= x0_p   + kprod_p;
+                    tQ   <= x0_q   + kprod_q;
+                    tR   <= x0_r   + kprod_r;
                     st <= ST_T_PHI;
                 end
                 ST_K4_SETUP: begin
-                    tphi <= fwrap(x0_phi + fmul20(`FP_DT_Q20, K2_phi));
-                    ttheta<= fclamp(x0_theta + fmul20(`FP_DT_Q20, K2_theta),
-                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
-                    tpsi <= x0_psi + fmul20(`FP_DT_Q20, K2_psi);
-                    tP   <= x0_p   + fmul20(`FP_DT_Q20, K2_p);
-                    tQ   <= x0_q   + fmul20(`FP_DT_Q20, K2_q);
-                    tR   <= x0_r   + fmul20(`FP_DT_Q20, K2_r);
+                    kprod_phi   <= fmul20(`FP_DT_Q20, K2_phi);
+                    kprod_theta <= fmul20(`FP_DT_Q20, K2_theta);
+                    kprod_psi   <= fmul20(`FP_DT_Q20, K2_psi);
+                    kprod_p     <= fmul20(`FP_DT_Q20, K2_p);
+                    kprod_q     <= fmul20(`FP_DT_Q20, K2_q);
+                    kprod_r     <= fmul20(`FP_DT_Q20, K2_r);
                     ttau_r <= tau1_roll; ttau_p <= tau1_pitch; ttau_y <= tau1_yaw;
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_K4_MUL; end
+                    else          mul_hold <= 1'b1;
+                end
+                ST_K4_MUL: begin
+                    tphi <= fwrap(x0_phi + kprod_phi);
+                    ttheta<= fclamp(x0_theta + kprod_theta,
+                                    -`FP_PITCH_LIMIT, `FP_PITCH_LIMIT);
+                    tpsi <= x0_psi + kprod_psi;
+                    tP   <= x0_p   + kprod_p;
+                    tQ   <= x0_q   + kprod_q;
+                    tR   <= x0_r   + kprod_r;
                     st <= ST_T_PHI;
                 end
 
@@ -486,7 +548,8 @@ module rov_model #(
                     r1_wap <= fmul(tP_abs, tP);
                     r1_waq <= fmul(tQ_abs, tQ);
                     r1_war <= fmul(tR_abs, tR);
-                    st <= ST_C2;
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_C2; end
+                    else          mul_hold <= 1'b1;
                 end
 
                 //==========================================================
@@ -531,19 +594,48 @@ module rov_model #(
                     r2_dq2  <= fmul(`FP_N_pp, r1_wap);
                     r2_dq20 <= fmul(`FP_N_qq, r1_waq);
                     r2_dq21 <= fmul(`FP_N_rr, r1_war);
-                    r2_g4 <=  fmul(`FP_WY_B, r1_cth_cph) - fmul(`FP_WZ_B, r1_cth_sph);
-                    r2_g5 <= -fmul(`FP_WZ_B, sth)         - fmul(`FP_WX_B, r1_cth_cph);
-                    r2_g6 <=  fmul(`FP_WX_B, r1_cth_sph) + fmul(`FP_WY_B, sth);
+                    // Restoring partial products only (add in ST_C2b).
+                    r2_g4a <= fmul(`FP_WY_B, r1_cth_cph);
+                    r2_g4b <= fmul(`FP_WZ_B, r1_cth_sph);
+                    r2_g5a <= fmul(`FP_WZ_B, sth);
+                    r2_g5b <= fmul(`FP_WX_B, r1_cth_cph);
+                    r2_g6a <= fmul(`FP_WX_B, r1_cth_sph);
+                    r2_g6b <= fmul(`FP_WY_B, sth);
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_C2b; end
+                    else          mul_hold <= 1'b1;
+                end
+
+                //==========================================================
+                // ST_C2b: restoring g4/g5/g6 final add (no fmul)
+                //==========================================================
+                ST_C2b: begin
+                    r2_g4 <=  r2_g4a - r2_g4b;
+                    r2_g5 <= -r2_g5a - r2_g5b;
+                    r2_g6 <=  r2_g6a + r2_g6b;
                     st <= ST_C3;
                 end
 
                 //==========================================================
-                // ST_C3: C*w
+                // ST_C3: C*w partial products (one fmul depth)
                 //==========================================================
                 ST_C3: begin
-                    r3_cw0 <= fmul(r2_C45, tQ) + fmul(r2_C46, tR);
-                    r3_cw1 <= -fmul(r2_C45, tP) + fmul(r2_C56, tR);
-                    r3_cw2 <= -fmul(r2_C46, tP) - fmul(r2_C56, tQ);
+                    r3_cw0a <=  fmul(r2_C45, tQ);
+                    r3_cw0b <=  fmul(r2_C46, tR);
+                    r3_cw1a <=  fmul(r2_C45, tP);
+                    r3_cw1b <=  fmul(r2_C56, tR);
+                    r3_cw2a <=  fmul(r2_C46, tP);
+                    r3_cw2b <=  fmul(r2_C56, tQ);
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_C3a; end
+                    else          mul_hold <= 1'b1;
+                end
+
+                //==========================================================
+                // ST_C3a: C*w final add (no fmul)
+                //==========================================================
+                ST_C3a: begin
+                    r3_cw0 <=  r3_cw0a + r3_cw0b;
+                    r3_cw1 <= -r3_cw1a + r3_cw1b;
+                    r3_cw2 <= -r3_cw2a - r3_cw2b;
                     st <= ST_C3b;
                 end
 
@@ -568,7 +660,8 @@ module rov_model #(
                     r3b_t2b <= fmul(w_M23, w_M31);
                     r3b_t3a <= fmul(w_M21, w_M32);
                     r3b_t3b <= fmul(w_M22, w_M31);
-                    st <= ST_C4;
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_C4; end
+                    else          mul_hold <= 1'b1;
                 end
 
                 //==========================================================
@@ -603,7 +696,8 @@ module rov_model #(
                     r5_B1 <= fmul(w_M22, r4_rhs2);
                     r5_C0 <= fmul(w_M21, r4_rhs2);
                     r5_C1 <= fmul(r4_rhs1, w_M31);
-                    st <= ST_C5b;
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_C5b; end
+                    else          mul_hold <= 1'b1;
                 end
 
                 //==========================================================
@@ -635,7 +729,8 @@ module rov_model #(
                     r6_n2_0 <= fmul(r4_rhs0, r4_t3);
                     r6_n2_1 <= fmul(w_M11, r5b_B);
                     r6_n2_2 <= fmul(w_M12, r5b_C);
-                    st <= ST_COMPUTE;
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_COMPUTE; end
+                    else          mul_hold <= 1'b1;
                 end
 
                 //==========================================================
@@ -737,7 +832,8 @@ module rov_model #(
                     up_p_dt     <= fmul20(`FP_DT_OVER_6_Q20, up_p_sum);
                     up_q_dt     <= fmul20(`FP_DT_OVER_6_Q20, up_q_sum);
                     up_r_dt     <= fmul20(`FP_DT_OVER_6_Q20, up_r_sum);
-                    st <= ST_UPDATE_P4;
+                    if (mul_hold) begin mul_hold <= 1'b0; st <= ST_UPDATE_P4; end
+                    else          mul_hold <= 1'b1;
                 end
 
                 // ---- UPDATE P4: sv = x0 + dt_mult, clamp/wrap ----

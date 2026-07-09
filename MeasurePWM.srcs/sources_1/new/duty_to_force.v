@@ -98,18 +98,22 @@ module duty_to_force (
     //==================================================================
     // FSM states
     //==================================================================
-    localparam [2:0]
-        ST_IDLE   = 3'd0,
-        ST_DIR    = 3'd1,   // direction, LUT idx, frac from duty counts
-        ST_READ0  = 3'd2,   // read LUT[idx]
-        ST_READ1  = 3'd3,   // read LUT[idx+1]
-        ST_INTERP = 3'd4,   // force = f0 + frac16*(f1-f0)/16
-        ST_DIV    = 3'd5,   // launch divider
-        ST_WDIV   = 3'd6,   // wait for divider
-        ST_SIGN   = 3'd7;   // apply sign + per-channel negation, then next/done
+    // 4-bit state: ST_INTERP split into mul + add for 100 MHz timing
+    // (f0+(frac*(f1-f0))>>4 was WNS≈-0.8 ns as a single cycle).
+    localparam [3:0]
+        ST_IDLE    = 4'd0,
+        ST_DIR     = 4'd1,   // direction, LUT idx, frac from duty counts
+        ST_READ0   = 4'd2,   // read LUT[idx]
+        ST_READ1   = 4'd3,   // read LUT[idx+1]
+        ST_INTERP0 = 4'd4,   // delta = f1-f0; prod = frac*delta
+        ST_INTERP1 = 4'd8,   // force = f0 + (prod>>>4)
+        ST_DIV     = 4'd5,   // launch divider
+        ST_WDIV    = 4'd6,   // wait for divider
+        ST_SIGN    = 4'd7;   // apply sign + per-channel negation, then next/done
 
-    reg [2:0]  st;
+    reg [3:0]  st;
     reg [2:0]  chi;
+    reg signed [31:0] interp_prod;  // frac * (f1-f0), registered
 
     // Per-channel registers
     reg        fwd_r;         // 1=forward, 0=reverse
@@ -218,19 +222,25 @@ module duty_to_force (
                 // ST_READ1: read LUT[idx+1]
                 ST_READ1: begin
                     f1_r <= fwd_r ? fwd_mem[idx1_r] : rev_mem[idx1_r];
-                    st   <= ST_INTERP;
+                    st   <= ST_INTERP0;
                 end
 
                 //----------------------------------------------------------
-                // ST_INTERP: force = f0 + frac16*(f1-f0)/16
+                // ST_INTERP0: register frac*(f1-f0)  (one multiply depth)
+                // ST_INTERP1: force = f0 + prod/16  (add only)
                 //----------------------------------------------------------
-                ST_INTERP: begin
-                    if (dead_r) begin
+                ST_INTERP0: begin
+                    if (dead_r)
+                        interp_prod <= 32'sd0;
+                    else
+                        interp_prod <= $signed({1'b0, frac_r}) * (f1_r - f0_r);
+                    st <= ST_INTERP1;
+                end
+                ST_INTERP1: begin
+                    if (dead_r)
                         dvdividend <= 32'd0;
-                    end else begin
-                        dvdividend <= f0_r + (($signed({1'b0, frac_r}) *
-                                            (f1_r - f0_r)) >>> 4);
-                    end
+                    else
+                        dvdividend <= f0_r + (interp_prod >>> 4);
                     dvdivisor <= maxf_r;
                     st <= ST_DIV;
                 end

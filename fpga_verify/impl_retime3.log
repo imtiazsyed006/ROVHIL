@@ -1,0 +1,42 @@
+INFO: [Common 17-3922] A valid Vivado Design Suite BASIC license has been detected. Your current license is active and will expire on 05-jul-2027.
+#-----------------------------------------------------------
+# Vivado v2026.1 (64-bit)
+# SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
+# IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
+# SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
+# Start of session at: Thu Jul  9 12:22:54 2026
+# Process ID         : 49488
+# Current directory  : C:/VivadoWork/MeasurePWM
+# Command line       : vivado.exe -mode batch -source fpga_verify/run_impl.tcl -log fpga_verify/impl_retime3.log -journal fpga_verify/impl_retime3.jou
+# Log file           : C:/VivadoWork/MeasurePWM/fpga_verify/impl_retime3.log
+# Journal file       : C:/VivadoWork/MeasurePWM\fpga_verify/impl_retime3.jou
+# Running On         : WIN-GAVN6IIRGIQ
+# Platform           : Windows Server 2025
+# Operating System   : 26100
+# Processor Detail   : Intel(R) Xeon(R) w7-2495X
+# CPU Frequency      : 2496 MHz
+# CPU Physical cores : 24
+# CPU Logical cores  : 48
+# Host memory        : 68136 MB
+# Swap memory        : 10200 MB
+# Total Virtual      : 78336 MB
+# Available Virtual  : 41288 MB
+#-----------------------------------------------------------
+source fpga_verify/run_impl.tcl
+# open_project C:/VivadoWork/MeasurePWM/MeasurePWM.xpr
+INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory 'C:/VivadoWork/MeasurePWM/MeasurePWM.gen/sources_1'.
+Scanning sources...
+Finished scanning sources
+open_project: Time (s): cpu = 00:00:09 ; elapsed = 00:00:06 . Memory (MB): peak = 585.043 ; gain = 272.133
+# update_compile_order -fileset sources_1
+# reset_run synth_1
+WARNING: [Vivado 12-1017] Problems encountered:
+1. Failed to delete one or more files in run directory C:/VivadoWork/MeasurePWM/MeasurePWM.runs/synth_1
+
+# launch_runs impl_1 -jobs 8
+[Thu Jul  9 12:23:04 2026] Launched synth_1...
+Run output will be captured here: C:/VivadoWork/MeasurePWM/MeasurePWM.runs/synth_1/runme.log
+[Thu Jul  9 12:23:04 2026] Launched impl_1...
+Run output will be captured here: C:/VivadoWork/MeasurePWM/MeasurePWM.runs/impl_1/runme.log
+# wait_on_run impl_1
+[Thu Jul  9 12:23:04 2026] Waiting for impl_1 to finish...

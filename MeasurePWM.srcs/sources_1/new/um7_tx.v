@@ -17,7 +17,8 @@
 //
 //   Packet 2  -- Processed Gyro  (DREG_GYRO_PROC_X=0x61..0x63)
 //     's' 'n' 'p'  0xCC  0x61
-//       float32(p)  float32(q)  float32(r)          -- rad/s, big-endian
+//       float32(p)  float32(q)  float32(r)          -- deg/s, big-endian
+//       (rov_model outputs rad/s; converted to deg/s here via x180/pi)
 //     CK_HI CK_LO
 //     PT = 0x80|0x40|(3<<2) = 0xCC  (has_data, is_batch, batch_len=3)
 //     total = 7 + 12 = 19 bytes
@@ -29,7 +30,10 @@
 //   Euler (phi=roll, theta=pitch, psi=yaw in radians, Q16.16)
 //     -> 3 sincos(half-angle) via a dedicated cordic instance
 //     -> 2-stage Euler->quat combine (ZYX convention, matches um7.c)
-//     -> int16 scale (x29789.09) for quat, Q16->float32 for gyro
+//     -> int16 scale (x29789.09) for quat
+//   Body rates p,q,r (rad/s, Q16.16)
+//     -> rad/s to deg/s (x 180/pi = 57.29578, FP_180_OVER_PI)
+//     -> Q16->float32 for gyro
 //     -> frame + checksum + push byte-by-byte through uart_tx_byte_if
 //
 // start pulse latches the 6 inputs; done pulses when both packets are gone.
@@ -47,7 +51,7 @@ module um7_tx (
     output reg         done,
 
     // ROV state inputs (Q16.16).  roll/pitch/yaw in RADIANS (not degrees),
-    // p/q/r body rates in rad/s.
+    // p/q/r body rates in rad/s (converted to deg/s before TX).
     input  wire signed [31:0] roll,   // phi
     input  wire signed [31:0] pitch,  // theta
     input  wire signed [31:0] yaw,    // psi
@@ -65,6 +69,8 @@ module um7_tx (
     //==================================================================
     // Fixed-point helpers (same convention as rov_model.v: Q16.16)
     //==================================================================
+    // Q16.16 multiply (truncate). Pure fmul states are single-depth;
+    // multi-fmul+add paths are split across FSM cycles (ST_Q2A/B, etc.).
     function [31:0] fmul;
         input signed [31:0] a, b;
         reg signed [63:0] prod;
@@ -124,24 +130,36 @@ module um7_tx (
     reg [7:0] q_payload [0:7];   // 4 x int16 BE
     reg [7:0] g_payload [0:11];  // 3 x float32 BE
 
-    // Blocking-assignment temporaries used inside the FSM to capture a
-    // function return before taking a bit-slice (Verilog cannot bit-select
-    // a function-call result inline).
-    reg [15:0] q16w, q16x, q16y, q16z;   // quat_to_int16() results
-    reg [31:0] fp;                       // q16_to_float() result
+    // Intermediate product / float registers for multi-cycle packing.
+    // Timing (impl @ 100 MHz): a single-cycle fmul(DSP cascade) →
+    // q16_to_float (priority-encoder + shift) → g_payload was WNS=-4.86 ns.
+    // Each arithmetic step is now its own FSM cycle.
+    reg signed [31:0] q2_ww, q2_wx, q2_wy, q2_wz;   // ST_Q2a products
+    reg signed [31:0] q2_xw, q2_xx, q2_yw, q2_yx;
+    reg signed [31:0] qs_w, qs_x, qs_y, qs_z;       // quat * scale
+    reg signed [31:0] deg_p, deg_q, deg_r;          // rad/s * (180/pi)
+    reg [31:0]        fp;                            // q16_to_float result
+    reg [15:0]        iw, ix, iy, iz;                // sat_int16 temps
 
     //==================================================================
     // FSM
     //==================================================================
+    // State encoding widened to 5 bits with spare codes for the split
+    // pack / quat stages (was one-cycle fmul+float / fmul+add).
     localparam [4:0]
         ST_IDLE      = 5'd0,
         ST_PHI       = 5'd1,   ST_W_PHI   = 5'd2,
         ST_THETA     = 5'd3,   ST_W_THETA = 5'd4,
         ST_PSI       = 5'd5,   ST_W_PSI   = 5'd6,
-        ST_Q1        = 5'd7,   // stage-1 products
-        ST_Q2        = 5'd8,   // stage-2 final w/x/y/z
-        ST_PACK_Q    = 5'd9,
-        ST_PACK_G    = 5'd10,
+        ST_Q1        = 5'd7,   // stage-1 products (4 fmul, registered)
+        ST_Q2A       = 5'd8,   // stage-2 products (8 fmul, registered)
+        ST_Q2B       = 5'd16,  // stage-2 add/sub -> qw..qz
+        ST_PACK_Q_MUL= 5'd9,   // quat * FP_QUAT_SCALE
+        ST_PACK_Q_SAT= 5'd17,  // saturate + pack int16 BE
+        ST_PACK_G_MUL= 5'd10,  // p,q,r * (180/pi)
+        ST_PACK_G_P  = 5'd18,  // float(deg_p) -> g_payload[0:3]
+        ST_PACK_G_Q  = 5'd19,  // float(deg_q) -> g_payload[4:7]
+        ST_PACK_G_R  = 5'd20,  // float(deg_r) -> g_payload[8:11]
         ST_TX_Q      = 5'd11,
         ST_TX_Q_WAIT = 5'd12,
         ST_TX_G      = 5'd13,
@@ -152,6 +170,8 @@ module um7_tx (
     reg [4:0] tx_idx;          // byte index within current packet
     reg        tx_pkt;         // 0 = quaternion packet, 1 = gyro packet
     reg  [7:0] tx_byte;        // combinational byte selected by {tx_pkt, tx_idx}
+    // 2-cycle hold on pure-fmul states (pairs with multicycle in constraint.xdc)
+    reg        mul_hold;
 
     //==================================================================
     // Q16.16 -> IEEE-754 float32
@@ -191,16 +211,14 @@ module um7_tx (
     endfunction
 
     //==================================================================
-    // Saturating Q16.16 quat component -> int16 (scale x29789.09)
+    // Saturate a pre-scaled Q16.16 value to int16 (no multiply here).
     //==================================================================
-    function [15:0] quat_to_int16;
-        input signed [31:0] qv;        // Q16.16 quaternion component
-        reg signed [31:0] scaled;
+    function [15:0] sat_int16;
+        input signed [31:0] scaled;
         begin
-            scaled = fmul(qv, FP_QUAT_SCALE);
-            if (scaled > INT16_MAX)       quat_to_int16 = 16'h7FFF;
-            else if (scaled < INT16_MIN)  quat_to_int16 = 16'h8000;
-            else                          quat_to_int16 = scaled[15:0];
+            if (scaled > INT16_MAX)       sat_int16 = 16'h7FFF;
+            else if (scaled < INT16_MIN)  sat_int16 = 16'h8000;
+            else                          sat_int16 = scaled[15:0];
         end
     endfunction
 
@@ -217,6 +235,7 @@ module um7_tx (
             byte_out   <= 8'd0;
             tx_idx     <= 5'd0;
             tx_pkt     <= 1'b0;
+            mul_hold   <= 1'b0;
         end else begin
             done       <= 1'b0;
             cord_start <= 1'b0;
@@ -287,55 +306,101 @@ module um7_tx (
                     m_srst <= fmul(sr,  sth);
                     m_srct <= fmul(sr,  cth);
                     m_crst <= fmul(cr,  sth);
-                    state  <= ST_Q2;
+                    if (mul_hold) begin mul_hold <= 1'b0; state <= ST_Q2A; end
+                    else          mul_hold <= 1'b1;
                 end
 
                 //--------------------------------------------------------
-                // Euler->quat stage 2 (ZYX convention, matches um7.c):
-                //   w = cr*cth*cy + sr*sth*sy  = m_crct*cy + m_srst*sy
-                //   x = sr*cth*cy - cr*sth*sy  = m_srct*cy - m_crst*sy
-                //   y = cr*sth*cy + sr*cth*sy  = m_crst*cy + m_srct*sy
-                //   z = cr*cth*sy - sr*sth*cy  = m_crct*sy - m_srst*cy
-                ST_Q2: begin
-                    qw <= fmul(m_crct, cy) + fmul(m_srst, sy);
-                    qx <= fmul(m_srct, cy) - fmul(m_crst, sy);
-                    qy <= fmul(m_crst, cy) + fmul(m_srct, sy);
-                    qz <= fmul(m_crct, sy) - fmul(m_srst, cy);
-                    state <= ST_PACK_Q;
+                // Euler->quat stage 2a: register all 8 products
+                // (was 2*fmul + add in one cycle -- fails at 100 MHz)
+                ST_Q2A: begin
+                    q2_ww <= fmul(m_crct, cy);
+                    q2_wx <= fmul(m_srst, sy);
+                    q2_xw <= fmul(m_srct, cy);
+                    q2_xx <= fmul(m_crst, sy);
+                    q2_yw <= fmul(m_crst, cy);
+                    q2_yx <= fmul(m_srct, sy);
+                    q2_wz <= fmul(m_crct, sy);
+                    q2_wy <= fmul(m_srst, cy);
+                    if (mul_hold) begin mul_hold <= 1'b0; state <= ST_Q2B; end
+                    else          mul_hold <= 1'b1;
                 end
 
                 //--------------------------------------------------------
-                // Pack quaternion payload (4 x int16, big-endian): w,x,y,z
-                ST_PACK_Q: begin
-                    q16w = quat_to_int16(qw);
-                    q16x = quat_to_int16(qx);
-                    q16y = quat_to_int16(qy);
-                    q16z = quat_to_int16(qz);
-                    q_payload[0] <= q16w[15:8];
-                    q_payload[1] <= q16w[7:0];
-                    q_payload[2] <= q16x[15:8];
-                    q_payload[3] <= q16x[7:0];
-                    q_payload[4] <= q16y[15:8];
-                    q_payload[5] <= q16y[7:0];
-                    q_payload[6] <= q16z[15:8];
-                    q_payload[7] <= q16z[7:0];
-                    state <= ST_PACK_G;
+                // Euler->quat stage 2b (ZYX convention, matches um7.c):
+                //   w = m_crct*cy + m_srst*sy
+                //   x = m_srct*cy - m_crst*sy
+                //   y = m_crst*cy + m_srct*sy
+                //   z = m_crct*sy - m_srst*cy
+                ST_Q2B: begin
+                    qw <= q2_ww + q2_wx;
+                    qx <= q2_xw - q2_xx;
+                    qy <= q2_yw + q2_yx;
+                    qz <= q2_wz - q2_wy;
+                    state <= ST_PACK_Q_MUL;
                 end
 
                 //--------------------------------------------------------
-                // Pack gyro payload (3 x float32, big-endian): p,q,r
-                ST_PACK_G: begin
-                    fp = q16_to_float(l_p);
-                    g_payload[0]  <= fp[31:24];
-                    g_payload[1]  <= fp[23:16];
-                    g_payload[2]  <= fp[15:8];
-                    g_payload[3]  <= fp[7:0];
-                    fp = q16_to_float(l_q);
-                    g_payload[4]  <= fp[31:24];
-                    g_payload[5]  <= fp[23:16];
-                    g_payload[6]  <= fp[15:8];
-                    g_payload[7]  <= fp[7:0];
-                    fp = q16_to_float(l_r);
+                // Pack quaternion: cycle 1 = scale (fmul only)
+                ST_PACK_Q_MUL: begin
+                    qs_w <= fmul(qw, FP_QUAT_SCALE);
+                    qs_x <= fmul(qx, FP_QUAT_SCALE);
+                    qs_y <= fmul(qy, FP_QUAT_SCALE);
+                    qs_z <= fmul(qz, FP_QUAT_SCALE);
+                    if (mul_hold) begin mul_hold <= 1'b0; state <= ST_PACK_Q_SAT; end
+                    else          mul_hold <= 1'b1;
+                end
+
+                //--------------------------------------------------------
+                // Pack quaternion: cycle 2 = saturate + pack int16 BE
+                ST_PACK_Q_SAT: begin
+                    // Blocking temps: Verilog cannot bit-select a function result.
+                    iw = sat_int16(qs_w);
+                    ix = sat_int16(qs_x);
+                    iy = sat_int16(qs_y);
+                    iz = sat_int16(qs_z);
+                    q_payload[0] <= iw[15:8];
+                    q_payload[1] <= iw[7:0];
+                    q_payload[2] <= ix[15:8];
+                    q_payload[3] <= ix[7:0];
+                    q_payload[4] <= iy[15:8];
+                    q_payload[5] <= iy[7:0];
+                    q_payload[6] <= iz[15:8];
+                    q_payload[7] <= iz[7:0];
+                    state <= ST_PACK_G_MUL;
+                end
+
+                //--------------------------------------------------------
+                // Pack gyro: cycle 1 = rad/s -> deg/s (fmul only)
+                ST_PACK_G_MUL: begin
+                    deg_p <= fmul(l_p, `FP_180_OVER_PI);
+                    deg_q <= fmul(l_q, `FP_180_OVER_PI);
+                    deg_r <= fmul(l_r, `FP_180_OVER_PI);
+                    if (mul_hold) begin mul_hold <= 1'b0; state <= ST_PACK_G_P; end
+                    else          mul_hold <= 1'b1;
+                end
+
+                //--------------------------------------------------------
+                // Pack gyro: one axis per cycle so q16_to_float is alone
+                // on the path into g_payload (no DSP cascade ahead of it).
+                ST_PACK_G_P: begin
+                    fp = q16_to_float(deg_p);
+                    g_payload[0] <= fp[31:24];
+                    g_payload[1] <= fp[23:16];
+                    g_payload[2] <= fp[15:8];
+                    g_payload[3] <= fp[7:0];
+                    state <= ST_PACK_G_Q;
+                end
+                ST_PACK_G_Q: begin
+                    fp = q16_to_float(deg_q);
+                    g_payload[4] <= fp[31:24];
+                    g_payload[5] <= fp[23:16];
+                    g_payload[6] <= fp[15:8];
+                    g_payload[7] <= fp[7:0];
+                    state <= ST_PACK_G_R;
+                end
+                ST_PACK_G_R: begin
+                    fp = q16_to_float(deg_r);
                     g_payload[8]  <= fp[31:24];
                     g_payload[9]  <= fp[23:16];
                     g_payload[10] <= fp[15:8];

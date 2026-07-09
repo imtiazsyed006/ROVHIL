@@ -1,14 +1,14 @@
 #-----------------------------------------------------------
-# Vivado v2026.1 (64-bit)
+# xsim v2026.1 (64-bit)
 # SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
 # IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
 # SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-# Start of session at: Wed Jul  8 18:13:27 2026
-# Process ID         : 44460
-# Current directory  : C:/VivadoWork/MeasurePWM/MeasurePWM.runs/impl_1
-# Command line       : vivado.exe -log main.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source main.tcl -notrace
-# Log file           : C:/VivadoWork/MeasurePWM/MeasurePWM.runs/impl_1/main.vdi
-# Journal file       : C:/VivadoWork/MeasurePWM/MeasurePWM.runs/impl_1\vivado.jou
+# Start of session at: Wed Jul  8 22:25:57 2026
+# Process ID         : 13172
+# Current directory  : C:/VivadoWork/MeasurePWM/fpga_verify/simwork
+# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_sim/xsim_script.tcl}
+# Log file           : C:/VivadoWork/MeasurePWM/fpga_verify/simwork/xsim.log
+# Journal file       : C:/VivadoWork/MeasurePWM/fpga_verify/simwork\xsim.jou
 # Running On         : WIN-GAVN6IIRGIQ
 # Platform           : Windows Server 2025
 # Operating System   : 26100
@@ -19,6 +19,7 @@
 # Host memory        : 68136 MB
 # Swap memory        : 10200 MB
 # Total Virtual      : 78336 MB
-# Available Virtual  : 47704 MB
+# Available Virtual  : 46594 MB
 #-----------------------------------------------------------
-source main.tcl -notrace
+source xsim.dir/tb_sim/xsim_script.tcl
+run -all

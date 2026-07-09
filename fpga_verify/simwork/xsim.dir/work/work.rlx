@@ -2,9 +2,9 @@
 2020.2
 Jun 16 2026
 11:10:11
-C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v,1783537817,verilog,,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/duty_to_force.v,,cordic,,,C:\VivadoWork\MeasurePWM\MeasurePWM.srcs\sources_1\new,,,,,
-C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/duty_to_force.v,1783538251,verilog,,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh,duty_to_force,,,C:\VivadoWork\MeasurePWM\MeasurePWM.srcs\sources_1\new,,,,,
-C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v,1783538660,verilog,,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh,rov_model,,,C:\VivadoWork\MeasurePWM\MeasurePWM.srcs\sources_1\new,,,,,
+C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v,1783537817,verilog,,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/duty_to_force.v,,cordic,,,,SIMULATION,,,,
+C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/duty_to_force.v,1783538677,verilog,,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh,duty_to_force,,,,SIMULATION,,,,
+C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v,1783538660,verilog,,C:/VivadoWork/MeasurePWM/fpga_verify/tb_chain.v,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh,rov_model,,,C:\VivadoWork\MeasurePWM\MeasurePWM.srcs\sources_1\new,,,,,
 C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh,1783538216,verilog,,,,,,,,,,,,
-C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v,1783537999,verilog,,C:/VivadoWork/MeasurePWM/fpga_verify/tb_chain.v,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh,tau_alloc,,,C:\VivadoWork\MeasurePWM\MeasurePWM.srcs\sources_1\new,,,,,
+C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v,1783588081,verilog,,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v,C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_params.vh,tau_alloc,,,,SIMULATION,,,,
 C:/VivadoWork/MeasurePWM/fpga_verify/tb_chain.v,1783538161,verilog,,,,tb_chain,,,C:\VivadoWork\MeasurePWM\MeasurePWM.srcs\sources_1\new,,,,,

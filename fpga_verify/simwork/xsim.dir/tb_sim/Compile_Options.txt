@@ -1,1 +1,1 @@
-"tb_chain" -s "tb_sim" 
+-debug "typical" "tb_chain" -s "tb_sim" 

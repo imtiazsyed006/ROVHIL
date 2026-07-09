@@ -367,6 +367,11 @@ module main (
     wire       um7_send;
     wire [7:0] um7_data;
 
+    // byte-channel wires shared by um7_tx and the uart_tx_byte_if below.
+    // Declared here (before any use) to avoid implicit-declaration warnings.
+    wire       byte_busy, byte_done, byte_send;
+    wire [7:0] byte_data;
+
     um7_tx u_um7 (
         .clk      (clk_100m),
         .rst      (rst),
@@ -408,9 +413,6 @@ module main (
         .rx_data (rx_data),
         .tx_busy (tx_busy)
     );
-
-    wire       byte_busy, byte_done, byte_send;
-    wire [7:0] byte_data;
 
     uart_tx_byte_if u_byteif (
         .clk     (clk_100m),

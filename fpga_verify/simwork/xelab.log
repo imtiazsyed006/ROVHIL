@@ -1,7 +1,7 @@
 Vivado Simulator v2026.1
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: C:/AMDDesignTools/2026.1/Vivado/bin/unwrapped/win64.o/xelab.exe tb_chain -s tb_sim 
+Running: C:/AMDDesignTools/2026.1/Vivado/bin/unwrapped/win64.o/xelab.exe -debug typical tb_chain -s tb_sim 
 Multi-threading is on. Using 46 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer

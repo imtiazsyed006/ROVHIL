@@ -42,7 +42,9 @@ module tau_alloc (
     assign u6 = u_flat[ 6*32 +: 32];
     assign u7 = u_flat[ 7*32 +: 32];
 
-    // Q16.16 multiply helper (round-to-nearest)
+    // Q16.16 multiply helper (round-to-nearest).
+    // 32x32 is multi-cycle at 100 MHz; tau_alloc pipelines stages so each
+    // fmul is reg->DSP->reg with a spare cycle via the FSM stage delay.
     function signed [31:0] fmul;
         input signed [31:0] a, b;
         reg signed [63:0] p;
