@@ -153,9 +153,13 @@ set_multicycle_path 2 -setup -to [get_cells -hier -filter {IS_SEQUENTIAL && NAME
 set_multicycle_path 1 -hold  -to [get_cells -hier -filter {IS_SEQUENTIAL && NAME =~ *u_um7/qs_*_reg*}]
 set_multicycle_path 2 -setup -to [get_cells -hier -filter {IS_SEQUENTIAL && NAME =~ *u_um7/deg_*_reg*}]
 set_multicycle_path 1 -hold  -to [get_cells -hier -filter {IS_SEQUENTIAL && NAME =~ *u_um7/deg_*_reg*}]
+
+# sensor_model uses a single limb-pipelined q16_mul (true FF pipeline).
+# No multicycle exceptions needed for u_sensor.
+
 # Internal DSP48 cascade stages of the 32x32 fmul also need 2 cycles
 # (source/dest are DSP A/B/P registers, not the fabric r1_* flops).
-# Scoped to u_model / u_um7 only — tau_alloc keeps single-cycle DSP stages.
+# Scoped to u_model / u_um7 only — tau_alloc and q16_mul keep single-cycle stages.
 set_multicycle_path 2 -setup \
     -from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}] \
     -to   [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}]

@@ -57,8 +57,6 @@ if {$::dispatch::connected} {
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param general.usePosixSpawnForFork 1
-set_param chipscope.maxJobs 12
-set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7z020clg484-1
 
@@ -83,6 +81,7 @@ read_verilog -library xil_defaultlib {
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/duty_to_force.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/pwm_measure.v
+  C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/q16_mul.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_model.v
   C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v

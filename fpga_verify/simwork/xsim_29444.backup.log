@@ -3,10 +3,10 @@
 # SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
 # IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
 # SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-# Start of session at: Thu Jul  9 22:25:34 2026
-# Process ID         : 53112
+# Start of session at: Thu Jul 16 23:58:59 2026
+# Process ID         : 29444
 # Current directory  : C:/VivadoWork/MeasurePWM/fpga_verify/simwork
-# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_rest_sim/xsim_script.tcl}
+# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_q16_mul_sim/xsim_script.tcl}
 # Log file           : C:/VivadoWork/MeasurePWM/fpga_verify/simwork/xsim.log
 # Journal file       : C:/VivadoWork/MeasurePWM/fpga_verify/simwork\xsim.jou
 # Running On         : WIN-GAVN6IIRGIQ
@@ -19,18 +19,16 @@
 # Host memory        : 68136 MB
 # Swap memory        : 10200 MB
 # Total Virtual      : 78336 MB
-# Available Virtual  : 48817 MB
+# Available Virtual  : 52489 MB
 #-----------------------------------------------------------
-source xsim.dir/tb_rest_sim/xsim_script.tcl
-# xsim {tb_rest_sim} -autoloadwcfg -runall
+source xsim.dir/tb_q16_mul_sim/xsim_script.tcl
+# xsim {tb_q16_mul_sim} -autoloadwcfg -runall
 Time resolution is 1 ps
 run -all
-k=0 rpy_deg=0.000000 0.000000 0.000000 pqr=-0.006994 0.012240 -0.001749
-k=1 rpy_deg=0.000000 0.000000 0.000000 pqr=-0.013988 0.024479 -0.003497
-k=2 rpy_deg=0.000000 0.000874 0.000000 pqr=-0.020108 0.036719 -0.005246
-k=3 rpy_deg=-0.000874 0.001749 0.000000 pqr=-0.026228 0.048959 -0.006994
-k=4 rpy_deg=-0.001749 0.002623 0.000000 pqr=-0.032348 0.061198 -0.008743
-k=99 rpy_deg=-0.223812 0.818311 -0.163487 pqr=-0.130265 0.638213 -0.149499
-$finish called at time : 1499245 ns : File "C:/VivadoWork/MeasurePWM/fpga_verify/simwork/tb_rest.v" Line 31
+1*1 got=65536 exp=65536
+-1*2 got=-131072 exp=-131072
+errs=0
+PASS q16_mul
+$finish called at time : 12265 ns : File "C:/VivadoWork/MeasurePWM/fpga_verify/simwork/tb_q16_mul.v" Line 52
 exit
-INFO: [Common 17-206] Exiting xsim at Thu Jul  9 22:25:36 2026...
+INFO: [Common 17-206] Exiting xsim at Thu Jul 16 23:59:01 2026...

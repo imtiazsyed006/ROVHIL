@@ -106,8 +106,7 @@ set rc [catch {
   create_msg_db init_design.pb
   set_param general.usePosixSpawnForFork 1
   set_param chipscope.maxJobs 12
-  set_param xicom.use_bs_reader 1
-  set_param runs.launchOptions { -jobs 48  }
+  set_param runs.launchOptions { -jobs 16  }
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7z020clg484-1
   set_property board_part avnet-tria:zedboard:part0:1.5 [current_project]

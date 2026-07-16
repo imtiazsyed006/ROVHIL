@@ -9,8 +9,8 @@ INFO: [Common 17-3922] A valid Vivado Design Suite BASIC license has been detect
 # SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
 # IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
 # SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-# Start of session at: Thu Jul  9 22:38:57 2026
-# Process ID         : 29740
+# Start of session at: Thu Jul 16 23:59:29 2026
+# Process ID         : 49028
 # Current directory  : C:/VivadoWork/MeasurePWM/MeasurePWM.runs/synth_1
 # Command line       : vivado.exe -log main.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source main.tcl
 # Log file           : C:/VivadoWork/MeasurePWM/MeasurePWM.runs/synth_1/main.vds
@@ -25,19 +25,19 @@ INFO: [Common 17-3922] A valid Vivado Design Suite BASIC license has been detect
 # Host memory        : 68136 MB
 # Swap memory        : 10200 MB
 # Total Virtual      : 78336 MB
-# Available Virtual  : 48677 MB
+# Available Virtual  : 51980 MB
 #-----------------------------------------------------------
 
 ****** Vivado v2026.1 (64-bit)
   **** SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
   **** IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
   **** SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-  **** Start of session at: Thu Jul  9 22:38:57 2026
+  **** Start of session at: Thu Jul 16 23:59:29 2026
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
     ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
 
 source main.tcl -notrace
-create_project: Time (s): cpu = 00:00:10 ; elapsed = 00:00:06 . Memory (MB): peak = 584.594 ; gain = 270.352
+create_project: Time (s): cpu = 00:00:09 ; elapsed = 00:00:06 . Memory (MB): peak = 585.426 ; gain = 270.379
 Command: synth_design -top main -part xc7z020clg484-1
 Starting synth_design
 Attempting to get a license for feature 'Vivado_Synthesis' and/or device 'xc7z020'
@@ -46,9 +46,9 @@ INFO: [Device 21-403] Loading part xc7z020clg484-1
 INFO: [Designutils 20-5008] Incremental synthesis strategy default
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 30480
+INFO: [Synth 8-7075] Helper process launched with PID 29600
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1387.043 ; gain = 576.762
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1388.605 ; gain = 577.227
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'main' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/main.v:24]
 INFO: [Synth 8-6157] synthesizing module 'pwm_measure' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/pwm_measure.v:26]
@@ -65,9 +65,11 @@ INFO: [Synth 8-6157] synthesizing module 'rov_model' [C:/VivadoWork/MeasurePWM/M
 INFO: [Synth 8-6157] synthesizing module 'cordic' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v:10]
 INFO: [Synth 8-6155] done synthesizing module 'cordic' (0#1) [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v:10]
 INFO: [Synth 8-6155] done synthesizing module 'rov_model' (0#1) [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v:8]
-INFO: [Synth 8-6157] synthesizing module 'sensor_model' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_model.v:16]
-	Parameter PASSTHROUGH bound to: 1 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'sensor_model' (0#1) [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_model.v:16]
+INFO: [Synth 8-6157] synthesizing module 'sensor_model' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_model.v:18]
+	Parameter PASSTHROUGH bound to: 0 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'q16_mul' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/q16_mul.v:16]
+INFO: [Synth 8-6155] done synthesizing module 'q16_mul' (0#1) [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/q16_mul.v:16]
+INFO: [Synth 8-6155] done synthesizing module 'sensor_model' (0#1) [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_model.v:18]
 INFO: [Synth 8-6157] synthesizing module 'um7_tx' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/um7_tx.v:45]
 INFO: [Synth 8-6155] done synthesizing module 'um7_tx' (0#1) [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/um7_tx.v:45]
 INFO: [Synth 8-6157] synthesizing module 'uart' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/uart.v:1]
@@ -88,66 +90,68 @@ WARNING: [Synth 8-6014] Unused sequential element iy_reg was removed.  [C:/Vivad
 WARNING: [Synth 8-6014] Unused sequential element iz_reg was removed.  [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/um7_tx.v:369]
 WARNING: [Synth 8-6014] Unused sequential element fp_reg was removed.  [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/um7_tx.v:395]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 1592.273 ; gain = 781.992
+Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1610.609 ; gain = 799.230
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 1592.273 ; gain = 781.992
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1610.609 ; gain = 799.230
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 1592.273 ; gain = 781.992
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1610.609 ; gain = 799.230
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.241 . Memory (MB): peak = 1592.273 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.161 . Memory (MB): peak = 1610.609 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
 Parsing XDC File [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc]
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:159]
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:159]
-CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:159]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:163]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:163]
+CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:163]
 Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:162]
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:162]
-CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:162]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:166]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:166]
+CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_model*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:166]
 Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:165]
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:165]
-CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:165]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:169]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:169]
+CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:169]
 Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:168]
-WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:168]
-CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:168]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:172]
+WARNING: [Vivado 12-180] No cells matched 'get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:172]
+CRITICAL WARNING: [Vivado 12-4739] set_multicycle_path:No valid object(s) found for '-from [get_cells -hier -filter {PRIMITIVE_SUBGROUP == DSP && NAME =~ *u_um7*}]'. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:172]
 Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
 Finished Parsing XDC File [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc]
 INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/main_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/main_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.016 . Memory (MB): peak = 1698.707 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1713.480 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.223 . Memory (MB): peak = 1698.707 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.154 . Memory (MB): peak = 1713.555 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:37 ; elapsed = 00:00:37 . Memory (MB): peak = 1698.707 ; gain = 888.426
+Finished Constraint Validation : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1713.555 ; gain = 902.176
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:37 ; elapsed = 00:00:37 . Memory (MB): peak = 1698.707 ; gain = 888.426
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1713.555 ; gain = 902.176
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:39 ; elapsed = 00:00:39 . Memory (MB): peak = 1698.707 ; gain = 888.426
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:31 . Memory (MB): peak = 1713.555 ; gain = 902.176
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'st_reg' in module 'rov_model'
+INFO: [Synth 8-802] inferred FSM for state register 'st_reg' in module 'q16_mul'
+INFO: [Synth 8-802] inferred FSM for state register 'g_noise.st_reg' in module 'sensor_model'
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'um7_tx'
 INFO: [Synth 8-802] inferred FSM for state register 'tx_fsm_reg' in module 'uart'
 INFO: [Synth 8-802] inferred FSM for state register 'rx_fsm_reg' in module 'uart'
@@ -201,6 +205,76 @@ INFO: [Synth 8-802] inferred FSM for state register 'dbg_st_reg' in module 'main
            ST_DONE_PULSE | 10000000000000000000000000000000000000000 |                           100011
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'st_reg' using encoding 'one-hot' in module 'rov_model'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                             0001 |                              000
+                 iSTATE0 |                             0010 |                              001
+                 iSTATE1 |                             0100 |                              010
+                 iSTATE2 |                             1000 |                              011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'st_reg' using encoding 'one-hot' in module 'q16_mul'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 ST_IDLE | 00000000000000000000000000000000000000000000000000000001 |                           000000
+                 ST_CA00 | 00000000000000000000000000000000000000000000000000000010 |                           000001
+                 ST_CA01 | 00000000000000000000000000000000000000000000000000000100 |                           000010
+                 ST_CA02 | 00000000000000000000000000000000000000000000000000001000 |                           000011
+                 ST_CA0S | 00000000000000000000000000000000000000000000000000010000 |                           000100
+                 ST_CA10 | 00000000000000000000000000000000000000000000000000100000 |                           000101
+                 ST_CA11 | 00000000000000000000000000000000000000000000000001000000 |                           000110
+                 ST_CA12 | 00000000000000000000000000000000000000000000000010000000 |                           000111
+                 ST_CA1S | 00000000000000000000000000000000000000000000000100000000 |                           001000
+                 ST_CA20 | 00000000000000000000000000000000000000000000001000000000 |                           001001
+                 ST_CA21 | 00000000000000000000000000000000000000000000010000000000 |                           001010
+                 ST_CA22 | 00000000000000000000000000000000000000000000100000000000 |                           001011
+                 ST_CA2S | 00000000000000000000000000000000000000000001000000000000 |                           001100
+                  ST_SFP | 00000000000000000000000000000000000000000010000000000000 |                           001101
+                  ST_SFQ | 00000000000000000000000000000000000000000100000000000000 |                           001110
+                  ST_SFR | 00000000000000000000000000000000000000001000000000000000 |                           001111
+                 ST_NL0P | 00000000000000000000000000000000000000010000000000000000 |                           010000
+                 ST_NL0Q | 00000000000000000000000000000000000000100000000000000000 |                           010001
+                 ST_NL0R | 00000000000000000000000000000000000001000000000000000000 |                           010010
+                 ST_NL1P | 00000000000000000000000000000000000010000000000000000000 |                           010011
+                 ST_NL1Q | 00000000000000000000000000000000000100000000000000000000 |                           010100
+                 ST_NL1R | 00000000000000000000000000000000001000000000000000000000 |                           010101
+                 ST_NL2P | 00000000000000000000000000000000010000000000000000000000 |                           010110
+                 ST_NL2Q | 00000000000000000000000000000000100000000000000000000000 |                           010111
+                 ST_NL2R | 00000000000000000000000000000001000000000000000000000000 |                           011000
+                 ST_NL3P | 00000000000000000000000000000010000000000000000000000000 |                           011001
+                 ST_NL3Q | 00000000000000000000000000000100000000000000000000000000 |                           011010
+                 ST_NL3R | 00000000000000000000000000001000000000000000000000000000 |                           011011
+                 ST_NL4P | 00000000000000000000000000010000000000000000000000000000 |                           011100
+                 ST_NL4Q | 00000000000000000000000000100000000000000000000000000000 |                           011101
+                 ST_NL4R | 00000000000000000000000001000000000000000000000000000000 |                           011110
+                   ST_BP | 00000000000000000000000010000000000000000000000000000000 |                           011111
+                  ST_BPA | 00000000000000000000000100000000000000000000000000000000 |                           100000
+                   ST_BQ | 00000000000000000000001000000000000000000000000000000000 |                           100001
+                  ST_BQA | 00000000000000000000010000000000000000000000000000000000 |                           100010
+                   ST_BR | 00000000000000000000100000000000000000000000000000000000 |                           100011
+                  ST_BRA | 00000000000000000001000000000000000000000000000000000000 |                           100100
+                  ST_RNP | 00000000000000000010000000000000000000000000000000000000 |                           100101
+                 ST_RNPA | 00000000000000000100000000000000000000000000000000000000 |                           100110
+                  ST_RNQ | 00000000000000001000000000000000000000000000000000000000 |                           100111
+                 ST_RNQA | 00000000000000010000000000000000000000000000000000000000 |                           101000
+                  ST_RNR | 00000000000000100000000000000000000000000000000000000000 |                           101001
+                 ST_RNRA | 00000000000001000000000000000000000000000000000000000000 |                           101010
+                 ST_RSAT | 00000000000010000000000000000000000000000000000000000000 |                           101011
+                ST_ABIAS | 00000000000100000000000000000000000000000000000000000000 |                           101100
+                 ST_ASTD | 00000000001000000000000000000000000000000000000000000000 |                           101101
+                  ST_ANR | 00000000010000000000000000000000000000000000000000000000 |                           101110
+                  ST_ANP | 00000000100000000000000000000000000000000000000000000000 |                           110000
+                  ST_ANY | 00000001000000000000000000000000000000000000000000000000 |                           110010
+                  ST_AMA | 00000010000000000000000000000000000000000000000000000000 |                           110100
+                 ST_AADD | 00000100000000000000000000000000000000000000000000000000 |                           110101
+                  ST_AQR | 00001000000000000000000000000000000000000000000000000000 |                           110110
+                  ST_AQP | 00010000000000000000000000000000000000000000000000000000 |                           110111
+                  ST_AQY | 00100000000000000000000000000000000000000000000000000000 |                           111000
+                ST_AQOUT | 01000000000000000000000000000000000000000000000000000000 |                           111001
+                 ST_DONE | 10000000000000000000000000000000000000000000000000000000 |                           111010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'g_noise.st_reg' using encoding 'one-hot' in module 'sensor_model'
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -282,16 +356,17 @@ INFO: [Synth 8-3354] encoded FSM with state register 'c_st_reg' using encoding '
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'dbg_st_reg' using encoding 'sequential' in module 'main'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:44 ; elapsed = 00:00:45 . Memory (MB): peak = 1698.707 ; gain = 888.426
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:36 ; elapsed = 00:00:37 . Memory (MB): peak = 1713.555 ; gain = 902.176
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
+	   4 Input   64 Bit       Adders := 1     
 	   9 Input   48 Bit       Adders := 3     
-	   2 Input   48 Bit       Adders := 49    
-	   3 Input   48 Bit       Adders := 2     
+	   2 Input   48 Bit       Adders := 52    
+	   3 Input   48 Bit       Adders := 3     
 	   2 Input   47 Bit       Adders := 17    
 	   2 Input   46 Bit       Adders := 22    
 	   2 Input   45 Bit       Adders := 6     
@@ -302,11 +377,13 @@ Detailed RTL Component Info :
 	   2 Input   34 Bit       Adders := 6     
 	   3 Input   34 Bit       Adders := 6     
 	   2 Input   33 Bit       Adders := 1     
-	   2 Input   32 Bit       Adders := 63    
-	   3 Input   32 Bit       Adders := 15    
-	   4 Input   32 Bit       Adders := 13    
+	   2 Input   32 Bit       Adders := 74    
+	   3 Input   32 Bit       Adders := 19    
+	   4 Input   32 Bit       Adders := 16    
 	   7 Input   32 Bit       Adders := 3     
+	   5 Input   32 Bit       Adders := 3     
 	   2 Input   18 Bit       Adders := 8     
+	   2 Input   17 Bit       Adders := 1     
 	   9 Input   14 Bit       Adders := 1     
 	  13 Input   14 Bit       Adders := 1     
 	   2 Input   12 Bit       Adders := 2     
@@ -317,20 +394,25 @@ Detailed RTL Component Info :
 	   2 Input    5 Bit       Adders := 3     
 	   2 Input    4 Bit       Adders := 1     
 	   2 Input    3 Bit       Adders := 7     
+	   2 Input    2 Bit       Adders := 1     
 +---XORs : 
-	   2 Input      1 Bit         XORs := 6     
+	   2 Input     32 Bit         XORs := 3     
+	   2 Input      1 Bit         XORs := 7     
 +---Registers : 
 	              256 Bit    Registers := 2     
 	              144 Bit    Registers := 4     
 	              128 Bit    Registers := 1     
+	               64 Bit    Registers := 1     
 	               48 Bit    Registers := 9     
 	               47 Bit    Registers := 16    
 	               46 Bit    Registers := 8     
 	               34 Bit    Registers := 6     
-	               32 Bit    Registers := 288   
+	               32 Bit    Registers := 325   
 	               19 Bit    Registers := 2     
 	               18 Bit    Registers := 8     
-	               16 Bit    Registers := 8     
+	               16 Bit    Registers := 11    
+	               15 Bit    Registers := 1     
+	               14 Bit    Registers := 2     
 	               10 Bit    Registers := 4     
 	                8 Bit    Registers := 39    
 	                7 Bit    Registers := 1     
@@ -338,8 +420,8 @@ Detailed RTL Component Info :
 	                5 Bit    Registers := 3     
 	                4 Bit    Registers := 6     
 	                3 Bit    Registers := 7     
-	                2 Bit    Registers := 1     
-	                1 Bit    Registers := 79    
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 83    
 +---Multipliers : 
 	              23x32  Multipliers := 11    
 	              32x32  Multipliers := 33    
@@ -360,25 +442,28 @@ Detailed RTL Component Info :
 	  10 Input  256 Bit        Muxes := 2     
 	   2 Input  256 Bit        Muxes := 5     
 	   2 Input  144 Bit        Muxes := 1     
-	   2 Input   48 Bit        Muxes := 7     
+	   2 Input   48 Bit        Muxes := 8     
 	   4 Input   48 Bit        Muxes := 2     
 	  41 Input   41 Bit        Muxes := 1     
 	   4 Input   41 Bit        Muxes := 1     
 	   5 Input   34 Bit        Muxes := 2     
 	   2 Input   34 Bit        Muxes := 28    
-	   2 Input   32 Bit        Muxes := 50    
+	   2 Input   32 Bit        Muxes := 55    
 	  41 Input   32 Bit        Muxes := 16    
 	  21 Input   32 Bit        Muxes := 1     
-	   3 Input   32 Bit        Muxes := 1     
 	   5 Input   32 Bit        Muxes := 6     
-	   4 Input   32 Bit        Muxes := 1     
+	   3 Input   32 Bit        Muxes := 1     
+	   4 Input   32 Bit        Muxes := 13    
+	  56 Input   32 Bit        Muxes := 10    
 	   2 Input   31 Bit        Muxes := 3     
-	   2 Input   23 Bit        Muxes := 8     
+	   2 Input   23 Bit        Muxes := 11    
 	   2 Input   19 Bit        Muxes := 3     
 	   2 Input   18 Bit        Muxes := 18    
 	   3 Input   18 Bit        Muxes := 8     
 	   2 Input   17 Bit        Muxes := 2     
 	   2 Input   16 Bit        Muxes := 13    
+	   2 Input   15 Bit        Muxes := 1     
+	   2 Input   14 Bit        Muxes := 2     
 	   2 Input   12 Bit        Muxes := 1     
 	   2 Input    8 Bit        Muxes := 7     
 	   5 Input    8 Bit        Muxes := 2     
@@ -390,20 +475,21 @@ Detailed RTL Component Info :
 	   2 Input    4 Bit        Muxes := 5     
 	   5 Input    4 Bit        Muxes := 1     
 	   2 Input    3 Bit        Muxes := 13    
+	  10 Input    3 Bit        Muxes := 1     
 	   5 Input    3 Bit        Muxes := 7     
 	   3 Input    3 Bit        Muxes := 5     
-	  10 Input    3 Bit        Muxes := 1     
 	  41 Input    2 Bit        Muxes := 1     
 	   4 Input    2 Bit        Muxes := 1     
 	   2 Input    2 Bit        Muxes := 4     
 	   3 Input    2 Bit        Muxes := 1     
-	   2 Input    1 Bit        Muxes := 85    
-	   4 Input    1 Bit        Muxes := 5     
+	   2 Input    1 Bit        Muxes := 94    
+	   4 Input    1 Bit        Muxes := 8     
 	  41 Input    1 Bit        Muxes := 21    
 	  21 Input    1 Bit        Muxes := 23    
+	  10 Input    1 Bit        Muxes := 10    
 	   5 Input    1 Bit        Muxes := 35    
 	   3 Input    1 Bit        Muxes := 33    
-	  10 Input    1 Bit        Muxes := 10    
+	  56 Input    1 Bit        Muxes := 24    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -499,6 +585,14 @@ DSP Report: operator fmul_return1 is absorbed into DSP fmul_return1.
 DSP Report: Generating DSP fmul_return1, operation Mode is: (PCIN>>17)+A*B.
 DSP Report: operator fmul_return1 is absorbed into DSP fmul_return1.
 DSP Report: operator fmul_return1 is absorbed into DSP fmul_return1.
+INFO: [Synth 8-3886] merging instance 'my_p5_reg[0]' (FDR) to 'mx_p3_reg[0]'
+INFO: [Synth 8-3886] merging instance 'my_p3_reg[0]' (FDR) to 'mx_p3_reg[0]'
+INFO: [Synth 8-3886] merging instance 'my_p3_reg[1]' (FDR) to 'mx_p3_reg[0]'
+INFO: [Synth 8-3886] merging instance 'mx_p3_reg[0]' (FDR) to 'mz_p3_reg[0]'
+INFO: [Synth 8-3886] merging instance 'mz_p7_reg[0]' (FDR) to 'mz_p3_reg[0]'
+INFO: [Synth 8-3886] merging instance 'mz_p7_reg[1]' (FDR) to 'mz_p3_reg[0]'
+INFO: [Synth 8-3886] merging instance 'mz_p5_reg[0]' (FDR) to 'mz_p3_reg[0]'
+INFO: [Synth 8-3886] merging instance 'mz_p3_reg[0]' (FDR) to 'mz_p3_reg[1]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\mz_p3_reg[1] )
 INFO: [Synth 8-12192] Not enough pipeline registers after wide multiplier. Pipeline registers present is 0. Recommended levels of pipeline registers is 2. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v:52]
 INFO: [Synth 8-12192] Not enough pipeline registers after wide multiplier. Pipeline registers present is 0. Recommended levels of pipeline registers is 2. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v:52]
@@ -716,11 +810,14 @@ INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dv_div_r
 INFO: [Synth 8-3886] merging instance 'dv_div_reg[9]' (FDRE) to 'dv_div_reg[10]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dv_div_reg[10] )
 INFO: [Synth 8-3886] merging instance 'dv_div_reg[10]' (FDRE) to 'dv_div_reg[11]'
-INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dv_div_reg[11] )
+INFO: [Synth 8-3886] merging instance 'dv_div_reg[11]' (FDRE) to 'dv_div_reg[12]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dv_div_reg[12] )
+INFO: [Synth 8-3886] merging instance 'dv_div_reg[12]' (FDRE) to 'dv_div_reg[13]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dv_div_reg[13] )
+INFO: [Synth 8-3886] merging instance 'dv_div_reg[13]' (FDRE) to 'dv_div_reg[14]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dv_div_reg[14] )
+INFO: [Synth 8-3886] merging instance 'dv_div_reg[14]' (FDRE) to 'dv_div_reg[15]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dv_div_reg[15] )
 WARNING: [Synth 8-3936] Found unconnected internal register 'K1_psi_reg' and it is trimmed from '32' to '31' bits. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v:420]
 WARNING: [Synth 8-3936] Found unconnected internal register 'K2_psi_reg' and it is trimmed from '32' to '31' bits. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v:443]
@@ -818,7 +915,45 @@ DSP Report: Generating DSP fmul33_return1, operation Mode is: (PCIN>>17)+(A:0x24
 DSP Report: register r1_waq_reg is absorbed into DSP fmul33_return1.
 DSP Report: operator fmul33_return1 is absorbed into DSP fmul33_return1.
 DSP Report: operator fmul33_return1 is absorbed into DSP fmul33_return1.
+INFO: [Synth 8-3886] merging instance 'r2_g5a_reg[31]' (FDE) to 'r2_g5a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_dq20_reg[31]' (FDE) to 'r2_dq20_reg[29]'
+INFO: [Synth 8-3886] merging instance 'r2_dq2_reg[31]' (FDE) to 'r2_dq2_reg[28]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r2_g6_reg[0] )
+INFO: [Synth 8-3886] merging instance 'r2_dq2_reg[28]' (FDE) to 'r2_dq2_reg[29]'
+INFO: [Synth 8-3886] merging instance 'r2_dq2_reg[29]' (FDE) to 'r2_dq2_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_dq20_reg[29]' (FDE) to 'r2_dq20_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[31]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g4b_reg[31]' (FDE) to 'r2_g4b_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[0]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[1]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[1]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[2]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[2]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[3]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[3]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[4]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[4]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[5]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[5]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[6]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[6]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[7]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[7]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[8]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[8]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[9]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[9]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[10]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[10]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[11]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[11]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[12]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[12]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[13]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[13]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Synth 8-3886] merging instance 'r2_g6_reg[14]' (FDE) to 'r2_g6_reg[31]'
+INFO: [Synth 8-3886] merging instance 'r2_g4a_reg[14]' (FDE) to 'r2_g4a_reg[30]'
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r2_g4a_reg[30] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\r2_g6_reg[0] )
 INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[31]' (FDE) to 'r1_IxyP_reg[18]'
@@ -829,47 +964,8 @@ INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[20]' (FDE) to 'r1_IxyP_reg[21
 INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[21]' (FDE) to 'r1_IxyP_reg[22]'
 INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[22]' (FDE) to 'r1_IxyP_reg[23]'
 INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[23]' (FDE) to 'r1_IxyP_reg[24]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[24]' (FDE) to 'r1_IxyP_reg[25]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[25]' (FDE) to 'r1_IxyP_reg[26]'
-INFO: [Synth 8-3886] merging instance 'r1_am10_reg[26]' (FDE) to 'r1_am10_reg[27]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[26]' (FDE) to 'r1_IxyP_reg[27]'
-INFO: [Synth 8-3886] merging instance 'r1_am10_reg[27]' (FDE) to 'r1_am10_reg[28]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[27]' (FDE) to 'r1_IxyP_reg[28]'
-INFO: [Synth 8-3886] merging instance 'r1_am10_reg[28]' (FDE) to 'r1_am10_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[28]' (FDE) to 'r1_IxyP_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_am10_reg[29]' (FDE) to 'r1_am10_reg[30]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyP_reg[29]' (FDE) to 'r1_IxyP_reg[30]'
-INFO: [Synth 8-3886] merging instance 'r1_IxP_reg[31]' (FDE) to 'r1_IxP_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_am01_reg[31]' (FDE) to 'r1_am01_reg[28]'
-INFO: [Synth 8-3886] merging instance 'r1_add0_reg[31]' (FDE) to 'r1_add0_reg[30]'
-INFO: [Synth 8-3886] merging instance 'r1_IxP_reg[29]' (FDE) to 'r1_IxP_reg[30]'
-INFO: [Synth 8-3886] merging instance 'r1_am01_reg[30]' (FDE) to 'r1_am01_reg[28]'
-INFO: [Synth 8-3886] merging instance 'r1_am01_reg[28]' (FDE) to 'r1_am01_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxzP_reg[31]' (FDE) to 'r1_IxzP_reg[25]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[31]' (FDE) to 'r1_IxyQ_reg[30]'
-INFO: [Synth 8-3886] merging instance 'r1_am21_reg[31]' (FDE) to 'r1_am21_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_am20_reg[31]' (FDE) to 'r1_am20_reg[27]'
-INFO: [Synth 8-3886] merging instance 'r1_IxzP_reg[25]' (FDE) to 'r1_IxzP_reg[26]'
-INFO: [Synth 8-3886] merging instance 'r1_IxzP_reg[26]' (FDE) to 'r1_IxzP_reg[27]'
-INFO: [Synth 8-3886] merging instance 'r1_am20_reg[27]' (FDE) to 'r1_am20_reg[28]'
-INFO: [Synth 8-3886] merging instance 'r1_IxzP_reg[27]' (FDE) to 'r1_IxzP_reg[28]'
-INFO: [Synth 8-3886] merging instance 'r1_am20_reg[28]' (FDE) to 'r1_am20_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxzP_reg[28]' (FDE) to 'r1_IxzP_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_am20_reg[29]' (FDE) to 'r1_am20_reg[30]'
-INFO: [Synth 8-3886] merging instance 'r1_IxzP_reg[29]' (FDE) to 'r1_IxzP_reg[30]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[30]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_am21_reg[30]' (FDE) to 'r1_am21_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[18]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[19]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[20]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[21]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[22]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[23]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[24]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[25]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[26]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[27]' (FDE) to 'r1_IxyQ_reg[29]'
-INFO: [Synth 8-3886] merging instance 'r1_IxyQ_reg[28]' (FDE) to 'r1_IxyQ_reg[29]'
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-12192] Not enough pipeline registers after wide multiplier. Pipeline registers present is 0. Recommended levels of pipeline registers is 4. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v:62]
 INFO: [Synth 8-12192] Not enough pipeline registers after wide multiplier. Pipeline registers present is 0. Recommended levels of pipeline registers is 4. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v:62]
 INFO: [Synth 8-12192] Not enough pipeline registers after wide multiplier. Pipeline registers present is 0. Recommended levels of pipeline registers is 4. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v:62]
@@ -1217,15 +1313,6 @@ DSP Report: Generating DSP fmul41_return0, operation Mode is: (PCIN>>17)+A2*B.
 DSP Report: register fmul41_return0 is absorbed into DSP fmul41_return0.
 DSP Report: operator fmul41_return0 is absorbed into DSP fmul41_return0.
 DSP Report: operator fmul41_return0 is absorbed into DSP fmul41_return0.
-INFO: [Synth 8-3886] merging instance 'u_um7/cord_angle_reg[30]' (FDE) to 'u_um7/cord_angle_reg[31]'
-INFO: [Synth 8-3886] merging instance 'u_um7/qs_z_reg[30]' (FDE) to 'u_um7/qs_z_reg[31]'
-INFO: [Synth 8-3886] merging instance 'u_um7/qs_y_reg[30]' (FDE) to 'u_um7/qs_y_reg[31]'
-INFO: [Synth 8-3886] merging instance 'u_um7/qs_x_reg[30]' (FDE) to 'u_um7/qs_x_reg[31]'
-INFO: [Synth 8-3886] merging instance 'u_um7/qs_w_reg[30]' (FDE) to 'u_um7/qs_w_reg[31]'
-INFO: [Synth 8-3886] merging instance 'u_um7/g_payload_reg[8][4]' (FDE) to 'u_um7/g_payload_reg[8][5]'
-INFO: [Synth 8-3886] merging instance 'u_um7/g_payload_reg[4][4]' (FDE) to 'u_um7/g_payload_reg[4][5]'
-INFO: [Synth 8-3886] merging instance 'u_um7/g_payload_reg[0][4]' (FDE) to 'u_um7/g_payload_reg[0][5]'
-INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 WARNING: [Synth 8-3332] Sequential element (deg_p_reg[47]) is unused and will be removed from module um7_tx.
 WARNING: [Synth 8-3332] Sequential element (deg_p_reg[46]) is unused and will be removed from module um7_tx.
 WARNING: [Synth 8-3332] Sequential element (deg_p_reg[45]) is unused and will be removed from module um7_tx.
@@ -1340,27 +1427,16 @@ DSP Report: Generating DSP interp_prod0, operation Mode is: (PCIN>>17)+A*B2.
 DSP Report: register interp_prod0 is absorbed into DSP interp_prod0.
 DSP Report: operator interp_prod0 is absorbed into DSP interp_prod0.
 DSP Report: operator interp_prod0 is absorbed into DSP interp_prod0.
-INFO: [Synth 8-4471] merging register 'tau_prev_roll_reg[31:0]' into 'dbg_mx_reg[31:0]' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/main.v:302]
-INFO: [Synth 8-4471] merging register 'tau_prev_pitch_reg[31:0]' into 'dbg_my_reg[31:0]' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/main.v:302]
-INFO: [Synth 8-4471] merging register 'tau_prev_yaw_reg[31:0]' into 'dbg_mz_reg[31:0]' [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/main.v:302]
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[0] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[0] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dbg_byte_data_r_reg[4] )
 INFO: [Synth 8-3333] propagating constant 1 across sequential element (u_d2f/\maxf_r_reg[4] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\maxf_r_reg[1] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dvden_reg[31] )
-INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[1] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[1] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_dbg_byteif/tx_data_reg[7] )
 INFO: [Synth 8-3333] propagating constant 1 across sequential element (u_d2f/\dvdivisor_reg[4] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dvdivisor_reg[1] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[2] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[2] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_dbg_uart/tx_data_tmp_reg[7] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dvden_reg[1] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[3] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[3] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[4] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[5] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[6] )
@@ -1373,17 +1449,41 @@ INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[13] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[14] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_d2f/\dv_div_reg[15] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[6][15] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[7][14] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[5][15] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[4][15] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[2][15] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[1][15] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[3][15] )
+DSP Report: Generating DSP pplh_reg, operation Mode is: (A*B2)'.
+DSP Report: register pplh_reg is absorbed into DSP pplh_reg.
+DSP Report: register pplh_reg is absorbed into DSP pplh_reg.
+DSP Report: operator pplh0 is absorbed into DSP pplh_reg.
+DSP Report: Generating DSP pphl_reg, operation Mode is: (A2*B)'.
+DSP Report: register pphl_reg is absorbed into DSP pphl_reg.
+DSP Report: register pphl_reg is absorbed into DSP pphl_reg.
+DSP Report: operator pphl0 is absorbed into DSP pphl_reg.
+DSP Report: Generating DSP pphh_reg, operation Mode is: (A2*B2)'.
+DSP Report: register pplh_reg is absorbed into DSP pphh_reg.
+DSP Report: register pphl_reg is absorbed into DSP pphh_reg.
+DSP Report: register pphh_reg is absorbed into DSP pphh_reg.
+DSP Report: operator pphh0 is absorbed into DSP pphh_reg.
+DSP Report: Generating DSP ppll_reg, operation Mode is: (A*B)'.
+DSP Report: register ppll_reg is absorbed into DSP ppll_reg.
+DSP Report: operator ppll0 is absorbed into DSP ppll_reg.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dbg_byte_data_r_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_sensor/\g_noise.amp_y_reg[14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_dbg_byteif/tx_data_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_dbg_uart/tx_data_tmp_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\c_product_reg[3] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[0][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[1][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[2][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[3][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[4][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[5][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[6][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\duty_val_reg[7][15] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\dbg_duty_flat_reg[14] )
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:29 ; elapsed = 00:01:45 . Memory (MB): peak = 1707.824 ; gain = 897.543
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:25 ; elapsed = 00:01:39 . Memory (MB): peak = 1724.598 ; gain = 913.219
 ---------------------------------------------------------------------------------
  Sort Area is tau_alloc__GB2 fmul_return1_0 : 0 0 : 3434 6362 : Used 1 time 0
  Sort Area is tau_alloc__GB0 fmul_return1_0 : 0 0 : 3434 6362 : Used 1 time 0
@@ -1541,6 +1641,10 @@ Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:29 ; elaps
  Sort Area is main__GCB0 fmul42_return0_3 : 0 1 : 1956 4058 : Used 1 time 0
  Sort Area is main__GCB0 fmul42_return0_4 : 0 0 : 2102 4058 : Used 1 time 0
  Sort Area is main__GCB0 fmul42_return0_4 : 0 1 : 1956 4058 : Used 1 time 0
+ Sort Area is main__GCB2 pphh_reg_2 : 0 0 : 2010 2010 : Used 1 time 0
+ Sort Area is main__GCB2 pphl_reg_4 : 0 0 : 1994 1994 : Used 1 time 0
+ Sort Area is main__GCB2 pplh_reg_6 : 0 0 : 1994 1994 : Used 1 time 0
+ Sort Area is main__GCB2 ppll_reg_0 : 0 0 : 1978 1978 : Used 1 time 0
  Sort Area is main__GCB1 interp_prod0_0 : 0 0 : 854 1661 : Used 1 time 0
  Sort Area is main__GCB1 interp_prod0_0 : 0 1 : 807 1661 : Used 1 time 0
 ---------------------------------------------------------------------------------
@@ -1709,6 +1813,10 @@ DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding R
 |um7_tx         | (PCIN>>17)+A2*B           | 18     | 15     | -      | -      | 48     | 1    | 0    | -    | -    | -     | 0    | 0    | 
 |duty_to_force  | A*B2                      | 18     | 5      | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
 |duty_to_force  | (PCIN>>17)+A*B2           | 15     | 5      | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
+|q16_mul        | (A*B2)'                   | 16     | 16     | -      | -      | 32     | 0    | 1    | -    | -    | -     | 1    | 0    | 
+|q16_mul        | (A2*B)'                   | 16     | 16     | -      | -      | 32     | 1    | 0    | -    | -    | -     | 1    | 0    | 
+|q16_mul        | (A2*B2)'                  | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 1    | 0    | 
+|q16_mul        | (A*B)'                    | 16     | 16     | -      | -      | 32     | 0    | 0    | -    | -    | -     | 1    | 0    | 
 +---------------+---------------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 
 Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
@@ -1721,13 +1829,13 @@ Start Applying XDC Timing Constraints
 WARNING: [Synth 8-3321] set_multicycle_path : Empty to list for constraint at line 138 of C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:138]
 WARNING: [Synth 8-3321] set_multicycle_path : Empty to list for constraint at line 148 of C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc. [C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/constrs_1/new/constraint.xdc:148]
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:46 ; elapsed = 00:02:03 . Memory (MB): peak = 1928.754 ; gain = 1118.473
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:41 ; elapsed = 00:01:55 . Memory (MB): peak = 1948.969 ; gain = 1137.590
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:02:13 ; elapsed = 00:02:30 . Memory (MB): peak = 2096.480 ; gain = 1286.199
+Finished Timing Optimization : Time (s): cpu = 00:02:02 ; elapsed = 00:02:17 . Memory (MB): peak = 2120.098 ; gain = 1308.719
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
@@ -1741,7 +1849,7 @@ INFO: [Synth 8-7052] The timing for the instance i_1/idx1_r_reg_rep (implemented
 INFO: [Synth 8-7052] The timing for the instance i_1/idx1_r_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance i_1/idx1_r_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:02:34 ; elapsed = 00:03:00 . Memory (MB): peak = 2124.410 ; gain = 1314.129
+Finished Technology Mapping : Time (s): cpu = 00:02:25 ; elapsed = 00:02:45 . Memory (MB): peak = 2148.027 ; gain = 1336.648
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -1767,37 +1875,37 @@ INFO: [Synth 8-7052] The timing for the instance idx1_r_reg (implemented as a Bl
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:02:45 ; elapsed = 00:03:11 . Memory (MB): peak = 2248.402 ; gain = 1438.121
+Finished IO Insertion : Time (s): cpu = 00:02:34 ; elapsed = 00:02:55 . Memory (MB): peak = 2276.984 ; gain = 1465.605
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:02:46 ; elapsed = 00:03:12 . Memory (MB): peak = 2248.402 ; gain = 1438.121
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:35 ; elapsed = 00:02:55 . Memory (MB): peak = 2276.984 ; gain = 1465.605
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:55 ; elapsed = 00:03:21 . Memory (MB): peak = 2309.230 ; gain = 1498.949
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:42 ; elapsed = 00:03:03 . Memory (MB): peak = 2340.266 ; gain = 1528.887
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:02:55 ; elapsed = 00:03:21 . Memory (MB): peak = 2309.230 ; gain = 1498.949
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:42 ; elapsed = 00:03:03 . Memory (MB): peak = 2340.266 ; gain = 1528.887
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:02:55 ; elapsed = 00:03:21 . Memory (MB): peak = 2326.383 ; gain = 1516.102
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:43 ; elapsed = 00:03:03 . Memory (MB): peak = 2357.445 ; gain = 1546.066
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:02:56 ; elapsed = 00:03:21 . Memory (MB): peak = 2326.383 ; gain = 1516.102
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:43 ; elapsed = 00:03:03 . Memory (MB): peak = 2357.445 ; gain = 1546.066
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -1895,6 +2003,10 @@ DSP Final Report (the ' indicates corresponding REG is set)
 |rov_model__GB4 | PCIN>>17+A*B'     | 0      | 18     | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
 |rov_model__GB4 | A*B'              | 18     | 17     | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
 |rov_model__GB4 | PCIN>>17+A*B'     | 0      | 18     | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
+|q16_mul        | (A'*B')'          | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 1    | 
+|q16_mul        | (A'*B')'          | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 1    | 
+|q16_mul        | (A'*B')'          | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 1    | 
+|q16_mul        | (A'*B')'          | 16     | 16     | -      | -      | 32     | 1    | 1    | -    | -    | -     | 0    | 1    | 
 |tau_alloc__GB0 | A*B''             | 22     | 17     | -      | -      | 48     | 0    | 2    | -    | -    | -     | 0    | 0    | 
 |tau_alloc__GB0 | PCIN>>17+A*B''    | 22     | 18     | -      | -      | 48     | 0    | 2    | -    | -    | -     | 0    | 0    | 
 |tau_alloc__GB0 | A*B''             | 22     | 17     | -      | -      | 48     | 0    | 2    | -    | -    | -     | 0    | 0    | 
@@ -1979,45 +2091,45 @@ Report Cell Usage:
 |      |Cell     |Count |
 +------+---------+------+
 |1     |BUFG     |     1|
-|2     |CARRY4   |  7060|
-|3     |DSP48E1  |   158|
-|11    |LUT1     |  3072|
-|12    |LUT2     | 14095|
-|13    |LUT3     |  5726|
-|14    |LUT4     |  5467|
-|15    |LUT5     |  2650|
-|16    |LUT6     |  3411|
-|17    |MUXF7    |    76|
-|18    |RAMB18E1 |     4|
-|20    |FDRE     | 10585|
-|21    |FDSE     |     5|
-|22    |IBUF     |     9|
-|23    |OBUF     |    10|
+|2     |CARRY4   |  7359|
+|3     |DSP48E1  |   162|
+|12    |LUT1     |  3254|
+|13    |LUT2     | 14630|
+|14    |LUT3     |  5989|
+|15    |LUT4     |  6061|
+|16    |LUT5     |  3101|
+|17    |LUT6     |  4046|
+|18    |MUXF7    |    40|
+|19    |RAMB18E1 |     4|
+|21    |FDRE     | 11920|
+|22    |FDSE     |    11|
+|23    |IBUF     |     9|
+|24    |OBUF     |    10|
 +------+---------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:02:56 ; elapsed = 00:03:21 . Memory (MB): peak = 2326.383 ; gain = 1516.102
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:43 ; elapsed = 00:03:04 . Memory (MB): peak = 2357.445 ; gain = 1546.066
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 111 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:02:29 ; elapsed = 00:03:08 . Memory (MB): peak = 2326.383 ; gain = 1409.668
-Synthesis Optimization Complete : Time (s): cpu = 00:02:56 ; elapsed = 00:03:23 . Memory (MB): peak = 2326.383 ; gain = 1516.102
+Synthesis Optimization Runtime : Time (s): cpu = 00:02:21 ; elapsed = 00:02:51 . Memory (MB): peak = 2357.445 ; gain = 1443.121
+Synthesis Optimization Complete : Time (s): cpu = 00:02:43 ; elapsed = 00:03:05 . Memory (MB): peak = 2357.445 ; gain = 1546.066
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.324 . Memory (MB): peak = 2335.480 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 7298 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.328 . Memory (MB): peak = 2366.531 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 7565 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.027 . Memory (MB): peak = 2349.273 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.031 . Memory (MB): peak = 2381.367 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete | Checksum: 15ba2540
+Synth Design complete | Checksum: 8917eba
 INFO: [Common 17-83] Releasing license: Vivado_Synthesis
-284 Infos, 127 Warnings, 4 Critical Warnings and 0 Errors encountered.
+288 Infos, 127 Warnings, 4 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:03:16 ; elapsed = 00:03:45 . Memory (MB): peak = 2349.273 ; gain = 1764.680
+synth_design: Time (s): cpu = 00:03:03 ; elapsed = 00:03:26 . Memory (MB): peak = 2381.367 ; gain = 1795.941
 INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
-Write ShapeDB Complete: Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.300 . Memory (MB): peak = 2349.273 ; gain = 0.000
+Write ShapeDB Complete: Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.238 . Memory (MB): peak = 2381.367 ; gain = 0.000
 INFO: [Common 17-1381] The checkpoint 'C:/VivadoWork/MeasurePWM/MeasurePWM.runs/synth_1/main.dcp' has been generated.
-write_checkpoint: Time (s): cpu = 00:00:09 ; elapsed = 00:00:08 . Memory (MB): peak = 2349.273 ; gain = 0.000
+write_checkpoint: Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2381.367 ; gain = 0.000
 INFO: [Vivado 12-24828] Executing command : report_utilization -file main_utilization_synth.rpt -pb main_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Thu Jul  9 22:42:59 2026...
+INFO: [Common 17-206] Exiting Vivado at Fri Jul 17 00:03:10 2026...

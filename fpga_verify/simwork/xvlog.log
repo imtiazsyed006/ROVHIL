@@ -1,22 +1,6 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/cordic.v" into library work
-INFO: [VRFC 10-311] analyzing module cordic
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/q16_mul.v" into library work
+INFO: [VRFC 10-311] analyzing module q16_mul
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/sensor_model.v" into library work
 INFO: [VRFC 10-311] analyzing module sensor_model
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/um7_tx.v" into library work
-INFO: [VRFC 10-311] analyzing module um7_tx
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/duty_to_force.v" into library work
-INFO: [VRFC 10-311] analyzing module duty_to_force
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/tau_alloc.v" into library work
-INFO: [VRFC 10-311] analyzing module tau_alloc
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/rov_model.v" into library work
-INFO: [VRFC 10-311] analyzing module rov_model
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/pwm_measure.v" into library work
-INFO: [VRFC 10-311] analyzing module pwm_measure
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/uart.v" into library work
-INFO: [VRFC 10-311] analyzing module uart
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/uart_tx_byte_if.v" into library work
-INFO: [VRFC 10-311] analyzing module uart_tx_byte_if
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/uart_print_hex.v" into library work
-INFO: [VRFC 10-311] analyzing module uart_print_hex
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/MeasurePWM.srcs/sources_1/new/main.v" into library work
-INFO: [VRFC 10-311] analyzing module main
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/VivadoWork/MeasurePWM/fpga_verify/tb_sensor_long.v" into library work
+INFO: [VRFC 10-311] analyzing module tb_sensor_long

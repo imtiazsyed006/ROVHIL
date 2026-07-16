@@ -334,8 +334,11 @@ module main (
 
     //==================================================================
     // 7. SENSOR MODEL
-    //    PASSTHROUGH=1 (default): true plant state → UART (clean HIL).
     //    PASSTHROUGH=0: inject AHRS noise from rov_sensor.py constants.
+    //    PASSTHROUGH=1: true plant state → UART (clean HIL).
+    //    Noise path is 2-cycle-pipelined (sensor_model.v + constraint.xdc);
+    //    old single-cycle 32x32 fmuls caused intermittent 90–180° RPY spikes
+    //    in HIL (timing corruption, not sensor noise). See 1_2HIL.mat.
     //    um7_tx builds the quaternion from RPY (STM32 never sees Euler
     //    on the wire — only quat + gyro packets).
     //==================================================================
@@ -350,7 +353,7 @@ module main (
     wire [31:0] meas_roll, meas_pitch, meas_yaw, meas_p, meas_q, meas_r;
 
     sensor_model #(
-        .PASSTHROUGH(1)   // 1=clean rest@0; set 0 to enable AHRS noise
+        .PASSTHROUGH(0)   // 0=AHRS noise on; 1=clean passthrough
     ) u_sensor (
         .clk      (clk_100m),
         .rst      (rst),

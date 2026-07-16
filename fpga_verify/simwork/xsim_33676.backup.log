@@ -3,10 +3,10 @@
 # SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
 # IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
 # SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-# Start of session at: Thu Jul  9 22:25:34 2026
-# Process ID         : 53112
+# Start of session at: Thu Jul  9 22:30:48 2026
+# Process ID         : 33676
 # Current directory  : C:/VivadoWork/MeasurePWM/fpga_verify/simwork
-# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_rest_sim/xsim_script.tcl}
+# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_quat2/xsim_script.tcl}
 # Log file           : C:/VivadoWork/MeasurePWM/fpga_verify/simwork/xsim.log
 # Journal file       : C:/VivadoWork/MeasurePWM/fpga_verify/simwork\xsim.jou
 # Running On         : WIN-GAVN6IIRGIQ
@@ -19,7 +19,16 @@
 # Host memory        : 68136 MB
 # Swap memory        : 10200 MB
 # Total Virtual      : 78336 MB
-# Available Virtual  : 48817 MB
+# Available Virtual  : 48646 MB
 #-----------------------------------------------------------
-source xsim.dir/tb_rest_sim/xsim_script.tcl
+source xsim.dir/tb_quat2/xsim_script.tcl
+# xsim {tb_quat2} -autoloadwcfg -runall
+Time resolution is 1 ps
 run -all
+collected 34 bytes
+quat int16 w=29789 x=1 y=1 z=1
+expect w~29789, x=y=z~0 (identity at RPY=0)
+PASS: identity quaternion packing (w~29789, xyz~0)
+$finish called at time : 1575 ns : File "C:/VivadoWork/MeasurePWM/fpga_verify/tb_quat_scale.v" Line 63
+exit
+INFO: [Common 17-206] Exiting xsim at Thu Jul  9 22:30:50 2026...

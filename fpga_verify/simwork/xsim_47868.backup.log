@@ -3,10 +3,10 @@
 # SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
 # IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
 # SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-# Start of session at: Thu Jul  9 14:23:53 2026
-# Process ID         : 52364
+# Start of session at: Thu Jul 16 22:56:41 2026
+# Process ID         : 47868
 # Current directory  : C:/VivadoWork/MeasurePWM/fpga_verify/simwork
-# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_sensor_sim/xsim_script.tcl}
+# Command line       : xsim.exe -mode tcl -source {xsim.dir/tb_sn_sim/xsim_script.tcl}
 # Log file           : C:/VivadoWork/MeasurePWM/fpga_verify/simwork/xsim.log
 # Journal file       : C:/VivadoWork/MeasurePWM/fpga_verify/simwork\xsim.jou
 # Running On         : WIN-GAVN6IIRGIQ
@@ -19,7 +19,15 @@
 # Host memory        : 68136 MB
 # Swap memory        : 10200 MB
 # Total Virtual      : 78336 MB
-# Available Virtual  : 37482 MB
+# Available Virtual  : 55436 MB
 #-----------------------------------------------------------
-source xsim.dir/tb_sensor_sim/xsim_script.tcl
+source xsim.dir/tb_sn_sim/xsim_script.tcl
+# xsim {tb_sn_sim} -autoloadwcfg -runall
+Time resolution is 1 ps
 run -all
+rest deg RPY -0.346 -0.692 1.202
+mot  deg RPY 3.655 -2.693 8.944
+mot  dps pqr 28.608 -17.501 5.381
+$finish called at time : 1465 ns : File "C:/VivadoWork/MeasurePWM/fpga_verify/simwork/tb_sn.v" Line 16
+exit
+INFO: [Common 17-206] Exiting xsim at Thu Jul 16 22:56:43 2026...

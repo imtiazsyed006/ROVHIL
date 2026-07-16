@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2026.1 (win64) Build 6511674 Tue Jun 16 11:02:23 MDT 2026
-| Date             : Thu Jul  9 22:52:44 2026
+| Date             : Fri Jul 17 00:14:11 2026
 | Host             : WIN-GAVN6IIRGIQ running 64-bit major release  (build 9200)
 | Command          : report_power -file main_power_routed.rpt -pb main_power_summary_routed.pb -rpx main_power_routed.rpx
 | Design           : main
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.912        |
+| Total On-Chip Power (W)  | 0.955        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.792        |
-| Device Static (W)        | 0.119        |
+| Dynamic (W)              | 0.834        |
+| Device Static (W)        | 0.120        |
 | Effective TJA (C/W)      | 11.5         |
-| Max Ambient (C)          | 74.5         |
-| Junction Temperature (C) | 35.5         |
+| Max Ambient (C)          | 74.0         |
+| Junction Temperature (C) | 36.0         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,19 +52,19 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |     0.044 |        3 |       --- |             --- |
-| Slice Logic    |     0.278 |    52221 |       --- |             --- |
-|   LUT as Logic |     0.238 |    27170 |     53200 |           51.07 |
-|   CARRY4       |     0.035 |     7060 |     13300 |           53.08 |
-|   Register     |     0.005 |    10644 |    106400 |           10.00 |
-|   F7/F8 Muxes  |    <0.001 |       76 |     53200 |            0.14 |
-|   Others       |     0.000 |       30 |       --- |             --- |
-| Signals        |     0.320 |    51005 |       --- |             --- |
+| Clocks         |     0.050 |        3 |       --- |             --- |
+| Slice Logic    |     0.296 |    56499 |       --- |             --- |
+|   LUT as Logic |     0.254 |    29442 |     53200 |           55.34 |
+|   CARRY4       |     0.037 |     7359 |     13300 |           55.33 |
+|   Register     |     0.005 |    11995 |    106400 |           11.27 |
+|   F7/F8 Muxes  |    <0.001 |       40 |     53200 |            0.08 |
+|   Others       |     0.000 |       35 |       --- |             --- |
+| Signals        |     0.337 |    54525 |       --- |             --- |
 | Block RAM      |     0.001 |        2 |       140 |            1.43 |
-| DSPs           |     0.133 |      158 |       220 |           71.82 |
+| DSPs           |     0.134 |      162 |       220 |           73.64 |
 | I/O            |     0.016 |       19 |       200 |            9.50 |
-| Static Power   |     0.119 |          |           |                 |
-| Total          |     0.912 |          |           |                 |
+| Static Power   |     0.120 |          |           |                 |
+| Total          |     0.955 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -74,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.787 |       0.777 |      0.011 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.830 |       0.819 |      0.011 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.013 |       0.001 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.005 |       0.004 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -87,7 +87,7 @@ Table of Contents
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vccpint   |       1.000 |     0.022 |       0.000 |      0.022 |       NA    | Unspecified | NA         |
+| Vccpint   |       1.000 |     0.023 |       0.000 |      0.023 |       NA    | Unspecified | NA         |
 | Vccpaux   |       1.800 |     0.010 |       0.000 |      0.010 |       NA    | Unspecified | NA         |
 | Vccpll    |       1.800 |     0.003 |       0.000 |      0.003 |       NA    | Unspecified | NA         |
 | Vcco_ddr  |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -147,18 +147,19 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+--------------+-----------+
-| Name         | Power (W) |
-+--------------+-----------+
-| main         |     0.792 |
-|   u_d2f      |     0.005 |
-|   u_model    |     0.452 |
-|     u_cordic |     0.016 |
-|   u_pwm_meas |     0.005 |
-|   u_sensor   |     0.001 |
-|   u_tau      |     0.205 |
-|   u_um7      |     0.099 |
-|     u_cord   |     0.015 |
-+--------------+-----------+
++-------------------+-----------+
+| Name              | Power (W) |
++-------------------+-----------+
+| main              |     0.834 |
+|   u_d2f           |     0.006 |
+|   u_model         |     0.447 |
+|     u_cordic      |     0.015 |
+|   u_pwm_meas      |     0.005 |
+|   u_sensor        |     0.039 |
+|     g_noise.u_mul |     0.004 |
+|   u_tau           |     0.212 |
+|   u_um7           |     0.100 |
+|     u_cord        |     0.014 |
++-------------------+-----------+
 
 
